@@ -3,6 +3,7 @@
 
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <stdbool.h>
 # include <sys/wait.h>
 # include <unistd.h>
 # include <stdio.h>
@@ -11,6 +12,7 @@
 
 #include "helper.h"
 #include "struct.h"
+#include "builtins.h"
 #include "../libft/libft.h"
 
 /*Testing a new split shit */

@@ -73,8 +73,8 @@ int count_tokens_new(char *s)
 
 int get_starto(char *s, int x)
 {
-    int i;
-    int res;
+    // int i;
+    // int res;
 
     if (s[x] == 0)
         return (x);

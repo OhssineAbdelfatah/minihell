@@ -3,47 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilaasri <ilaasri@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aohssine <aohssine@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/06 21:53:48 by ilaasri           #+#    #+#             */
-/*   Updated: 2023/12/24 04:38:36 by ilaasri          ###   ########.fr       */
+/*   Created: 2023/12/06 14:53:39 by aohssine          #+#    #+#             */
+/*   Updated: 2023/12/06 16:52:26 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	passspace(const char *str, int i)
+static int	space_sign(const char *s, int *sign)
 {
-	while ((str[i] >= 9 && str[i] <= 13) || (str[i] == 32))
+	int	i;
+
+	i = 0;
+	while (s[i] && (s[i] == 32 || (s[i] < 14 && s[i] > 8)))
 		i++;
+	if (s[i] && (s[i] == '-' || s[i] == '+'))
+	{
+		if (s[i] == '-')
+			*sign *= (-1);
+		i++;
+	}
 	return (i);
 }
 
 int	ft_atoi(const char *str)
 {
-	long	res;
-	int		i;
-	int		sign;
-	long	tmp;
+	int					i;
+	int					sign;
+	unsigned long long	result;
+	unsigned long long	temp;
 
-	i = 0;
+	result = 0;
 	sign = 1;
-	res = 0;
-	i = passspace(str, i);
-	if (str[i] == 43 || str[i] == 45)
+	i = space_sign(str, &sign);
+	while (str[i] <= '9' && str[i] >= '0')
 	{
-		if (str[i] == 45)
-			sign *= -1;
+		temp = result;
+		result = result * 10 + str[i] - 48;
+		if (temp != result / 10 && sign == -1)
+			return (0);
+		else if (temp != result / 10 && sign == 1)
+			return (-1);
 		i++;
 	}
-	while (str[i] >= 48 && str[i] <= 57)
-	{
-		tmp = res;
-		res = res * 10 + (str[i++] - 48);
-		if (tmp != res / 10 && sign == 1)
-			return (-1);
-		if (tmp != res / 10 && sign == -1)
-			return (0);
-	}
-	return (res * sign);
+	return ((int)result * sign);
 }

@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tolower.c                                       :+:      :+:    :+:   */
+/*   ft_strslen.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aohssine <aohssine@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/08 19:49:22 by aohssine          #+#    #+#             */
-/*   Updated: 2023/12/08 19:51:36 by aohssine         ###   ########.fr       */
+/*   Created: 2024/09/05 22:36:03 by aohssine          #+#    #+#             */
+/*   Updated: 2024/09/05 22:36:41 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-int	ft_tolower(int c)
+#include"libft.h"
+
+int ft_strslen(char **strs)
 {
-	if (c >= 'A' && c <= 'Z')
-		return (c + ('z' - 'Z'));
-	else
-		return (c);
+    int i = -1;
+    if(!strs || !(*strs))
+        return 0;
+    while(strs[++i]);
+    return i;
 }

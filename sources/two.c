@@ -84,36 +84,36 @@ int skip_nonspaces(char *str, int i)
     return (res);
 }
 
-char **tokens(char *str)
-{
-    char **res;
-    int len,i, j;
+// char **tokens(char *str)
+// {
+//     char **res;
+//     int len,i, j;
 
-    i = 0;
-    j = 0;
-    len = ft_strlen1(str);
-    if (str)
-    {
-        i = nbr_tokens(str);
-        res = (char **)malloc(sizeof(char *) * (i + 1));
-        if (!res)
-            return NULL;
-        i = 0;
-        while (i < len)
-        {
-            i = skip_spaces(str, i);
-            if (str[i])
-            {
-                res[j] = ft_substr2(str, i, skip_nonspaces(str, i));
-                j++;
-            }
-            i = skip_nonspaces(str, i);
+//     i = 0;
+//     j = 0;
+//     len = ft_strlen1(str);
+//     if (str)
+//     {
+//         i = nbr_tokens(str);
+//         res = (char **)malloc(sizeof(char *) * (i + 1));
+//         if (!res)
+//             return NULL;
+//         i = 0;
+//         while (i < len)
+//         {
+//             i = skip_spaces(str, i);
+//             if (str[i])
+//             {
+//                 res[j] = ft_substr2(str, i, skip_nonspaces(str, i));
+//                 j++;
+//             }
+//             i = skip_nonspaces(str, i);
 
-        }
-        res[j] = 0;
-    }
-    return (res);
-}
+//         }
+//         res[j] = 0;
+//     }
+//     return (res);
+// }
 
 
 

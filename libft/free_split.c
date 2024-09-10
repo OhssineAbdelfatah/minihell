@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tolower.c                                       :+:      :+:    :+:   */
+/*   free_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aohssine <aohssine@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/08 19:49:22 by aohssine          #+#    #+#             */
-/*   Updated: 2023/12/08 19:51:36 by aohssine         ###   ########.fr       */
+/*   Created: 2024/09/06 02:40:56 by aohssine          #+#    #+#             */
+/*   Updated: 2024/09/06 02:41:09 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-int	ft_tolower(int c)
+#include"libft.h"
+
+void free_split(char **str)
 {
-	if (c >= 'A' && c <= 'Z')
-		return (c + ('z' - 'Z'));
-	else
-		return (c);
+    int i = -1;
+    while(str[++i])
+        free(str[i]);
+    free(str);
+    return ;
 }

@@ -85,7 +85,7 @@ void herdoc_content(t_cmd *herd)
 {
     struct heredoc *p;
     char *str;
-    int i,j;
+    int i;
 
     i = 0;
     p = (struct heredoc *)herd;
@@ -122,7 +122,7 @@ t_red *creat_red_lst(char **tokens, int i)
 {
     t_red *res;
 
-    res = (t_red *)malloc(sizeof (t_red *));
+    res = (t_red *)malloc(sizeof (t_red ));
     if (!res)
         return (NULL);
     res->type = get_type(tokens, i);
@@ -134,7 +134,7 @@ t_red *creat_red_lst(char **tokens, int i)
     i++;
     res->file = ft_strdup(tokens[i]);
     res->next = NULL;
-
+    return res;
 }
 
 void add_to_lst(t_red *red_lst, char **tokens, int i)

@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strsdup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/07 10:06:45 by aohssine          #+#    #+#             */
-/*   Updated: 2024/09/09 07:01:24 by aohssine         ###   ########.fr       */
+/*   Created: 2024/09/05 22:31:57 by aohssine          #+#    #+#             */
+/*   Updated: 2024/09/05 22:39:11 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include"libft.h"
 
-size_t	ft_strlen(const char *s)
+char **ft_strsdup(char **base)
 {
-	size_t	i;
+    int i ;
+    char **strs;
+    if(!base || !(*base))
+        return NULL;
 
-	i = 0;
-	if(!s)
-		return 0;
-	while (s[i++])
-		;
-	return (--i);
+    i = -1;
+    strs = malloc(sizeof(char *) * ft_strslen(base) +1);
+    if(!strs)
+        return NULL;
+    while(base[++i])
+        strs[i] = ft_strdup(base[i]);
+    strs[i] = NULL;
+    return strs;
 }

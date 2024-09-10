@@ -3,89 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilaasri <ilaasri@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aohssine <aohssine@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/12 21:40:45 by ilaasri           #+#    #+#             */
-/*   Updated: 2023/12/12 23:40:07 by ilaasri          ###   ########.fr       */
+/*   Created: 2023/12/18 14:48:07 by aohssine          #+#    #+#             */
+/*   Updated: 2024/01/03 18:03:56 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	nbr(int c)
+static size_t	count_size(int nbr)
 {
-	int			res;
-	long int	x;
+	size_t	len;
 
-	x = c;
-	res = 1;
-	if (x < 0)
+	len = 0;
+	if (nbr < 1)
 	{
-		x *= -1;
-		res++;
+		len++;
+		nbr = nbr * -1;
 	}
-	while (x >= 10)
+	while (nbr)
 	{
-		x = x / 10;
-		res++;
+		len++;
+		nbr = nbr / 10;
 	}
-	return (res);
+	return (len);
 }
 
-static char	*cisneg(int c, char *res, int j, char *base)
+char	*ft_itoa(int n)
 {
-	long int	x;
-	int			i;
+	size_t	len;
+	char	*nbr;
+	size_t	last;
 
-	x = c;
-	i = j - 1;
-	x *= -1;
-	res[0] = '-';
-	while (0 < i)
-	{
-		res[i] = base[x % 10];
-		x = x / 10;
-		i--;
-	}
-	res[j] = 0;
-	return (res);
-}
-
-static char	*cispos(int c, char *res, int j, char *base)
-{
-	int				i;
-	unsigned int	x;
-
-	x = c;
-	i = j - 1;
-	while (0 <= i)
-	{
-		res[i] = base[x % 10];
-		x = x / 10;
-		i--;
-	}
-	res[j] = 0;
-	return (res);
-}
-
-char	*ft_itoa(int c)
-{
-	char		*base;
-	char		*res;
-	// int			i;
-	int			j;
-	long int	x;
-
-	j = nbr(c);
-	base = "0123456789";
-	// i = j - 1;
-	x = c;
-	res = (char *)malloc((j * sizeof(char)) + 1);
-	if (!res)
+	last = 0;
+	len = count_size(n);
+	nbr = (char *)malloc((len + 1) * sizeof(char));
+	if (!nbr)
 		return (NULL);
-	if (x < 0)
-		return (cisneg(c, res, j, base));
-	else
-		return (cispos(c, res, j, base));
-	return (res);
+	nbr[len] = '\0';
+	if (n < 0)
+	{
+		nbr[0] = '-';
+		n = n * -1;
+		last = 1;
+	}
+	while (len-- > last)
+	{
+		if (n < 0)
+			nbr[len] = ((n % 10) * (-1) + 48);
+		else
+			nbr[len] = ((n % 10) + 48);
+		n = n / 10;
+	}
+	return (nbr);
 }

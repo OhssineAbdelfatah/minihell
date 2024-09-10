@@ -1,19 +1,19 @@
 #include "../includes/minishell.h"
 
 
-void builtin(char **str, struct exec_cmd *p)
-{
-    if (ft_strcmp(str[0], "exit"))
-         panic("BY!\n");
-    // if (ft_strcmp(str[0], "cd"))
-    //     _cd_cmd(str, p);
-    // else if (ft_strcmp(str[0], "echo"))
-    //     _echo_cmd(str, p);
-    // else if (ft_strcmp(str[0], "exit"))
-    //     panic("BY!");
-    // else if (ft_strcmp(str[0], ""))
-    //     _export_cmd (str, p);
-}
+// void builtin(char **str, struct exec_cmd *p)
+// {
+//     if (ft_strcmp(str[0], "exit"))
+//          panic("BY!\n");
+//     // if (ft_strcmp(str[0], "cd"))
+//     //     _cd_cmd(str, p);
+//     // else if (ft_strcmp(str[0], "echo"))
+//     //     _echo_cmd(str, p);
+//     // else if (ft_strcmp(str[0], "exit"))
+//     //     panic("BY!");
+//     // else if (ft_strcmp(str[0], ""))
+//     //     _export_cmd (str, p);
+// }
 
 int dstr_len(char **s)
 {
@@ -34,7 +34,7 @@ void execute_cmd(t_cmd *cmd)
     char **str;
     char **argv;
     char *ss;
-    pid_t pid;
+    // pid_t pid;
 
    
     p = (struct exec_cmd *)cmd;
@@ -43,7 +43,7 @@ void execute_cmd(t_cmd *cmd)
         return;
     str = ft_split(ss, 32);
     argv = ft_split(ss, 32);
-    builtin(str, p);
+    // builtin(str, p);
     free(ss);
     ss = NULL;
     if (dstr_len(str))
@@ -72,7 +72,7 @@ void execute_cmd(t_cmd *cmd)
 void execute_red (t_cmd *cmd)
 {
     struct red *p;
-    int new_fd;
+    int new_fd= 0;
 
     p = (struct red *)cmd;
 
@@ -86,9 +86,7 @@ void execute_red (t_cmd *cmd)
     else if (p->mode == 7)
         new_fd = open(p->file,  O_WRONLY | O_CREAT| O_TRUNC, 0777);
     else if (p->mode == 4)
-    {
         new_fd = open(p->file, O_RDONLY, 0777);   
-    }
     if( new_fd < 0)
     {
         // fprintf(2, "open %s failed\n", p->file);

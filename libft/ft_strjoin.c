@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilaasri <ilaasri@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aohssine <aohssine@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/10 01:40:56 by ilaasri           #+#    #+#             */
-/*   Updated: 2023/12/24 06:01:16 by ilaasri          ###   ########.fr       */
+/*   Created: 2023/12/16 10:49:11 by aohssine          #+#    #+#             */
+/*   Updated: 2024/01/03 16:30:56 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,22 @@
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*res;
-	size_t	reslen;
+	size_t	len;
 
-	// if (!s1 || !s2)
-	// 	return (NULL);
-	if (!s2)
+	if (!s1 || !s2)
 		return (NULL);
-	reslen = ft_strlen(s2) + ft_strlen(s1);
-	res = (char *)malloc(sizeof(char) * (reslen + 1));
+	len = ft_strlen(s1) + ft_strlen(s2);
+	res = (char *)malloc(len * sizeof(char) + 1);
 	if (!res)
 		return (NULL);
-	ft_strlcpy(res, s1, ft_strlen(s1) + 1);
-	ft_strlcat((res), s2, reslen + 1);
-	return (res);
+	while (*s1)
+	{
+		*res++ = *s1++;
+	}
+	while (*s2)
+	{
+		*res++ = *s2++;
+	}
+	*(res) = '\0';
+	return (res - len);
 }

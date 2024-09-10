@@ -5,6 +5,7 @@
 typedef struct cmd t_cmd;
 typedef struct token t_token;
 typedef struct new_red t_red;
+typedef struct s_env_var t_env;
 
 
 
@@ -99,7 +100,15 @@ struct new_cmd
     int type;
     char *argv;
     char **env;
+    t_env *myenv;
     t_red *redirect;
+};
+
+struct s_env_var {
+    char *key;
+    char *value;
+    bool valid;
+    t_env *next;
 };
 
 typedef struct tfar9

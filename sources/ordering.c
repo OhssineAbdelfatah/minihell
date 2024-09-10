@@ -18,7 +18,7 @@ char *join_cmd(char *s1, char *s2)
 
     reslen = ft_strlen(s1) + ft_strlen(s2);
     if(NULL != s1)
-        reslen + 1;
+        reslen += 1;
     res = (char *)malloc(reslen + 1);
     int l= ft_strlen(s1);
     i = 0;
@@ -31,7 +31,7 @@ char *join_cmd(char *s1, char *s2)
         res[i] = 32;
     i++;
     l = 0;
-    while (l < ft_strlen(s2))
+    while ((size_t)l < ft_strlen(s2))
         res[i++] = s2[l++];
     res[i] = 0;
     free(s1);
@@ -90,14 +90,14 @@ int get_type(char **tokens, int i)
         return (HERDOC);
     return (RED);
 }
-void get_content(t_red *red_lst)
-{
-    // while (red_lst)
-    // {
-    //     red_lst = red_lst->next;
-    // }
-    return;
-}
+// void get_content(t_red *red_lst)
+// {
+//     // while (red_lst)
+//     // {
+//     //     red_lst = red_lst->next;
+//     // }
+//     return;
+// }
 
 
 t_red *get_red(char **tokens, int i)
@@ -115,8 +115,8 @@ t_red *get_red(char **tokens, int i)
                 add_to_lst(red_lst, tokens, i);
             if (!red_lst)
                 return(NULL);
-            if (HERDOC == which_one(tokens[i]))
-                get_content(red_lst);
+            // if (HERDOC == which_one(tokens[i]))
+            //     get_content(red_lst);
             i++; 
         }
         i++;

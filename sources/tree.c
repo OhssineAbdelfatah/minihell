@@ -2,7 +2,7 @@
 
 int is_pipe(char *s)
 {
-    if (strlen(s) == 1 && s[0] == '|')
+    if (ft_strlen(s) == 1 && s[0] == '|')
         return(1);
     return(0);
 }
@@ -136,7 +136,7 @@ struct cmd *parse_pipe(char **tokens, int *i, char **env)
 t_cmd *parse_new_exec(char **tokens, int *i, char **env)
 {
     t_cmd *res;
-    struct mew_cmd *p;
+    // struct mew_cmd *p;
     t_red *redirect;
     char *argv;
     int x;

@@ -17,23 +17,23 @@ int ft_strcmp(char *s1, char *s2)
                 return(0);
             i++;
         }
-        if (s2len != ft_strlen(s1))
+        if ((size_t)s2len != ft_strlen(s1))
             return(0);
     }
     return(1);
 }
 
-void _cd(char *s)
-{
-    char **res = ft_split(s, 32);
-}
+// void _cd(char *s)
+// {
+//     char **res = ft_split(s, 32);
+// }
 
 void check_builtIn(char *s)
 {
     if (ft_strcmp(s, "exit"))
         panic("exit\n");
-    else if (ft_strcmp(s, "cd"))
-        _cd(s);
+    // else if (ft_strcmp(s, "cd"))
+    //     _cd(s);
 }
 
 // void exec_cmd(char **tokens, char **env)
