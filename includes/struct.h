@@ -100,6 +100,8 @@ struct new_cmd
     int type;
     char *argv;
     char **env;
+    int fd_in;
+    int fd_out;
     t_env *myenv;
     t_red *redirect;
 };

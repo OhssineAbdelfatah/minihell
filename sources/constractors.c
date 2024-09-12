@@ -104,7 +104,23 @@ void herdoc_content(t_cmd *herd)
     }
 }
 
-t_cmd *init_new_cmd(char *argv, char **env, t_red *redirect)
+// t_cmd *init_new_cmd(char *argv, char **env, t_red *redirect)
+// {
+//     struct new_cmd *res;
+
+//     res = malloc(sizeof(*res));
+//     if (NULL == res)
+//         return (NULL);
+//     res->type = NEW_CMD;
+//     res->argv = argv;
+//     res->env = env;
+//     res->fd_in = 0;
+//     res->fd_out = 1;
+//     res->redirect = redirect;
+//     return ((t_cmd *)res);
+// }
+
+t_cmd *init_new_cmd(char *argv, t_env *myenv,t_red *redirect)
 {
     struct new_cmd *res;
 
@@ -113,7 +129,9 @@ t_cmd *init_new_cmd(char *argv, char **env, t_red *redirect)
         return (NULL);
     res->type = NEW_CMD;
     res->argv = argv;
-    res->env = env;
+    res->myenv = myenv;
+    res->fd_in = 0;
+    res->fd_out = 1;
     res->redirect = redirect;
     return ((t_cmd *)res);
 }

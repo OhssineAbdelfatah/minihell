@@ -34,6 +34,11 @@ void unset_env(t_env **head, char *key);
 /*   EXIT   */
 
 /*  UTILS   */
+
+char **lstoarry(t_env *root);
+
+
+
 // void penv(t_env *env);
 
 # endif 

@@ -4,6 +4,7 @@
 #include "struct.h"
 
 int is_white(int c);
+int is_white_str(char *s);
 int is_special(char s);
 int get_next_quote(char *s,int i);
 
@@ -24,7 +25,7 @@ t_cmd *init_herdoc(t_cmd *cmd, char *deliminater);
 char **tokens(char *str);
 int _check_str(char *s);
 int check_qoutes(char *s);
-t_cmd *root(char **tokens, char **env);
+t_cmd *root(char **tokens, t_env *env);
 void print_tree(t_cmd *res);
 int which_one(char *s);
 // int skip_nonspaces(char *str, int i);
@@ -37,9 +38,16 @@ int get_type(char **tokens, int i);
 int get_mode(char **tokens, int i);
 t_red *get_red(char **tokens, int i);
 char *cmd_line(char **tokens, int *x);
-t_cmd *init_new_cmd(char *argv, char **env, t_red *redirect);
+// t_cmd *init_new_cmd(char *argv, char **env, t_red *redirect);
+t_cmd *init_new_cmd(char *argv, t_env *myenv,t_red *redirect);
 void add_to_lst(t_red *red_lst, char **tokens, int i);
 t_red *creat_red_lst(char **tokens, int i);
-t_cmd *parse_new_exec(char **tokens, int *i, char **env);
+t_cmd *parse_new_exec(char **tokens, int *i, t_env *myenv);
+
+
+//new EXEC
+
+int new_exec(t_cmd *cmd);
+void execute_pipe (t_cmd *cmd);
 
 # endif

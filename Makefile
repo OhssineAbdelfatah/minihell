@@ -1,7 +1,9 @@
-CFILES = sources/one.c sources/two.c sources/three.c\
+CFILES = 	sources/builtins/env.c sources/builtins/lstoarry.c\
+			sources/one.c sources/two.c sources/three.c\
 			sources/constractors.c sources/parse.c \
 			sources/print.c sources/tree.c sources/exec.c\
 			sources/freedom.c sources/tokens.c sources/ordering.c\
+			sources/exec_new.c 
 
 
 MINISHELL_ART = \
@@ -22,8 +24,9 @@ CC = cc
 OBJ = $(CFILES:.c=.o)
 NAME = minishell
 My_lib = libft/libft.a
+HEADERS = includes/minishell.h includes/struct.h includes/helper.h
 
-all : ascii_art $(My_lib) $(NAME)
+all : ascii_art $(My_lib) $(NAME) $(HEADERS)
 
 %.o : %.c Makfile
 	$(CC) $(CFLAGS) -c $(RLINCLUDE) $< -o $@

@@ -10,19 +10,21 @@ int env_size(t_env *root)
     return i;
 }
 
-char **lstoarry(t_env *root){
+char **lstoarry(t_env *root)
+{
     char **env_arr;
     char *single_env;
     int env_len = env_size(root);
     int i = -1;
     if(env_len == 0)
         return NULL;
-    env_arr = malloc(sizeof(char *) * env_len + 1 );
+    env_arr = malloc(sizeof(char *) * (env_len + 1) );
+    if (!env_arr)
+        return (NULL);
     while(++i < env_len)
     {
         single_env = ft_strjoin(root->key,"=");
         single_env = ft_strjoin(single_env, root->value);
-
         env_arr[i] = ft_strdup(single_env);
         free(single_env);
         root = root->next;

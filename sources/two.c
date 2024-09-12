@@ -7,6 +7,24 @@ int is_white(int c)
     return (1);
 }
 
+int is_white_str(char *s)
+{
+    int i;
+
+    i = 0;
+    if (!s)
+        return (1);
+    while (s[i] && is_white(s[i]))
+        i++;
+    printf("strlen %d, %d\n", ft_strlen(s), i);
+    if (i == (int)ft_strlen(s))
+    {
+        printf("white\n");
+        return(0);
+    }
+    return(1);
+}
+
 int ft_strlen1(char *s)
 {
     int i = 0;

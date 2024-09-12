@@ -1,19 +1,5 @@
 #include "../includes/minishell.h"
 
-// int parse(char *str)
-// {
-//     int i = 0;
-//     while (str[i])
-//     {
-//         i = skip_spaces(str, i);
-
-//         i++;
-//     }
-
-// }
-
-
-
 int check_qoutes(char *s)
 {
     int i;
@@ -42,7 +28,6 @@ int check_qoutes(char *s)
                     j = NONE;
                 else
                     j = SINGLE;
-    
             }
             i++;
         }
@@ -59,59 +44,72 @@ void panic(char *str)
 
 void free_mynigga(char **str)
 {
-    int i = 0;
-    // printf("i am abt to free\n");
+    int i;
+    
+    i = 0;
     if (str)
     {
    
         while (str[i])
         {
-            // printf("free%d\n",i);
             free(str[i]);
             str[i] = NULL;
-            // ft_putnbr_fd(i,1);
             i++;
         }
     }
     free(str);
     str = NULL;
-    // printf("done free\n");
 }
 
 
-int main( __unused int ac,__unused char **av, char **env)
+void parse_nd_exec(char **my_tokens,char **env)
+{
+    t_cmd *res;
+    t_env *dup_env;
+
+    res = NULL;
+    dup_env = init_env(env);
+    if (ft_strcmp( my_tokens[0], "exit"))
+        panic("BY!\n");
+    res = root(my_tokens,dup_env);
+    if (!res)
+        return;
+    print_tree(res);
+    printf("\n");
+    if (res->type == NEW_CMD)
+    {
+        if (0 == fork())
+            new_exec(res);
+        wait(0);
+    }
+    else
+        new_exec(res);
+    free_tree2(res);
+}
+
+
+
+int main(  int ac, char **av, char **env)
 {
     char *str;
     char **my_tokens;
-    // struct exec_cmd *ex;
-    t_cmd *res;
-    int i = 0;
 
-    res = NULL;
+    (void)av;
+    (void)ac;
     while(1)
     {
         str = readline("depechez-vous!> ");
-        // str = ft_strdup(str1);
+        // printf("is white :%d, strlen:%d\n",is_white_str(str) , ft_strlen(str));
+        // if (0 == is_white_str(str))
         add_history(str);
         my_tokens = NULL;
         if (0 !=_check_str(str))
             panic("error from the main\n");
         else if (ft_strlen(str))
         {
-            i = 0;
             my_tokens = fr9_trb7(str);
-           
-            if (ft_strcmp( my_tokens[0], "exit"))
-                panic("BY!\n");
-          
-            i = 0;
-            res = root(my_tokens,env);
-            printf("res addr:%p\n", &(*res));
-
-            print_tree(res);
-            printf("\n");
-
-            free_tree2(res);
+            if (my_tokens)
+                parse_nd_exec(my_tokens, env);
             free_mynigga(my_tokens);
         }
         free(str);

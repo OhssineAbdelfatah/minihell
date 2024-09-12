@@ -2,10 +2,9 @@
 
 int ft_strcmp(char *s1, char *s2)
 {
-    int i, j, s2len;
+    int i, s2len;
 
     i = 0;
-    j = 0;
     s2len = ft_strlen1(s2);
     if (!s1 || !s2)
         return (0);
