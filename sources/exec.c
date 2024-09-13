@@ -124,67 +124,150 @@ int dstr_len(char **s)
  
 //OLD EXECUTE_PIPE:
 
+void execute_pipe(t_cmd *cmd)
+{
+    struct pipe *pcmd;
+    struct pipe *pcmd_right;
+    int p[2];
+
+    pcmd = (struct pipe *)cmd;
+    if(pipe(p) < 0)
+      panic("pipe");
+    if(fork() == 0)
+    {
+        if (pcmd->pipe_fd != - 1)
+        {
+            close(0);
+            dup(pcmd->pipe_fd);
+        }
+        close(1);
+        dup(p[1]);
+        printf("out from child left:%d\n", p[1]);
+        close(p[0]);
+        close(p[1]);
+        new_exec(pcmd->left);
+    }
+    if(fork() == 0)
+    {
+        close(0);
+        dup(p[0]);
+        printf("in from child right:%d\n", p[0]);
+        if (pcmd->right->type == PIPE)
+        {
+            close(1);
+            pcmd_right = (struct pipe *)pcmd->right;
+            pcmd_right->pipe_fd = p[1];
+            dup(pcmd_right->pipe_fd);
+        }
+        close(p[0]);
+        close(p[1]);
+        new_exec(pcmd->right);
+    }
+    close(p[0]);
+    close(p[1]);
+    wait(0);
+    wait(0);
+} 
+
+
 // void execute_pipe (t_cmd *cmd)
 // {
+//     first_time++;
 //     struct pipe *pcmd;
+//     pid_t pid1, pid2;
 //     int p[2];
-
+//     // printf("first time::%d\n", first_time);
 //     pcmd = (struct pipe *)cmd;
 //     if(pipe(p) < 0)
 //       panic("pipe");
-//     if(fork() == 0){
-//       close(1);
-//       dup(p[1]);
+//     pid1 = fork();
+//     if(pid1 == 0)
+//     {
+//     //   close(1);
+//       dup2(p[1], 1);
 //       close(p[0]);
 //       close(p[1]);
 //       new_exec(pcmd->left);
 //     }
-//     if(fork() == 0){
-//       close(0);
-//       dup(p[0]);
-//       close(p[0]);
-//       close(p[1]);
-//       new_exec(pcmd->right);
+//     if (NEW_CMD == pcmd->right->type)
+//         pid2= fork();
+//     if(pid2 == 0)
+//     {
+//     //   close(0);
+//         dup2( p[0], 0);
+//         close(p[0]);
+//         close(p[1]);
+//         new_exec(pcmd->right);
+
 //     }
+//     else if (PIPE == pcmd->right->type)
+//     {
+//         dup2( p[0], 0);
+//         close(p[0]);
+//         close(p[1]);
+//         new_exec(pcmd->right);
+//     }
+//     if (NEW_CMD == pcmd->right->type)
+//             wait(pid2);
 //     close(p[0]);
 //     close(p[1]);
-//     wait(0);
-//     wait(0);
+//     wait(pid1);
 // } 
 
 
-void execute_pipe (t_cmd *cmd)
+
+//TRY MINE
+/*
+void execute_pipe(t_cmd *cmd)
 {
-    first_time++;
     struct pipe *pcmd;
-    pid_t pid1, pid2;
+    int pid1, pid2;
     int p[2];
-    printf("first time::%d\n", first_time);
-    pcmd = (struct pipe *)cmd;
-    if(pipe(p) < 0)
-      panic("pipe");
-    pid1 = fork();
-    if(pid1 == 0)
+
+    pcmd = (struct pipe*)cmd;
+    pipe(p);
+    pid1 = fork(); 
+    if (pid1 == 0)
     {
-      close(1);
-      dup(p[1]);
-      close(p[0]);
-      close(p[1]);
-      new_exec(pcmd->left);
+        dup2(p[1],1);
+        close(p[0]);
+        close(p[1]);
+        exec_new_cmd(pcmd->left);
     }
-    pid2= fork();
-    if(pid2 == 0){
-      close(0);
-      dup(p[0]);
-      close(p[0]);
-      close(p[1]);
-      new_exec(pcmd->right);
-    }
-    close(p[0]);
-    close(p[1]);
+    if (NEW_CMD == pcmd->right->type)
+        pid2 = fork();
+    if (pid2 == 0)
+    {
+        dup2(p[0], 0);
+        close(p[0]);
+        close(p[1]);
+        exec_new_cmd(pcmd->right);
+    } 
+    else if (PIPE == pcmd->right->type)
+    {
+        dup2(p[0], 0);
+        close(p[0]);
+        close(p[1]);
+        execute_pipe(pcmd->right);
+    } 
+    if (NEW_CMD == pcmd->right->type)
     wait(pid1);
     wait(pid2);
-} 
+    close(p[0]);
+    close(p[1]);
+}*/
+
+/*
+        |
+      /   \
+    ls     |
+          
+          / \
+    
+    wc -l    rev
+
+*/
+
 
 // void execute_pipe(t_cmd *cmd)
 // {

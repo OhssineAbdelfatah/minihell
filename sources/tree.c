@@ -111,13 +111,14 @@ t_cmd *root(char **tokens, t_env *env)
 
     res = NULL;
     res = parse_pipe(tokens, &i, env);
-    // if (res->type == PIPE)
-    // {
-    //     p = (struct pipe *)res;
-    //     cmd = (struct new_cmd *)p->right;
-    //     printf("root cmd :%s\n", cmd->argv);
-    //     // printf("root cmd :%d\n", p->left->type);
-    //     // printf("root cmd :%d\n", res->type);
-    // }
+    if (res->type == PIPE)
+    {
+        p = (struct pipe *)res;
+        cmd = (struct new_cmd *)p->left;
+        printf("root type cmd :%d\n", cmd->type);
+        printf("root left cmd :%s\n", cmd->argv);
+        // printf("root cmd :%d\n", p->left->type);
+        // printf("root cmd :%d\n", res->type);
+    }
     return(res);
 }

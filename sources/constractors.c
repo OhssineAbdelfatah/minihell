@@ -45,6 +45,7 @@ t_cmd *init_pipe(t_cmd *left, t_cmd *right)
     if (!res)
         panic("init_pipe\n");
     res->type = PIPE;
+    res->pipe_fd = -1;
     res->left = left;
     res->right = right;
     return ((t_cmd *)res);
@@ -133,6 +134,8 @@ t_cmd *init_new_cmd(char *argv, t_env *myenv,t_red *redirect)
     res->fd_in = 0;
     res->fd_out = 1;
     res->redirect = redirect;
+    res->last_pipe_cmd = -1;
+    res->pipo = -1;
     return ((t_cmd *)res);
 }
 

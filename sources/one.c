@@ -11,8 +11,8 @@ int check_qoutes(char *s)
     {
         while(s[i])
         {
-            if(s[i] == '"'){
-
+            if(s[i] == '"')
+            {
                 if (j == SINGLE)
                     j = SINGLE;
                 else if (j == DOUBLE)
@@ -87,6 +87,21 @@ void parse_nd_exec(char **my_tokens,char **env)
     free_tree2(res);
 }
 
+void	signal_handler(int signal)
+{
+	int	status;
+
+	status = 0;
+	(void)signal;
+	wait(&status);
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	// if (status && WIFSIGNALED(status) == TRUE)
+	// 	g_vars->exit_status = WTERMSIG(status) + 128;
+	// else
+		rl_redisplay();
+}
 
 
 int main(  int ac, char **av, char **env)
@@ -96,6 +111,8 @@ int main(  int ac, char **av, char **env)
 
     (void)av;
     (void)ac;
+	signal(SIGINT, signal_handler);
+
     while(1)
     {
         str = readline("depechez-vous!> ");
@@ -104,7 +121,10 @@ int main(  int ac, char **av, char **env)
         add_history(str);
         my_tokens = NULL;
         if (0 !=_check_str(str))
+        {
+            printf("corrupt str:%s\n", str);
             panic("error from the main\n");
+        }
         else if (ft_strlen(str))
         {
             my_tokens = fr9_trb7(str);
@@ -115,4 +135,5 @@ int main(  int ac, char **av, char **env)
         free(str);
     }
 }
+
 // GOAL EXEC THE REDIRECTION :

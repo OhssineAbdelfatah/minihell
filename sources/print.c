@@ -167,10 +167,10 @@ void print_tree(t_cmd *res)
     {
         // print_new_cmd(res);
         p1 = (struct new_cmd*)res;
-        printf("( %s ", p1->argv);
+        printf("%s ", p1->argv);
         if (NULL != p1->redirect)
             print_red(p1);
-        printf(")");
+        // printf("");
     }
     else if (res->type == PIPE)
     {

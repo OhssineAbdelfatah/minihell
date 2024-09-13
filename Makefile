@@ -1,48 +1,39 @@
-CFILES = 	sources/builtins/env.c sources/builtins/lstoarry.c\
-			sources/one.c sources/two.c sources/three.c\
+CFILES = sources/one.c sources/two.c sources/three.c\
 			sources/constractors.c sources/parse.c \
 			sources/print.c sources/tree.c sources/exec.c\
 			sources/freedom.c sources/tokens.c sources/ordering.c\
-			sources/exec_new.c 
+			sources/exec_new.c  sources/builtins/env.c sources/builtins/lstoarry.c
 
 
 MINISHELL_ART = \
 "\033[32m\n"\
-"███╗   ███╗ ██╗ ███╗   ██╗ ██╗ ███████ ╗██╗  ██╗ ███████╗ ██╗      ██╗     	\n"\
-"████╗ ████║ ██║ ████╗  ██║ ██║ ██╔════ ╝██║  ██║ ██╔════╝ ██║      ██║     	\n"\
-"██╔████╔██║ ██║ ██╔██╗ ██║ ██║ ███████ ╗███████║ █████╗   ██║      ██║     	\n"\
-"██║╚██╔╝██║ ██║ ██║╚██╗██║ ██║ ╚════██ ║██╔══██║ ██╔══╝   ██║      ██║     	\n"\
-"██║ ╚═╝ ██║ ██║ ██║ ╚████║ ██║ ███████ ║██║  ██║ ███████╗ ███████╗ ███████╗	\n"\
-"╚═╝     ╚═╝ ╚═╝ ╚═╝  ╚═══╝ ╚═╝ ╚══════ ╝╚═╝  ╚═╝ ╚══════╝ ╚══════╝ ╚══════╝	\n"\
-"						      By: TILLAS & NolYel  \033[0m"
-CFLAGS = -Wall -Wextra -Wall
-
-RLFLAGS =	-L/Users/aohssine/goinfre/homebrew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
-RLINCLUDE	=	-I/Users/aohssine/goinfre/homebrew/opt/readline/include  # tell compiler where to find headers
-
+"███╗   ███╗ ██╗ ███╗   ██╗ ██╗ ███████ ╗██╗  ██╗ ███████╗ ██╗      ██╗     \n"\
+"████╗ ████║ ██║ ████╗  ██║ ██║ ██╔════ ╝██║  ██║ ██╔════╝ ██║      ██║     \n"\
+"██╔████╔██║ ██║ ██╔██╗ ██║ ██║ ███████ ╗███████║ █████╗   ██║      ██║     \n"\
+"██║╚██╔╝██║ ██║ ██║╚██╗██║ ██║ ╚════██ ║██╔══██║ ██╔══╝   ██║      ██║     \n"\
+"██║ ╚═╝ ██║ ██║ ██║ ╚████║ ██║ ███████ ║██║  ██║ ███████╗ ███████╗ ███████╗\n"\
+"╚═╝     ╚═╝ ╚═╝ ╚═╝  ╚═══╝ ╚═╝ ╚══════ ╝╚═╝  ╚═╝ ╚══════╝ ╚══════╝ ╚══════╝\n"\
+"						      By: TILLAS    \033[0m\n"
+CFLAGS = -lreadline
 CC = cc
 OBJ = $(CFILES:.c=.o)
 NAME = minishell
 My_lib = libft/libft.a
-HEADERS = includes/minishell.h includes/struct.h includes/helper.h
 
-all : ascii_art $(My_lib) $(NAME) $(HEADERS)
-
-%.o : %.c Makfile
-	$(CC) $(CFLAGS) -c $(RLINCLUDE) $< -o $@
+all : ascii_art $(My_lib) $(NAME)
 
 $(My_lib) : 
 	make -C libft
 
 $(NAME) : $(OBJ) $(My_lib)
-	@printf "\033[0;33mGenerating minishell objects... %-33.33s\r \033[0m" $@
-	$(CC) $^ $(CFLAGS) $(My_lib) $(RLFLAGS) -o $@
+	@printf "\033[0;33mGenerating minishell objects... %-33.33s\r" $@
+	$(CC) $^ $(CFLAGS) $(My_lib) -o $@
 
-clean :
+clean:
 	@make clean -C libft
 	rm -rf $(OBJ)
 
-ascii_art :
+ascii_art:
 	@echo $(MINISHELL_ART)
 
 fclean : clean

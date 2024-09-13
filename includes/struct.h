@@ -55,6 +55,7 @@ struct exec_cmd
 struct pipe
 {
     int type;
+    int pipe_fd;
     t_cmd *left;
     t_cmd *right;
 };
@@ -102,6 +103,8 @@ struct new_cmd
     char **env;
     int fd_in;
     int fd_out;
+    int last_pipe_cmd;
+    int *pipo;
     t_env *myenv;
     t_red *redirect;
 };
