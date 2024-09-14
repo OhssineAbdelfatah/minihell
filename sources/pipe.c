@@ -141,3 +141,21 @@ void execute(char *s)
 //     // wait(0);
 // //     printf("p1[0]:%d, p1[1]:%d\n", p1[0], p1[1]);
 // }
+
+
+
+// int main()
+// {
+//     int x = 77;
+//     // close(0);
+//     dup2(2,x);
+//     printf("new:%d\n", x);
+//     // if (0 == fork())
+//     // {
+
+//     // }
+//     close(2);
+//     close(1);
+//     close(0);
+//     dprintf(x, "alo\n");
+// }

@@ -135,39 +135,100 @@ void execute_pipe(t_cmd *cmd)
       panic("pipe");
     if(fork() == 0)
     {
-        if (pcmd->pipe_fd != - 1)
+        if (pcmd->pipe_fd != -1)
         {
-            close(0);
-            dup(pcmd->pipe_fd);
+            dup2(pcmd->pipe_fd, 0);
+            close(pcmd->pipe_fd);
+            dprintf(pcmd->pipe_fd,"new fd_in :%d\n",pcmd->pipe_fd);
         }
-        close(1);
-        dup(p[1]);
-        printf("out from child left:%d\n", p[1]);
+        dup2(p[1],1);
         close(p[0]);
         close(p[1]);
         new_exec(pcmd->left);
     }
     if(fork() == 0)
     {
-        close(0);
-        dup(p[0]);
-        printf("in from child right:%d\n", p[0]);
+        
+        // printf("in from child right:%d\n", p[0]);
         if (pcmd->right->type == PIPE)
         {
-            close(1);
             pcmd_right = (struct pipe *)pcmd->right;
-            pcmd_right->pipe_fd = p[1];
-            dup(pcmd_right->pipe_fd);
+            pcmd_right->pipe_fd = p[0];
+            // close(p[0]);
+            dup2(p[0],pcmd_right->pipe_fd);
+            // close(pcmd_right->pipe_fd);
+            // close(p[0]);
+            close(p[1]);
+            new_exec(pcmd->right);
+            exit(0);
         }
-        close(p[0]);
-        close(p[1]);
-        new_exec(pcmd->right);
+        else
+        {
+            if (pcmd->pipe_fd != - 1)
+                close(pcmd->pipe_fd);
+            // close(0);
+            dup2(p[0], 0);
+            close(p[0]);
+            close(p[1]);
+            new_exec(pcmd->right);
+        }
     }
     close(p[0]);
     close(p[1]);
     wait(0);
     wait(0);
 } 
+
+// void execute_pipe(t_cmd *cmd)
+// {
+//     struct pipe *pcmd;
+//     struct pipe *pcmd_right;
+//     int p[2];
+
+//     pcmd = (struct pipe *)cmd;
+
+//     if (pipe(p) < 0)
+//         panic("pipe");
+
+//     if (fork() == 0) // Left child process
+//     {
+//         if (pcmd->pipe_fd != -1) // If there's already a pipe_fd (from a previous pipe)
+//         {
+//             dup2(pcmd->pipe_fd, 0); // Redirect stdin to the previous pipe's read end
+//             close(pcmd->pipe_fd);
+//         }
+//         dup2(p[1], 1);  // Redirect stdout to the current pipe's write end
+//         close(p[0]);
+//         close(p[1]);
+//         new_exec(pcmd->left); // Execute the left command
+//     }
+
+//     if (fork() == 0) // Right child process
+//     {
+//         if (pcmd->right->type == PIPE)
+//         {
+//             pcmd_right = (struct pipe *)pcmd->right;
+//             pcmd_right->pipe_fd = p[0]; // Pass the read end of this pipe to the next level
+//             close(p[1]);                // Close the write end of the pipe
+//             execute_pipe(pcmd->right);    // Recursively handle the next pipe
+//             exit(0);
+//         }
+//         else
+//         {
+//             dup2(p[0], 0); // Redirect stdin to the current pipe's read end
+//             close(p[0]);
+//             close(p[1]);
+//             new_exec(pcmd->right); // Execute the right command
+//         }
+//     }
+
+//     // Close the pipe in the parent process
+//     close(p[0]);
+//     close(p[1]);
+
+//     wait(0); // Wait for the left child
+//     wait(0); // Wait for the right child
+// }
 
 
 // void execute_pipe (t_cmd *cmd)

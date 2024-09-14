@@ -74,8 +74,8 @@ void parse_nd_exec(char **my_tokens,char **env)
     res = root(my_tokens,dup_env);
     if (!res)
         return;
-    print_tree(res);
-    printf("\n");
+    // print_tree(res);
+    // printf("\n");
     if (res->type == NEW_CMD)
     {
         if (0 == fork())
