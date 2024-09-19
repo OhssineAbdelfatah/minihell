@@ -124,38 +124,38 @@ void history(char *str)
 
 }
 
-int main(  int ac, char **av, char **env)
-{
-    char *str;
-    char **my_tokens;
-    t_env *dup_env;
+// int main(  int ac, char **av, char **env)
+// {
+//     char *str;
+//     char **my_tokens;
+//     t_env *dup_env;
    
 
-    (void)av;
-    (void)ac;
-    dup_env = init_env(env);
-	signal(SIGINT, signal_handler);
-    while(1)
-    {
-        str = readline("depechez-vous!> ");
-        // printf("is white :%d, strlen:%d\n",is_white_str(str) , ft_strlen(str));
-        // if (0 == is_white_str(str))
-        history(str);
-        my_tokens = NULL;
-        if (0 !=_check_str(str))
-        {
-            printf("corrupt str:%s\n", str);
-            panic("error from the main\n");
-        }
-        else if (ft_strlen(str))
-        {
-            my_tokens = fr9_trb7(str);
-            if (my_tokens)
-                parse_nd_exec(my_tokens, dup_env);
-            free_mynigga(my_tokens);
-        }
-        free(str);
-    }
-}
+//     (void)av;
+//     (void)ac;
+//     dup_env = init_env(env);
+// 	signal(SIGINT, signal_handler);
+//     while(1)
+//     {
+//         str = readline("depechez-vous!> ");
+//         // printf("is white :%d, strlen:%d\n",is_white_str(str) , ft_strlen(str));
+//         // if (0 == is_white_str(str))
+//         history(str);
+//         my_tokens = NULL;
+//         if (0 !=_check_str(str))
+//         {
+//             printf("corrupt str:%s\n", str);
+//             panic("error from the main\n");
+//         }
+//         else if (ft_strlen(str))
+//         {
+//             my_tokens = fr9_trb7(str);
+//             if (my_tokens)
+//                 parse_nd_exec(my_tokens, dup_env);
+//             free_mynigga(my_tokens);
+//         }
+//         free(str);
+//     }
+// }
 
 // GOAL EXEC THE REDIRECTION :

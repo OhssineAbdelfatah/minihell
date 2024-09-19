@@ -3,7 +3,7 @@ CFILES = sources/one.c sources/two.c sources/three.c\
 			sources/print.c sources/tree.c sources/exec.c\
 			sources/freedom.c sources/tokens.c sources/ordering.c\
 			sources/exec_new.c  sources/builtins/env.c sources/builtins/lstoarry.c \
-			sources/pipe.c
+			sources/test.c
 
 
 MINISHELL_ART = \
