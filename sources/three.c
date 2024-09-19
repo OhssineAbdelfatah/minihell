@@ -1,26 +1,5 @@
 #include "../includes/minishell.h"
 
-int ft_strcmp(char *s1, char *s2)
-{
-    int i, s2len;
-
-    i = 0;
-    s2len = ft_strlen1(s2);
-    if (!s1 || !s2)
-        return (0);
-    else
-    {
-        while(i < s2len)
-        {
-            if (s1[i] != s2[i])
-                return(0);
-            i++;
-        }
-        if ((size_t)s2len != ft_strlen(s1))
-            return(0);
-    }
-    return(1);
-}
 
 // void _cd(char *s)
 // {
