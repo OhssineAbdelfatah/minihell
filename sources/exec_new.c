@@ -17,6 +17,17 @@ int last_herdoc(t_red *lst)
     return(1);
 }
 
+char *getEnvValue(t_env *env, char *key)
+{
+    while(env != NULL)
+    {
+        if(ft_strcmp(env->key, key))
+            return env->value;
+        env = env->next;
+    }
+    return NULL;
+}
+
 void her_doc_bro(t_red *redirect,int *in,int *out)
 {
     // (void)redirect;
@@ -105,26 +116,66 @@ int exec_red(t_red *redirect, int *in, int *out, int *herdoc_pipe)
     }
     return(status);
 }
+// /dfhv/ls 
+
+int check_is_abs(char *cmd)
+{
+    int i = -1;
+    int j = 0;
+
+    while(cmd[++i])
+    {
+        if(cmd[i] == '\\')
+            j++;
+    }
+    if(j > 0)
+        if(access(cmd, X_OK) != 0)
+            return 1;
+    return 0;
+}
+
+char *cmd_abs_path(char *path,char *cmd)
+{
+    char **path_2d;
+    char *cmd_abs_path;
+    int i = -1;
+    int j = -1 ;
+
+    path_2d = ft_split(path, ':');
+    cmd_abs_path = cmd;
+
+	while(path_2d[++j])
+		path_2d[j] = ft_strjoin(path_2d[j], "/");
+    while(path_2d[++i])
+    {
+        if(access(ft_strjoin( path_2d[i], cmd_abs_path), X_OK) == 0)
+        {
+            cmd_abs_path = ft_strjoin( path_2d[i], cmd_abs_path);
+            // free var(path2d)
+            return cmd_abs_path;
+        }
+    }
+    return NULL;
+}
 
 int exec_new_cmd(t_cmd *cmd)
 {
     struct new_cmd *p;
     int status;
-    char **str;
-    char **str1;
+    char *abs_path;
+    char **cmd_args;
     char **cur_env;
-    char *command;
 
     status = 0;
     p = (struct new_cmd *)cmd;
-
+    cmd_args = ft_split(p->argv , ' ');
+    if(!cmd_args || check_is_abs(cmd_args[0]))
+        return -1;
+        
     if (NULL != p->redirect)
-    {
         status = exec_red(p->redirect, &(p->fd_in), &(p->fd_out), &(p->herdoc_pipe));
-    }
     if (p->fd_in != -1 || p->fd_out != -1)
     {
-        // printf("fd_out :%d fd_in:%d\n", p->fd_out, p->fd_in);
         if (p->fd_out != -1)
         {
             dup2(p->fd_out, 1);
@@ -133,27 +184,28 @@ int exec_new_cmd(t_cmd *cmd)
         if(p->fd_in != -1)
         {
             dup2(p->fd_in, 0);
-            // dprintf(2,"closing this FD:%d\n", p->fd_in);
 
             close(p->fd_in);
         }
     }
-    str = ft_split(p->argv, 32);
-    str1 = str;
     cur_env = lstoarry(p->myenv);
-    if(dstr_len(str))
+    abs_path = getEnvValue(p->myenv, "PATH");
+    if(!abs_path)
+        return -1;
+    abs_path = cmd_abs_path(abs_path, cmd_args[0]);
+    if(!abs_path)
+        return -1;
+    if(dstr_len(cmd_args))
     {
-        command = ft_strjoin("/usr/bin/",str[0]);
-        if (-1 == execve(command, str ++, cur_env))
+        if (-1 == execve(abs_path, cmd_args, cur_env))
         {
-            printf("minishell: %s:command not found\n", str1[0]);
+            printf("minishell: %s:command fr not found\n", cmd_args[0]);
             panic("");
         }
     }
+    free_mynigga(cmd_args);
+    free(abs_path);
     exit(0);
-    free_mynigga(str);
-    free_mynigga(str1);
-    free(command);
     return (status);  
 }
 

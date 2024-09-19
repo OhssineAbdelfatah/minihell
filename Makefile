@@ -14,8 +14,11 @@ MINISHELL_ART = \
 "██║╚██╔╝██║ ██║ ██║╚██╗██║ ██║ ╚════██ ║██╔══██║ ██╔══╝   ██║      ██║     \n"\
 "██║ ╚═╝ ██║ ██║ ██║ ╚████║ ██║ ███████ ║██║  ██║ ███████╗ ███████╗ ███████╗\n"\
 "╚═╝     ╚═╝ ╚═╝ ╚═╝  ╚═══╝ ╚═╝ ╚══════ ╝╚═╝  ╚═╝ ╚══════╝ ╚══════╝ ╚══════╝\n"\
-"						      By: TILLAS    \033[0m\n"
-CFLAGS = -lreadline 
+"						      By: TILLAS & NolYel  \033[0m"
+
+RLFLAGS =	-L/Users/aohssine/goinfre/homebrew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
+RLINCLUDE	=	-I/Users/aohssine/goinfre/homebrew/opt/readline/include  # tell compiler where to find headers
+
 CC = cc
 OBJ = $(CFILES:.c=.o)
 NAME = minishell
@@ -23,18 +26,21 @@ My_lib = libft/libft.a
 
 all : ascii_art $(My_lib) $(NAME)
 
+%.o : %.c Makfile
+	$(CC) $(CFLAGS) -c $(RLINCLUDE) $< -o $@
+
 $(My_lib) : 
 	make -C libft
 
 $(NAME) : $(OBJ) $(My_lib)
-	@printf "\033[0;33mGenerating minishell objects... %-33.33s\r" $@
-	$(CC) $^ $(CFLAGS) $(My_lib) -o $@
+	@printf "\033[0;33mGenerating minishell objects... %-33.33s\r \033[0m" $@
+	$(CC) $^ $(CFLAGS) $(My_lib) $(RLFLAGS) -o $@
 
-clean:
+clean :
 	@make clean -C libft
 	rm -rf $(OBJ)
 
-ascii_art:
+ascii_art :
 	@echo $(MINISHELL_ART)
 
 fclean : clean

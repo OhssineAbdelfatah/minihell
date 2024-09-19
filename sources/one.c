@@ -67,8 +67,9 @@ void execute(t_cmd *cmd, t_env *env)
     int status;
     if (cmd->type == NEW_CMD)
     {
-        if (0 == fork())
-            new_exec(cmd);
+        status = fork();
+        if (status == 0)
+            exec_new_cmd(cmd);
         wait(&status);
         printf("status d'exit:%d\n", status);
     }

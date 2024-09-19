@@ -20,7 +20,6 @@
 int count_tokens_new(char *s);
 ///////that's it ///
 
-int ft_strcmp(char *s1, char *s2);
 int skip_spaces(char *s, int x);
 void exec_cmd(char **tokens, char **env);
 void panic(char *str);
