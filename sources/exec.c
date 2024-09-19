@@ -128,36 +128,30 @@ void execute_pipe(t_cmd *cmd)
 {
     struct pipe *pcmd;
     struct pipe *pcmd_right;
+    struct new_cmd *cmd_child;
     int p[2];
 
     pcmd = (struct pipe *)cmd;
     if(pipe(p) < 0)
-      panic("pipe");
+        panic("pipe");
+    //LEFT CHILD COMMAND:
     if(fork() == 0)
     {
+        cmd_child = (struct new_cmd *)pcmd->left;
         if (pcmd->pipe_fd != -1)
-        {
-            dup2(pcmd->pipe_fd, 0);
-            close(pcmd->pipe_fd);
-            dprintf(pcmd->pipe_fd,"new fd_in :%d\n",pcmd->pipe_fd);
-        }
-        dup2(p[1],1);
+            cmd_child->fd_in = pcmd->pipe_fd;
+        cmd_child->fd_out = p[1];
         close(p[0]);
-        close(p[1]);
         new_exec(pcmd->left);
     }
+    //RIGHT CHILD COMMAND:
     if(fork() == 0)
     {
-        
-        // printf("in from child right:%d\n", p[0]);
+        cmd_child = (struct new_cmd *)pcmd->right;
         if (pcmd->right->type == PIPE)
         {
             pcmd_right = (struct pipe *)pcmd->right;
             pcmd_right->pipe_fd = p[0];
-            // close(p[0]);
-            dup2(p[0],pcmd_right->pipe_fd);
-            // close(pcmd_right->pipe_fd);
-            // close(p[0]);
             close(p[1]);
             new_exec(pcmd->right);
             exit(0);
@@ -166,9 +160,7 @@ void execute_pipe(t_cmd *cmd)
         {
             if (pcmd->pipe_fd != - 1)
                 close(pcmd->pipe_fd);
-            // close(0);
-            dup2(p[0], 0);
-            close(p[0]);
+            cmd_child->fd_in = p[0];
             close(p[1]);
             new_exec(pcmd->right);
         }
@@ -402,8 +394,8 @@ void execute_pipe(t_cmd *cmd)
 
 
 
-// void exec(t_cmd *cmd)
-// {
+//void exec(t_cmd *cmd)
+//{
 //     // write(1, "exec IN\n", 9);
 //     // printf("cmd type :%d\n", cmd->type);
 //     if (!cmd)
@@ -416,7 +408,4 @@ void execute_pipe(t_cmd *cmd)
 //         execute_red (cmd);
 //     else if (cmd->type== HERDOC)
 //         execute_heredoc(cmd);
-// }
-
-
-
+//}

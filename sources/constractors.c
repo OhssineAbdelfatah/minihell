@@ -24,18 +24,17 @@ char **new_str(char **old_str)
 }
 
 
-t_cmd *init_exec(int tp, char *s, char **env)
-{
-    struct exec_cmd *res;
-
-    res = malloc(sizeof(struct exec_cmd));
-    if(!res)
-        panic("init_exec\n");
-    res->type = tp;
-    res->argv = s;
-    res->env = env;
-    return((t_cmd *)res);
-}
+// t_cmd *init_exec(int tp, char *s, char **env)
+// {
+//     struct exec_cmd *res;
+//     res = malloc(sizeof(struct exec_cmd));
+//     if(!res)
+//         panic("init_exec\n");
+//     res->type = tp;
+//     res->argv = s;
+//     res->env = env;
+//     return((t_cmd *)res);
+// }
 
 t_cmd *init_pipe(t_cmd *left, t_cmd *right)
 {
@@ -68,7 +67,6 @@ t_cmd *init_redire(t_cmd *cmd, char *file , int mode, int fd)
     return (final);
 }
 
-
 t_cmd *init_herdoc(t_cmd *cmd, char *deliminater)
 {
     struct heredoc *res;
@@ -80,7 +78,6 @@ t_cmd *init_herdoc(t_cmd *cmd, char *deliminater)
     res->delimiter = deliminater;
     return ((t_cmd*)res);
 }
-
 
 void herdoc_content(t_cmd *herd)
 {
@@ -121,7 +118,7 @@ void herdoc_content(t_cmd *herd)
 //     return ((t_cmd *)res);
 // }
 
-t_cmd *init_new_cmd(char *argv, t_env *myenv,t_red *redirect)
+t_cmd *init_new_cmd(char *argv, t_env *myenv,t_red *redirect, int herdoc_pipe)
 {
     struct new_cmd *res;
 
@@ -131,11 +128,11 @@ t_cmd *init_new_cmd(char *argv, t_env *myenv,t_red *redirect)
     res->type = NEW_CMD;
     res->argv = argv;
     res->myenv = myenv;
-    res->fd_in = 0;
-    res->fd_out = 1;
+    res->fd_in = -1;
+    res->fd_out = -1;
     res->redirect = redirect;
     res->last_pipe_cmd = -1;
-    res->pipo = -1;
+    res->herdoc_pipe = herdoc_pipe;
     return ((t_cmd *)res);
 }
 
@@ -148,7 +145,7 @@ t_red *creat_red_lst(char **tokens, int i)
         return (NULL);
     res->type = get_type(tokens, i);
     res->mode = get_mode(tokens, i);
-    if (res->mode == 4)
+    if (res->mode == 4 || res->type == HERDOC)
         res->fd = 0;
     else
         res->fd = 1;

@@ -14,15 +14,11 @@ int is_white_str(char *s)
     i = 0;
     if (!s)
         return (1);
-    while (s[i] && is_white(s[i]))
+    while (s[i] &&  0 == is_white(s[i]))
         i++;
-    printf("strlen %d, %d\n", ft_strlen(s), i);
-    if (i == (int)ft_strlen(s))
-    {
-        printf("white\n");
-        return(0);
-    }
-    return(1);
+    if (i == ft_strlen1(s) || i != 0)
+        return(1);
+    return(0);
 }
 
 int ft_strlen1(char *s)

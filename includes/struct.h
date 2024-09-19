@@ -104,7 +104,7 @@ struct new_cmd
     int fd_in;
     int fd_out;
     int last_pipe_cmd;
-    int *pipo;
+    int herdoc_pipe;
     t_env *myenv;
     t_red *redirect;
 };

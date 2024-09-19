@@ -90,19 +90,57 @@ int get_type(char **tokens, int i)
         return (HERDOC);
     return (RED);
 }
-// void get_content(t_red *red_lst)
-// {
-//     // while (red_lst)
-//     // {
-//     //     red_lst = red_lst->next;
-//     // }
-//     return;
-// }
+
+void get_content(t_red *red_lst,char *del, int *heredoc_pipe)
+{
+     char *str;
+    int p[2];
+    int pid;
+    int pid_status;
+    // struct sigaction sa_old, sa_ignore;
+    // sa_ignore.sa_handler = SIG_IGN;
+    // sigaction(SIGINT, &sa_ignore, &sa_old);
+    (void)red_lst;
+
+    if (*heredoc_pipe != -1)
+    {
+        dprintf(2,"closing this pipe:%d\n", *heredoc_pipe);
+        close(*heredoc_pipe);
+    }
+     pipe(p);
+    pid = fork();
+    if(0 == pid)
+    {
+        signal(SIGINT, NULL);
+        // printf("from child:p[0]:%d, p[1] : %d\n", p[0], p[1]);
+        while(1)
+        {
+            str = readline(">");
+            if (ft_strcmp(str, del))
+                break;
+            ft_putstr_fd(str, p[1]);
+            ft_putstr_fd("\n", p[1]);
+        }
+        close(p[1]);
+        close(p[0]);
+        exit(0);
+    }
+    pid_status =  waitpid(pid, NULL,0);
+    // printf("pid_status :%d\n", pid_status);
+    if (pid_status != -1)
+        *heredoc_pipe = p[0];
+    else
+        close(p[0]);
+    close(p[1]);
+    // printf("assign fd_in of herdoc:%d\n", *heredoc_pipe);
+    return;
+}
 
 
-t_red *get_red(char **tokens, int i)
+t_red *get_red(char **tokens, int i, int *herdoc_pipe)
 {
     t_red *red_lst;
+    char *delimiter;
 
     red_lst = NULL;
     while (tokens[i] && PIPE != which_one(tokens[i]))
@@ -115,18 +153,19 @@ t_red *get_red(char **tokens, int i)
                 add_to_lst(red_lst, tokens, i);
             if (!red_lst)
                 return(NULL);
-            // if (HERDOC == which_one(tokens[i]))
-            //     get_content(red_lst);
+            if (HERDOC == which_one(tokens[i]))
+            {
+                i++;
+                delimiter = ft_strdup(tokens[i]);
+                get_content(red_lst, delimiter,herdoc_pipe);
+                i--;
+            }
             i++; 
         }
         i++;
     }
     return (red_lst);
 }
-
-
-
-
 
 // int main(int ac , char **av, char **env)
 // {

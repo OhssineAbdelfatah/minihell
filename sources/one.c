@@ -61,14 +61,28 @@ void free_mynigga(char **str)
     str = NULL;
 }
 
+void execute(t_cmd *cmd, t_env *env)
+{
+    (void)env;
+    int status;
+    if (cmd->type == NEW_CMD)
+    {
+        if (0 == fork())
+            new_exec(cmd);
+        wait(&status);
+        printf("status d'exit:%d\n", status);
+    }
+    else
+        status = new_exec(cmd);
 
-void parse_nd_exec(char **my_tokens,char **env)
+}
+
+void parse_nd_exec(char **my_tokens,t_env *dup_env)
 {
     t_cmd *res;
-    t_env *dup_env;
-
+    int status;
+    
     res = NULL;
-    dup_env = init_env(env);
     if (ft_strcmp( my_tokens[0], "exit"))
         panic("BY!\n");
     res = root(my_tokens,dup_env);
@@ -76,14 +90,7 @@ void parse_nd_exec(char **my_tokens,char **env)
         return;
     // print_tree(res);
     // printf("\n");
-    if (res->type == NEW_CMD)
-    {
-        if (0 == fork())
-            new_exec(res);
-        wait(0);
-    }
-    else
-        new_exec(res);
+    execute(res, dup_env);
     free_tree2(res);
 }
 
@@ -92,33 +99,48 @@ void	signal_handler(int signal)
 	int	status;
 
 	status = 0;
-	(void)signal;
+	// (void)signal;
 	wait(&status);
 	printf("\n");
 	rl_on_new_line();
-	rl_replace_line("", 0);
+	// rl_replace_line("", 0);
+
+
 	// if (status && WIFSIGNALED(status) == TRUE)
 	// 	g_vars->exit_status = WTERMSIG(status) + 128;
 	// else
-		rl_redisplay();
+	rl_redisplay();
 }
 
+void history(char *str)
+{
+    if (!str)
+        panic("BY\n");
+    if (!str || 0 == ft_strlen(str))
+        return ;
+    if (is_white_str(str))
+        return;
+    add_history(str);
+
+}
 
 int main(  int ac, char **av, char **env)
 {
     char *str;
     char **my_tokens;
+    t_env *dup_env;
+   
 
     (void)av;
     (void)ac;
+    dup_env = init_env(env);
 	signal(SIGINT, signal_handler);
-
     while(1)
     {
         str = readline("depechez-vous!> ");
         // printf("is white :%d, strlen:%d\n",is_white_str(str) , ft_strlen(str));
         // if (0 == is_white_str(str))
-        add_history(str);
+        history(str);
         my_tokens = NULL;
         if (0 !=_check_str(str))
         {
@@ -129,7 +151,7 @@ int main(  int ac, char **av, char **env)
         {
             my_tokens = fr9_trb7(str);
             if (my_tokens)
-                parse_nd_exec(my_tokens, env);
+                parse_nd_exec(my_tokens, dup_env);
             free_mynigga(my_tokens);
         }
         free(str);

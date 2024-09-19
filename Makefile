@@ -15,7 +15,7 @@ MINISHELL_ART = \
 "██║ ╚═╝ ██║ ██║ ██║ ╚████║ ██║ ███████ ║██║  ██║ ███████╗ ███████╗ ███████╗\n"\
 "╚═╝     ╚═╝ ╚═╝ ╚═╝  ╚═══╝ ╚═╝ ╚══════ ╝╚═╝  ╚═╝ ╚══════╝ ╚══════╝ ╚══════╝\n"\
 "						      By: TILLAS    \033[0m\n"
-CFLAGS = -lreadline
+CFLAGS = -lreadline 
 CC = cc
 OBJ = $(CFILES:.c=.o)
 NAME = minishell
