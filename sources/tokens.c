@@ -47,12 +47,18 @@ int count_tokens_new(char *s)
         if (s[i] == '\'' || s[i] == '"')
         {
             ref = STRING;
-            i = get_next_quote(s, i);
             res++;
-            i++;
+            while(s[i] && (s[i] == '\'' || s[i] == '"'))
+            {
+                i = get_next_quote(s, i) + 1;
+                while (s[i] && is_white(s[i]) && (0 == is_special(s[i])) && s[i] != '\'' && s[i] != '"' )
+                    i++;
+    
+            }
+            // printf("res1:%d>i :%d\n", res, i);
         }
         i = skip_spaces(s,i);
-        if (s[i] && (0 == is_special(s[i])))
+        if (s[i] && is_white(s[i]) && (0 == is_special(s[i])) && s[i] != '\'' && s[i] != '"' )
         {
             if (ref == RED)
                 ref = FILE_NAME;
@@ -60,7 +66,19 @@ int count_tokens_new(char *s)
                 ref = EXEC;
             res ++;
             while (s[i] && is_white(s[i]) && (0 == is_special(s[i])) && s[i] != '\'' && s[i] != '"' )
+            {
+                
                 i++;
+                 if (s[i] == '\'' || s[i] == '"')
+                {
+                     while(s[i] && (s[i] == '\'' || s[i] == '"'))
+                    {
+                         i = get_next_quote(s, i) +1;
+                    }
+                }
+            }
+            // printf("res2:%d, %d\n", res, i);
+
         }
         if (0 == s[i] && RED == ref)
             return(-2);
@@ -80,22 +98,8 @@ int get_starto(char *s, int x)
         return (x);
     if(0 == is_white(s[x]))
         return(skip_spaces(s, x));
-    if (0 ==x )
+    if (0 == x )
             return x;
-    // if (s[x] == '|')
-    //     return (x);
-    // if (RED == red_or_pipe(s[x]))
-    // {
-    //     while (s[x] && RED == red_or_pipe(s[x]))
-    //         x++;
-    //     return(x);
-    // }
-    // while(s[x])
-    // {
-    //     if (0 == is_white(s[x]) || is_special(s[x]))
-    //         return(x);
-    //     x++;
-    // }
     return (x);
 }
 
@@ -114,12 +118,21 @@ int get_endo(char *s, int x)
     if (0 == is_special(s[x]) && is_white(s[x]))
     {
         if (s[x] == '\'' || s[x] == '"')
-            return(get_next_quote(s, x) + 1);
+        {
+            //  return(get_next_quote(s, x) + 1);
+            while (0 == is_special(s[x]) && is_white(s[x]) && (s[x] == '\'' || s[x] == '"'))
+                x = get_next_quote(s, x) + 1;
+        }
+           
         while(s[x] && (0 ==is_special(s[x])) && is_white(s[x]))
         {
             if (s[x] == '\'' || s[x] == '"')
-                return(x);
-            x++;
+            {
+                while (s[x] && (s[x] == '\'' || s[x] == '"'))
+                   x = get_next_quote(s, x) + 1;
+            }
+            else 
+                x++;
         }
     }
     return(x);
@@ -132,6 +145,8 @@ char **fr9_trb7(char *s)
     if (NULL == s)
         return NULL;
     var.reslen = count_tokens_new(s);
+    // printf(">>reslen:%d\n", var.reslen);
+    // exit(0);
     if (var.reslen < 0)
         panic("minishell :syntax error:\n");
     if (0 == var.reslen)

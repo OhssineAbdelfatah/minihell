@@ -40,7 +40,7 @@ int get_mode(char **tokens, int i);
 t_red *get_red(char **tokens, int i, int *herdoc_pipe);
 char *cmd_line(char **tokens, int *x);
 // t_cmd *init_new_cmd(char *argv, char **env, t_red *redirect);
-t_cmd *init_new_cmd(char *argv, t_env *myenv,t_red *redirect, int herdoc_pipe);
+t_cmd *init_new_cmd(char **argv, t_env *myenv,t_red *redirect, int herdoc_pipe);
 void add_to_lst(t_red *red_lst, char **tokens, int i);
 t_red *creat_red_lst(char **tokens, int i);
 t_cmd *parse_new_exec(char **tokens, int *i, t_env *myenv);
@@ -50,5 +50,12 @@ t_cmd *parse_new_exec(char **tokens, int *i, t_env *myenv);
 
 int new_exec(t_cmd *cmd);
 void execute_pipe (t_cmd *cmd);
+int exec_new_cmd(t_cmd *cmd);
+
+//SIGNALS
+
+void do_nothing(int signal);
+void	signal_handler(int signal);
+
 
 # endif

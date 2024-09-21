@@ -1,12 +1,21 @@
 #include "../includes/minishell.h"
-#include <readline/readline.h>
 
 int signals;
 
-void handle_herdoc(int signal)
+void do_nothing2(int signal)
 {
-    exit(130);  // Exit with code 130 on SIGINT in the child
+    return;
 }
+
+void handle_it(int signal)
+{
+    // Handle SIGINT in the parent process
+    printf("\n");
+    rl_on_new_line();
+    rl_replace_line("", 0);
+    rl_redisplay();
+}
+
 
 void doc()
 {
@@ -14,9 +23,9 @@ void doc()
     int pid;
     pid = fork(); 
     int is;
-    if (pid == 0)  
+    if (pid == 0)  // Child process (HEREDOC)
     {
-        signal(SIGINT, handle_herdoc);  
+        signal(SIGINT, NULL);  // Child handles SIGINT
         while (1)
         {
             str = readline("> ");
@@ -27,28 +36,17 @@ void doc()
                 free(str);
                 break;
             }
-            free(str); 
+            free(str);  // Free memory for each input
         }
         exit(0);
     }
-    else if (pid > 0)
-    {
-        int status;
-        waitpid(pid, &status, 0); 
-        if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-        {
-            printf("\nChild was interrupted by SIGINT\n");
-        }
-    }
+//     else if (pid > 0)  // Parent process
+//     {
+//         waitpid(pid, NULL)
+//     }
 }
 
-void handle_it(int signal)
-{
-    // Handle SIGINT in the parent process
-    rl_on_new_line();
-    // rl_replace_line("", 0);
-    rl_redisplay();
-}
+
 
 // int main()
 // {
@@ -69,7 +67,9 @@ void handle_it(int signal)
 //         {
 //             doc();  // Handle doc logic in a separate function
 //         }
+//         printf("your command is %s\n", str);
 //         free(str);  // Free the memory for readline input
 //     }
 //     return 0;
 // }
+ 

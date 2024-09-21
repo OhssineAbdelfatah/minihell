@@ -116,7 +116,6 @@ int exec_red(t_red *redirect, int *in, int *out, int *herdoc_pipe)
     }
     return(status);
 }
-// /dfhv/ls 
 
 int check_is_abs(char *cmd)
 {
@@ -162,16 +161,16 @@ int exec_new_cmd(t_cmd *cmd)
 {
     struct new_cmd *p;
     int status;
-    char *abs_path;
+    char *abs_path1, *abs_path;
     char **cmd_args;
     char **cur_env;
 
     status = 0;
     p = (struct new_cmd *)cmd;
-    cmd_args = ft_split(p->argv , ' ');
+    // cmd_args = ft_split(p->argv , ' ');
+    cmd_args = p->argv;
     if(!cmd_args || check_is_abs(cmd_args[0]))
-        return -1;
-        
+        panic("no");
     if (NULL != p->redirect)
         status = exec_red(p->redirect, &(p->fd_in), &(p->fd_out), &(p->herdoc_pipe));
     if (p->fd_in != -1 || p->fd_out != -1)
@@ -191,10 +190,13 @@ int exec_new_cmd(t_cmd *cmd)
     cur_env = lstoarry(p->myenv);
     abs_path = getEnvValue(p->myenv, "PATH");
     if(!abs_path)
-        return -1;
+        exit( -1);
     abs_path = cmd_abs_path(abs_path, cmd_args[0]);
     if(!abs_path)
-        return -1;
+    {
+        printf("minishell: %s:command not found\n", cmd_args[0]);
+        exit( -1);
+    }
     if(dstr_len(cmd_args))
     {
         if (-1 == execve(abs_path, cmd_args, cur_env))

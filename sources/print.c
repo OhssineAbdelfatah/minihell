@@ -40,7 +40,7 @@ void print_tree(t_cmd *res)
 {
     struct new_cmd *p1;
     struct pipe *p2;
-
+    int i = 0;
 
     if (NULL == res)
         return ;
@@ -48,7 +48,9 @@ void print_tree(t_cmd *res)
     {
         // print_new_cmd(res);
         p1 = (struct new_cmd*)res;
-        printf("%s ", p1->argv);
+        // printf("%s ", p1->argv);
+        while (p1->argv[i])
+            printf(" %s", p1->argv[i++]);
         if (NULL != p1->redirect)
             print_red(p1);
         // printf("");
