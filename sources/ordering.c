@@ -91,6 +91,13 @@ int get_type(char **tokens, int i)
     return (RED);
 }
 
+void do_nothing(int signal)
+{
+    // printf("^C");
+    return;
+}
+
+
 void get_content(t_red *red_lst,char *del, int *heredoc_pipe)
 {
      char *str;
@@ -107,7 +114,7 @@ void get_content(t_red *red_lst,char *del, int *heredoc_pipe)
         dprintf(2,"closing this pipe:%d\n", *heredoc_pipe);
         close(*heredoc_pipe);
     }
-     pipe(p);
+    pipe(p);
     pid = fork();
     if(0 == pid)
     {
@@ -125,13 +132,28 @@ void get_content(t_red *red_lst,char *del, int *heredoc_pipe)
         close(p[0]);
         exit(0);
     }
-    pid_status =  waitpid(pid, NULL,0);
-    // printf("pid_status :%d\n", pid_status);
-    if (pid_status != -1)
-        *heredoc_pipe = p[0];
-    else
-        close(p[0]);
-    close(p[1]);
+    else if (pid > 0)
+    {
+        // struct sigaction sa_ignore, sa_old;
+        // sa_ignore.sa_handler = SIG_IGN;  // Ignore SIGINT
+        // sigaction(SIGINT, &sa_ignore, &sa_old);  // Set the ignore handler
+
+        // int status;
+        // // waitpid(pid, &status, 0);  // Wait for the child process to finish
+
+        // // Restore the original SIGINT handler in the parent
+        // sigaction(SIGINT, &sa_old, NULL);
+        signal(SIGINT, do_nothing);
+        pid_status =  waitpid(pid, NULL,0);
+        signal(SIGINT, signal_handler);
+      
+        if (pid_status != -1)
+            *heredoc_pipe = p[0];
+        else
+            close(p[0]);
+        close(p[1]);
+    }
+    
     // printf("assign fd_in of herdoc:%d\n", *heredoc_pipe);
     return;
 }
@@ -166,24 +188,3 @@ t_red *get_red(char **tokens, int i, int *herdoc_pipe)
     }
     return (red_lst);
 }
-
-// int main(int ac , char **av, char **env)
-// {
-//     struct new_cmd *cmd;
-//     t_cmd *cmd1;
-//     t_red *redirect;
-//     char *cmd_lin_e;
-//     int i = 0;
-//     char **tok;
-//     char *s ;
-
-//     if (ac != 2)
-//         return (printf("cmd pls\n"),1);
-    
-//     tok = fr9_trb7(av[1]);
-//     redirect = get_red(tok, i);
-//     cmd_lin_e = cmd_line(tok,&i);
-//     cmd1 = init_new_cmd(cmd_lin_e, env,  redirect);
-//     free_tree2(cmd1);
-//     free_mynigga(tok);
-// }

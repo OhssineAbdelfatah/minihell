@@ -107,8 +107,6 @@ void	signal_handler(int signal)
 	printf("\n");
 	rl_on_new_line();
 	// rl_replace_line("", 0);
-
-
 	// if (status && WIFSIGNALED(status) == TRUE)
 	// 	g_vars->exit_status = WTERMSIG(status) + 128;
 	// else
@@ -138,6 +136,7 @@ int main(  int ac, char **av, char **env)
     (void)ac;
     dup_env = init_env(env);
 	signal(SIGINT, signal_handler);
+	// signal(SIGINT, do_nothing);
     while(1)
     {
         str = readline("depechez-vous!> ");

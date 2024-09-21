@@ -99,7 +99,7 @@ struct new_red
 struct new_cmd
 {
     int type;
-    char *argv;
+    char **argv;
     char **env;
     int fd_in;
     int fd_out;

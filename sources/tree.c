@@ -80,6 +80,7 @@ t_cmd *parse_new_exec(char **tokens, int *i, t_env *env)
     t_cmd *res;
     t_red *redirect;
     char *argv;
+    char **argv1;
     int x;
     int heredoc_pipe;
 
@@ -87,8 +88,10 @@ t_cmd *parse_new_exec(char **tokens, int *i, t_env *env)
     x = *i;
     heredoc_pipe = -1;
     argv = cmd_line(tokens, i);
+    argv1 = fr9_trb7(argv);
+    free(argv);
     redirect = get_red(tokens, x, &heredoc_pipe);
-    res = (t_cmd *)init_new_cmd(argv, env, redirect, heredoc_pipe);
+    res = (t_cmd *)init_new_cmd(argv1, env, redirect, heredoc_pipe);
 
     return(res);
 }

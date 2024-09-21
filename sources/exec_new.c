@@ -116,7 +116,6 @@ int exec_red(t_red *redirect, int *in, int *out, int *herdoc_pipe)
     }
     return(status);
 }
-// /dfhv/ls 
 
 int check_is_abs(char *cmd)
 {
@@ -162,7 +161,7 @@ int exec_new_cmd(t_cmd *cmd)
 {
     struct new_cmd *p;
     int status;
-    char *abs_path;
+    char *abs_path1, *abs_path;
     char **cmd_args;
     char **cur_env;
 
@@ -173,9 +172,8 @@ int exec_new_cmd(t_cmd *cmd)
     }
     status = 0;
     p = (struct new_cmd *)cmd;
-    cmd_args = ft_split(p->argv , ' ');
-    if(!cmd_args)
-        exit(-1);
+    // cmd_args = ft_split(p->argv , ' ');
+    cmd_args = p->argv;
     if (NULL != p->redirect)
         status = exec_red(p->redirect, &(p->fd_in), &(p->fd_out), &(p->herdoc_pipe));
     if (p->fd_in != -1 || p->fd_out != -1)
