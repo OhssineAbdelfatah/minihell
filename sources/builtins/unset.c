@@ -2,6 +2,7 @@
 
 void destroy_single_env(t_env *node)
 {
+    // puts(node->key);
     free(node->key);
     free(node->value);
     free(node);
@@ -10,15 +11,23 @@ void destroy_single_env(t_env *node)
 void unset_env(t_env **head, char *key)
 {
     t_env *tmp;
+    t_env *tmp1;
 
     tmp = *head;
-    while(tmp->next->next != NULL)
+    tmp1 = NULL;
+    while(tmp != NULL)
     {
-        if(ft_strcmp(tmp->next->key , key) == 0){
-            destroy_single_env(tmp->next);
-            tmp->next = tmp->next->next;
-            return ;
+        if(ft_strcmp(tmp->key , key))
+        {
+            puts(tmp->key);
+            puts(tmp1->next->key);
+            puts(tmp1->next->next->key);
+            destroy_single_env(tmp);
+            tmp1->next = tmp1->next->next;
+              return ;
         }
+        tmp1 = tmp;
         tmp = tmp->next ;
+
     }
 }

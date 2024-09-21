@@ -125,13 +125,13 @@ int check_is_abs(char *cmd)
 
     while(cmd[++i])
     {
-        if(cmd[i] == '\\')
+        if(cmd[i] == '/')
             j++;
     }
     if(j > 0)
-        if(access(cmd, X_OK) != 0)
-            return 1;
-    return 0;
+        if(access(cmd, X_OK) == 0)
+            return 0;
+    return 1;
 }
 
 char *cmd_abs_path(char *path,char *cmd)
@@ -166,12 +166,16 @@ int exec_new_cmd(t_cmd *cmd)
     char **cmd_args;
     char **cur_env;
 
+    if(is_builtin(cmd))
+    {
+        exec_builtin(cmd);
+        exit(0);
+    }
     status = 0;
     p = (struct new_cmd *)cmd;
     cmd_args = ft_split(p->argv , ' ');
-    if(!cmd_args || check_is_abs(cmd_args[0]))
-        return -1;
-        
+    if(!cmd_args)
+        exit(-1);
     if (NULL != p->redirect)
         status = exec_red(p->redirect, &(p->fd_in), &(p->fd_out), &(p->herdoc_pipe));
     if (p->fd_in != -1 || p->fd_out != -1)
@@ -189,12 +193,17 @@ int exec_new_cmd(t_cmd *cmd)
         }
     }
     cur_env = lstoarry(p->myenv);
-    abs_path = getEnvValue(p->myenv, "PATH");
-    if(!abs_path)
-        return -1;
-    abs_path = cmd_abs_path(abs_path, cmd_args[0]);
-    if(!abs_path)
-        return -1;
+    if(check_is_abs(cmd_args[0]) == 0)
+        abs_path = cmd_args[0];
+    else
+    {
+        abs_path = getEnvValue(p->myenv, "PATH");
+        if(!abs_path)
+            exit(-1);
+        abs_path = cmd_abs_path(abs_path, cmd_args[0]);
+        if(!abs_path)
+            exit(-1);
+    } 
     if(dstr_len(cmd_args))
     {
         if (-1 == execve(abs_path, cmd_args, cur_env))
@@ -206,7 +215,7 @@ int exec_new_cmd(t_cmd *cmd)
     free_mynigga(cmd_args);
     free(abs_path);
     exit(0);
-    return (status);  
+    return (status); 
 }
 
 int new_exec(t_cmd *cmd)

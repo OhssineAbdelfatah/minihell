@@ -65,13 +65,15 @@ void execute(t_cmd *cmd, t_env *env)
 {
     (void)env;
     int status;
-    if (cmd->type == NEW_CMD)
+    if ( cmd->type == NEW_CMD && is_builtin(cmd) )
+        exec_builtin(cmd);
+    else if ( cmd->type == NEW_CMD )
     {
         status = fork();
         if (status == 0)
             exec_new_cmd(cmd);
         wait(&status);
-        printf("status d'exit:%d\n", status);
+        // printf("status d'exit:%d\n", status);
     }
     else
         status = new_exec(cmd);
