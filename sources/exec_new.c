@@ -85,17 +85,12 @@ int exec_red(t_red *redirect, int *in, int *out, t_herdoc *herdoc)
 int check_is_abs(char *cmd)
 {
     int i = -1;
-    int j = 0;
 
-    while(cmd[++i])
-    {
-        if(cmd[i] == '\\')
-            j++;
+    if(access(cmd, X_OK) == 0){
+        printf("%s is executable\n",cmd);
+        return 0;
     }
-    if(j > 0)
-        if(access(cmd, X_OK) != 0)
-            return 1;
-    return 0;
+    return 1;
 }
 
 char *cmd_abs_path(char *path,char *cmd)
@@ -121,21 +116,22 @@ char *cmd_abs_path(char *path,char *cmd)
     }
     return NULL;
 }
+void pexit(char *s)
+{
+    printf("debug %s\n",s);
+    exit(0);
+}
 
 int exec_new_cmd(t_cmd *cmd)
 {
     struct new_cmd *p;
     int status;
-    char *abs_path1, *abs_path;
-    char **cmd_args;
+    char *abs_path;
     char **cur_env;
 
     status = 0;
     p = (struct new_cmd *)cmd;
     // cmd_args = ft_split(p->argv , ' ');
-    cmd_args = p->argv;
-    if(!cmd_args || check_is_abs(cmd_args[0]))
-        panic("");
     if (NULL != p->redirect)
         status = exec_red(p->redirect, &(p->fd_in), &(p->fd_out), p->herdoc);
     if (p->fd_in != -1 || p->fd_out != -1)
@@ -152,25 +148,32 @@ int exec_new_cmd(t_cmd *cmd)
             close(p->fd_in);
         }
     }
-    cur_env = lstoarry(p->myenv);
-    abs_path = getEnvValue(p->myenv, "PATH");
-    if(!abs_path)
-        exit( -1);
-    abs_path = cmd_abs_path(abs_path, cmd_args[0]);
-    if(!abs_path)
+    if(is_builtin(cmd))
     {
-        printf("minishell: %s:command not found\n", cmd_args[0]);
-        exit( -1);
+        exec_builtin(cmd);
+        exit(0);
     }
-    if(dstr_len(cmd_args))
+    cur_env = lstoarry(p->myenv);
+    if(check_is_abs(p->argv[0]) == 0)
+        abs_path = p->argv[0];
+    else
     {
-        if (-1 == execve(abs_path, cmd_args, cur_env))
+        abs_path = getEnvValue(p->myenv, "PATH");
+        if(!abs_path)
+            exit(-1);
+        abs_path = cmd_abs_path(abs_path, p->argv[0]);
+        if(!abs_path)
+            exit(-1);
+    } 
+    if(dstr_len(p->argv))
+    {
+        if (-1 == execve(abs_path, p->argv, cur_env))
         {
-            printf("minishell: %s:command fr not found\n", cmd_args[0]);
+            printf("minishell: %s:command fr not found\n", p->argv[0]);
             panic("");
         }
     }
-    free_mynigga(cmd_args);
+    free_mynigga(p->argv);
     free(abs_path);
     exit(0);
     return (status);  
