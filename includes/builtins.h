@@ -22,13 +22,13 @@ void add_back_env(t_env **head, t_env*node);
 void print_env(t_env *env);
 
 /*  EXPORT  */
-void export(t_env **ennv,char *cmd_args);
+void export(t_env **ennv,char **cmd_args);
 void print_export(t_env *env);
 char *clean_arg(char *arg);
 
 /*  UNSET   */
 void destroy_single_env(t_env *node);
-void unset_env(t_env **head, char *key);
+void unset_env(t_env **head, char **key);
 
 
 /*   EXIT   */

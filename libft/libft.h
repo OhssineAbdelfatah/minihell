@@ -6,7 +6,7 @@
 /*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 11:04:46 by aohssine          #+#    #+#             */
-/*   Updated: 2024/09/06 23:50:48 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/09/22 18:22:58 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ typedef struct s_split
 	int	j;
 	int	k;
 }	t_split;
+
+char				*ft_strcat(char *dest, char *src);
+char				*ft_strcpy(char *dest, char *src);
 int     			ft_strcmp(char *s1, char *s2);
 void 				free_split(char **str);
 int 				ft_strslen(char **strs);

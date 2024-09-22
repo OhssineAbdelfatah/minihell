@@ -31,21 +31,20 @@ int cd(t_cmd *cmd)
     // char *curd = NULL;
     // cast to exec_cmd
     // printf("%s\n",getcwd(curd,1024));
-    struct exec_cmd *p;
-    p = (struct exec_cmd *)cmd;
+    struct new_cmd *p;
+    p = (struct new_cmd *)cmd;
     char *arg;
-    char **cmd_arg = ft_split(p->argv, 32);
-    p = (struct exec_cmd *)cmd;
+    p = (struct new_cmd *)cmd;
     // cd only without args
-    if(ft_strslen(cmd_arg) == 1){ 
-        if( !(arg = getenv("HOME")) )
+    if(ft_strslen(p->argv) == 1){ 
+        if( !(arg = getEnvValue(p->myenv ,"HOME")) )
             return -1;
         chdir(arg);
     }else
     {
-        if(access(cmd_arg[1], R_OK) != 0)
+        if(access(p->argv[1], R_OK) != 0)
             return -1;
-        chdir(cmd_arg[1]);
+        chdir(p->argv[1]);
     }
      return 0;   
 }

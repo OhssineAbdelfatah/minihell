@@ -25,11 +25,13 @@ void exec_cmd(char **tokens, char **env);
 void panic(char *str);
 int ft_strlen1(char *s);
 char **split_shit(char *s);
+char *getEnvValue(t_env *env, char *key);
 // void exec(t_cmd *cmd);
 
 
 
-
+// debug
+void pexit(char *s);
 
 
 

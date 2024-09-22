@@ -16,8 +16,8 @@ MINISHELL_ART = \
 "╚═╝     ╚═╝ ╚═╝ ╚═╝  ╚═══╝ ╚═╝ ╚══════ ╝╚═╝  ╚═╝ ╚══════╝ ╚══════╝ ╚══════╝\n"\
 "						      By: TILLAS & NolYel  \033[0m"
 
-RLFLAGS =	-L/Users/ilaasri/.brew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
-RLINCLUDE	=	-I/Users/ilaasri/.brew/opt/readline/include  # tell compiler where to find headers
+RLFLAGS =	-L/Users/aohssine/.brew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
+RLINCLUDE	=	-I/Users/aohssine/.brew/opt/readline/include  # tell compiler where to find headers
 
 CC = cc
 OBJ = $(CFILES:.c=.o)
