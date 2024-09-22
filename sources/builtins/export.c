@@ -126,7 +126,7 @@ void print_export(t_env *env)
 //     }
 // }
 
-void export(t_env **ennv,char *cmd)
+void export(t_env *ennv,char *cmd)
 {
     char **cmd_args;
     t_env *tmp;
@@ -136,13 +136,13 @@ void export(t_env **ennv,char *cmd)
     cmd_args = ft_split(cmd, ' ');
     i = ft_strslen(cmd_args);
     if(i == 1){
-        print_export(*ennv);
+        print_export(ennv);
         return ;
     }
     i = 0;
     while(cmd_args[++i]){
-        tmp = add_env(cmd_args[i],*ennv);
-        add_back_env(ennv,tmp);
+        tmp = add_env(cmd_args[i],ennv);
+        add_back_env(&ennv,tmp);
     }
 }
 

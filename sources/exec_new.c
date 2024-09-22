@@ -3,7 +3,7 @@
 int last_herdoc(t_red *lst)
 {
     t_red *tmp;
-    // t_red *tmp2;
+ 
     if (lst)
     {
         tmp = lst->next;
@@ -28,36 +28,7 @@ char *getEnvValue(t_env *env, char *key)
     return NULL;
 }
 
-void her_doc_bro(t_red *redirect,int *in,int *out)
-{
-    // (void)redirect;
-    // (void)in;
-    // (void)out;
-    char *str;
-    int p[2];
-
-
-    // pipe(p);
-    // if (0 == fork())
-    // {
-        // while(1)
-        // {
-        //     str = readline(">");
-        //     if (ft_strcmp(str, redirect->file))
-        //         break;
-        //     ft_putstr_fd(str, p[1]);
-        //     ft_putstr_fd("\n", p[1]);
-        // }
-        // close(p[1]);
-        // close(p[0]);
-    // }
-    // wait(0);
-    // close(p[1]);
-    *in = p[0];
-    return;
-}
-
-int open_file(t_red *redirect,int *in,int *out, int *herdoc_pipe)
+int open_file(t_red *redirect,int *in,int *out, t_herdoc *herdoc)
 {
     int status;
     status = 0;
@@ -65,15 +36,9 @@ int open_file(t_red *redirect,int *in,int *out, int *herdoc_pipe)
     if (HERDOC==redirect->type)
     {
         if (*in != -1 && last_herdoc(redirect))
-        {
-            // dprintf(2,"<<about to close %d\n", *in);
             close(*in);
-        }
         if (last_herdoc(redirect))
-        {
-            *in = *herdoc_pipe;
-        }
-        // her_doc_bro(redirect, in, out);
+            *in = herdoc->herdoc_pipe;
     }
     else
     {
@@ -100,7 +65,7 @@ int open_file(t_red *redirect,int *in,int *out, int *herdoc_pipe)
     return(status);
 }
 
-int exec_red(t_red *redirect, int *in, int *out, int *herdoc_pipe)
+int exec_red(t_red *redirect, int *in, int *out, t_herdoc *herdoc)
 {
     int status;
     t_red *tmp;
@@ -111,7 +76,7 @@ int exec_red(t_red *redirect, int *in, int *out, int *herdoc_pipe)
     while(redirect)
     {
         tmp = redirect->next;
-        status = open_file(redirect, in, out, herdoc_pipe);
+        status = open_file(redirect, in, out, herdoc);
         redirect = tmp;
     }
     return(status);
@@ -124,13 +89,13 @@ int check_is_abs(char *cmd)
 
     while(cmd[++i])
     {
-        if(cmd[i] == '/')
+        if(cmd[i] == '\\')
             j++;
     }
     if(j > 0)
-        if(access(cmd, X_OK) == 0)
-            return 0;
-    return 1;
+        if(access(cmd, X_OK) != 0)
+            return 1;
+    return 0;
 }
 
 char *cmd_abs_path(char *path,char *cmd)
@@ -165,17 +130,14 @@ int exec_new_cmd(t_cmd *cmd)
     char **cmd_args;
     char **cur_env;
 
-    if(is_builtin(cmd))
-    {
-        exec_builtin(cmd);
-        exit(0);
-    }
     status = 0;
     p = (struct new_cmd *)cmd;
     // cmd_args = ft_split(p->argv , ' ');
     cmd_args = p->argv;
+    if(!cmd_args || check_is_abs(cmd_args[0]))
+        panic("");
     if (NULL != p->redirect)
-        status = exec_red(p->redirect, &(p->fd_in), &(p->fd_out), &(p->herdoc_pipe));
+        status = exec_red(p->redirect, &(p->fd_in), &(p->fd_out), p->herdoc);
     if (p->fd_in != -1 || p->fd_out != -1)
     {
         if (p->fd_out != -1)
@@ -191,17 +153,15 @@ int exec_new_cmd(t_cmd *cmd)
         }
     }
     cur_env = lstoarry(p->myenv);
-    if(check_is_abs(cmd_args[0]) == 0)
-        abs_path = cmd_args[0];
-    else
+    abs_path = getEnvValue(p->myenv, "PATH");
+    if(!abs_path)
+        exit( -1);
+    abs_path = cmd_abs_path(abs_path, cmd_args[0]);
+    if(!abs_path)
     {
-        abs_path = getEnvValue(p->myenv, "PATH");
-        if(!abs_path)
-            exit(-1);
-        abs_path = cmd_abs_path(abs_path, cmd_args[0]);
-        if(!abs_path)
-            exit(-1);
-    } 
+        printf("minishell: %s:command not found\n", cmd_args[0]);
+        exit( -1);
+    }
     if(dstr_len(cmd_args))
     {
         if (-1 == execve(abs_path, cmd_args, cur_env))
@@ -213,7 +173,7 @@ int exec_new_cmd(t_cmd *cmd)
     free_mynigga(cmd_args);
     free(abs_path);
     exit(0);
-    return (status); 
+    return (status);  
 }
 
 int new_exec(t_cmd *cmd)

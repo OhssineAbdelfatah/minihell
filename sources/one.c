@@ -1,5 +1,7 @@
 #include "../includes/minishell.h"
 
+// int sig;
+
 int check_qoutes(char *s)
 {
     int i;
@@ -65,9 +67,7 @@ void execute(t_cmd *cmd, t_env *env)
 {
     (void)env;
     int status;
-    if ( cmd->type == NEW_CMD && is_builtin(cmd) )
-        exec_builtin(cmd);
-    else if ( cmd->type == NEW_CMD )
+    if (cmd->type == NEW_CMD)
     {
         status = fork();
         if (status == 0)
@@ -93,7 +93,8 @@ void parse_nd_exec(char **my_tokens,t_env *dup_env)
         return;
     // print_tree(res);
     // printf("\n");
-    execute(res, dup_env);
+    if (sig == -1)
+        execute(res, dup_env);
     free_tree2(res);
 }
 
@@ -139,9 +140,8 @@ int main(  int ac, char **av, char **env)
 	// signal(SIGINT, do_nothing);
     while(1)
     {
+        sig = -1;
         str = readline("depechez-vous!> ");
-        // printf("is white :%d, strlen:%d\n",is_white_str(str) , ft_strlen(str));
-        // if (0 == is_white_str(str))
         history(str);
         my_tokens = NULL;
         if (0 !=_check_str(str))
@@ -160,4 +160,4 @@ int main(  int ac, char **av, char **env)
     }
 }
 
-// GOAL EXEC THE REDIRECTION :
+// // GOAL EXEC THE REDIRECTION :

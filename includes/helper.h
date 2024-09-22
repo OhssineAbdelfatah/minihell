@@ -37,10 +37,12 @@ void free_tree2(t_cmd *cmd);
 int get_type(char **tokens, int i);
 int get_mode(char **tokens, int i);
 // t_red *get_red(char **tokens, int i);
-t_red *get_red(char **tokens, int i, int *herdoc_pipe);
+// t_red *get_red(char **tokens, int i, int *herdoc_pipe);
+t_red *get_red(char **tokens, int i,  t_herdoc *herdoc);
 char *cmd_line(char **tokens, int *x);
 // t_cmd *init_new_cmd(char *argv, char **env, t_red *redirect);
-t_cmd *init_new_cmd(char **argv, t_env *myenv,t_red *redirect, int herdoc_pipe);
+// t_cmd *init_new_cmd(char **argv, t_env *myenv,t_red *redirect, int herdoc_pipe);
+t_cmd *init_new_cmd(char **argv, t_env *myenv,t_red *redirect, t_herdoc *herdoc);
 void add_to_lst(t_red *red_lst, char **tokens, int i);
 t_red *creat_red_lst(char **tokens, int i);
 t_cmd *parse_new_exec(char **tokens, int *i, t_env *myenv);
@@ -57,5 +59,12 @@ int exec_new_cmd(t_cmd *cmd);
 void do_nothing(int signal);
 void	signal_handler(int signal);
 
+
+//HERDOC 
+void get_herdoc(char **tokens,int i, t_herdoc *herdoc);
+t_del *first_del(t_del *node, char *value);
+t_del *add(t_del *node, char *value);
+void free_delimiters(t_del *head);
+void print_del(t_del *head);
 
 # endif

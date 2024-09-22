@@ -6,6 +6,8 @@ typedef struct cmd t_cmd;
 typedef struct token t_token;
 typedef struct new_red t_red;
 typedef struct s_env_var t_env;
+typedef struct s_delimiter t_del;
+typedef struct s_herdoc_info t_herdoc;
 
 
 
@@ -60,23 +62,23 @@ struct pipe
     t_cmd *right;
 };
 
-struct red
-{
-    int type;
-    int mode;
-    int fd;
-    char **content;
-    char *file;
-    int last_red;
-    t_cmd *cmd;
-};
+// struct red
+// {
+//     int type;
+//     int mode;
+//     int fd;
+//     char **content;
+//     char *file;
+//     int last_red;
+//     t_cmd *cmd;
+// };
 
-struct heredoc {
-    int type;         
-    struct cmd *cmd;  
-    char *delimiter;   
-    char **content; 
-};
+// struct heredoc {
+//     int type;         
+//     struct cmd *cmd;  
+//     char *delimiter;   
+//     char **content; 
+// };
 
 
 struct token
@@ -96,18 +98,6 @@ struct new_red
     t_red *next;
 };
 
-struct new_cmd
-{
-    int type;
-    char **argv;
-    char **env;
-    int fd_in;
-    int fd_out;
-    int last_pipe_cmd;
-    int herdoc_pipe;
-    t_env *myenv;
-    t_red *redirect;
-};
 
 struct s_env_var {
     char *key;
@@ -124,5 +114,35 @@ typedef struct tfar9
     int start;
     int end;
 }t_tfar9;
+
+struct s_herdoc_info
+{
+    int herdoc_pipe;
+    int to_exp;
+};
+
+struct s_delimiter
+{
+    char *del;
+    int to_exp;
+    t_del *next;
+};
+
+
+struct new_cmd
+{
+    int type;
+    char **argv;
+    char **env;
+    int fd_in;
+    int fd_out;
+    int last_pipe_cmd;
+    // int herdoc_pipe;
+    // int herdoc_to_exp;
+    t_herdoc *herdoc;
+    t_env *myenv;
+    t_red *redirect;
+};
+
 
 #endif

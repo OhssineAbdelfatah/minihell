@@ -27,7 +27,7 @@ int ft_strlen1(char *s);
 char **split_shit(char *s);
 // void exec(t_cmd *cmd);
 
-
+int sig;
 
 
 

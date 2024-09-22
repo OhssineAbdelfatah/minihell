@@ -59,18 +59,12 @@ struct cmd *parse_pipe(char **tokens, int *i, t_env *myenv)
     t_cmd *res;
 
     res = parse_new_exec(tokens, i, myenv);
-    // while(tokens[*i] && is_pipe(tokens[*i]))
-    // {
-    //     (*i)++;
-    //     // res = (t_cmd *)init_pipe(res, parse_redirect(tokens , i, env));
-    //     // res = (t_cmd *)init_pipe(res, parse_new_exec(tokens , i, myenv));
-    //    res = (t_cmd *)init_pipe(res, parse_pipe(tokens , i, myenv));
-    // }
     if  (tokens[*i] && is_pipe(tokens[*i]))
     {
         (*i)++;
         res = (t_cmd *)init_pipe(res, parse_pipe(tokens , i, myenv));
     }
+    // printf("cmd is parsed\n");
     return (res);
     
 }
@@ -79,6 +73,7 @@ t_cmd *parse_new_exec(char **tokens, int *i, t_env *env)
 {
     t_cmd *res;
     t_red *redirect;
+    t_herdoc *herdoc;
     char *argv;
     char **argv1;
     int x;
@@ -86,13 +81,17 @@ t_cmd *parse_new_exec(char **tokens, int *i, t_env *env)
 
     res = NULL;
     x = *i;
-    heredoc_pipe = -1;
+    herdoc = (t_herdoc *)malloc(sizeof (*herdoc));
+    if (!herdoc)
+        panic("malloc failed\n");
+    herdoc->herdoc_pipe = -1;
+    herdoc->to_exp = 0;
+    get_herdoc(tokens, *i, herdoc);
     argv = cmd_line(tokens, i);
     argv1 = fr9_trb7(argv);
     free(argv);
-    redirect = get_red(tokens, x, &heredoc_pipe);
-    res = (t_cmd *)init_new_cmd(argv1, env, redirect, heredoc_pipe);
-
+    redirect = get_red(tokens, x, herdoc);
+    res = (t_cmd *)init_new_cmd(argv1, env, redirect, herdoc);
     return(res);
 }
 

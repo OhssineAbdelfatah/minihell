@@ -15,7 +15,12 @@ void handle_it(int signal)
     rl_replace_line("", 0);
     rl_redisplay();
 }
-
+void handel_child(int signal)
+{
+    signals = 9982;
+    printf("childe change it to:%d\n", signals);   
+    exit(120);
+}
 
 void doc()
 {
@@ -40,10 +45,20 @@ void doc()
         }
         exit(0);
     }
-//     else if (pid > 0)  // Parent process
-//     {
-//         waitpid(pid, NULL)
-//     }
+    else if (pid > 0)  // Parent process
+    {
+        int status;
+        signal(SIGINT, do_nothing2);
+        waitpid(pid,&status, 0);
+        signal(SIGINT, handle_it);
+        // printf("%d\n", WTERMSIG(i));
+         if (WTERMSIG(status) == SIGINT)
+        {
+            signals = 9898;
+            // Child was interrupted by SIGINT, return to the prompt without printing anything further
+            return;
+        }
+    }
 }
 
 
@@ -52,13 +67,13 @@ void doc()
 // {
 //     char *str;
 
-//     signal(SIGINT, handle_it);  // Parent process handles SIGINT
+//     signal(SIGINT,handle_it);  // Parent process handles SIGINT
 
 //     while (1)
 //     {
 //         signals = -1;
 //         str = readline("shell> ");
-//         if (strcmp(str, "exit") == 0)  // Exit the shell
+//         if (ft_strcmp(str, "exit"))  // Exit the shell
 //         {
 //             free(str);
 //             exit(0);
@@ -67,9 +82,12 @@ void doc()
 //         {
 //             doc();  // Handle doc logic in a separate function
 //         }
-//         printf("your command is %s\n", str);
+//         printf("sig:%d\n", signals);
+//         if (signals == -1)
+//             printf("your command is %s\n", str);
 //         free(str);  // Free the memory for readline input
 //     }
 //     return 0;
 // }
  
+

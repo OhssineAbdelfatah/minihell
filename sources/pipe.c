@@ -30,72 +30,22 @@ void pipe_try(char **tok)
 //     exit(0);
 // }
 
+void get_herdoc(char **tokens,int i, t_herdoc *herdoc);
 
-// int main()
+// int main(int ac , char **av)
 // {
-//     // int x = 77;
-//     char *str;
-//     int p[2];
-//     char readed[50];
-//     // close(0);
-//     if (0 == fork())
-//    { 
-//         pipe(p);
-//         // dup2(p[1],1);
-//         // dprintf(2,"p[0]:%d, p[1]:%d\n", p[0], p[1]);
-//         // p[0] = 0;
-//         // dup2(0,p[0]);
-//         // str = readline(">");
-//         while (1)
-//         {
-//             str = readline(">");
-//             // printf("%s\n", str);
-//             if (ft_strcmp("eof", str))
-//                 break;
-//             str = ft_strjoin(str, "\n");
-//             ft_putstr_fd(str, p[1]);
-//         }
-//         read(p[0], readed, 10);
-//         dprintf(2,"%s\n", readed);
-//    }
-//    wait(0);
-//    printf("Parent process!\n"); 
-//    // dprintf(2,"%s\n", readed)
-// }
+//     if (ac != 2)
+//         return 1 ;
+//     char **tok;
+//     t_herdoc *doc;
 
-
-// int main()
-// {
-//     int p[2];
-//     pipe (p);
-//     dup2( 1,p[1]);
-//     // close(p[1]);
-//     // close(1);
-//     write(p[1],"alo\n", 5);
-//     write(1,"alo2\n", 6);
-//     printf("p[1]:%d\n", p[1]);
-// }
-
-
-// int main()
-// {
-//     int p[2];
-//     int x;
-    
-//     x = 0;
-//     // pipe(p);
-//     // printf("p[0]:%d, p[1] : %d\n", p[0], p[1]);
-//     // close(p[0]);
-//     // close(p[1]);
-//     // pipe(p);
-//     // printf("p[0]:%d, p[1] : %d\n", p[0], p[1]);
-//     // close(p[0]);
-//     // close(p[1]);
-//     if (0 == fork())
-//     {
-//         x = 9;
-//         exit(0);
-//     }
-//     wait(0);
-//     printf("x after : %d\n", x);
+//     tok = fr9_trb7(av[1]);
+//     doc = (t_herdoc *)malloc(sizeof(t_herdoc));
+//     doc->herdoc_pipe = 0;
+//     doc->to_exp = 0;
+//     // get_herdoc(tok, 0, doc);
+//     printf("to_exp :%d, herdoc_pipe : %d\n", doc->to_exp, doc->herdoc_pipe);
+//     change_herdoc_int(doc);
+//     printf("to_exp :%d, herdoc_pipe : %d\n", doc->to_exp, doc->herdoc_pipe);
+//     return 0;
 // }
