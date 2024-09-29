@@ -25,12 +25,8 @@ void mini_expander(t_node **head, t_env *env)
     tmp = *head ;
     while(tmp){
         // delete single or double
-        if(tmp->type == 'd' || tmp->type == 's'){
-            printf("b[%s\n]",tmp->str);
+        if(tmp->type == 'd' || tmp->type == 's')
             tmp->str = clean_qts(tmp->str);
-            printf("a[%s]\n",tmp->str);
-
-        }
         if(tmp->type == 'w' || tmp->type == 'd')
             tmp->str =  splitWordVar(tmp->str, env);
         tmp = tmp->next;
@@ -82,6 +78,7 @@ char *expand(t_node **head, t_env *env)
 {
     t_node *tmp;
     char *new;
+    char *tmpp;
     char *value;
     tmp = *head;
     while (tmp)
@@ -90,7 +87,7 @@ char *expand(t_node **head, t_env *env)
         if (tmp->type == '1')
         {
             value = getEnvValue(env, tmp->str + 1);
-            // free(tmp->str);
+            free(tmp->str);
             if (value)
                 tmp->str = ft_strdup(value);
             else
@@ -102,7 +99,9 @@ char *expand(t_node **head, t_env *env)
     new = ft_strdup("");
     while (tmp)
     {
+        tmpp = new;
         new = ft_strjoin(new, tmp->str);
+        free(tmpp);
         tmp = tmp->next;
     }
     // free_lst(*head);

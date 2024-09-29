@@ -12,40 +12,40 @@
 */
 char *tokenizer(char *arg)
 {
-    char *tokens = ft_calloc(sizeof(char) * ft_strlen(arg) +1,1);
-	    bool in_double_quotes = false;
-	    bool in_single_quotes = false;
-	    char prevChar = ' ';
-	    
-	    int i = -1;
-	    while(++i < ft_strlen(arg) +1)
-	      tokens[i] = '0';
-	    i = -1;
-	    while (arg[++i])
-	    {
-	        if (arg[i] == '\'' || arg[i] == '\"') {
-	            if (arg[i] == '\"' && !in_single_quotes) {
-	                tokens[i] = 'd';
-	                in_double_quotes = !in_double_quotes;
-	            } else if (arg[i] == '\'' && !in_double_quotes) {
-	                tokens[i] = 's';
-	                in_single_quotes = !in_single_quotes;
-	            }
-	        }
-	        else if(!in_single_quotes && !in_double_quotes 
-	                    && (prevChar == '\'' || prevChar == '\"' || i == 0)) {
-	                    tokens[i] = 'w';
-	        }
-	        prevChar = arg[i];
-	        if (in_double_quotes && tokens[i] == '0')
-	            tokens[i] = 'd';
-	        else if(in_single_quotes && tokens[i] == '0')
-	            tokens[i] = 's';
-	        else if(!in_single_quotes && !in_double_quotes  && tokens[i] == '0')
-	            tokens[i] = 'w';
-	    }
-	    tokens[i] = '\0';
-	    return tokens;
+    char *tokens = malloc(sizeof(char) * ft_strlen(arg) +1);
+    bool in_double_quotes = false;
+    bool in_single_quotes = false;
+    char prevChar = ' ';
+    
+    int i = -1;
+    while(++i < ft_strlen(arg) +1)
+        tokens[i] = '0';
+    i = -1;
+    while (arg[++i])
+    {
+        if (arg[i] == '\'' || arg[i] == '\"') {
+            if (arg[i] == '\"' && !in_single_quotes) {
+                tokens[i] = 'd';
+                in_double_quotes = !in_double_quotes;
+            } else if (arg[i] == '\'' && !in_double_quotes) {
+                tokens[i] = 's';
+                in_single_quotes = !in_single_quotes;
+            }
+        }
+        else if(!in_single_quotes && !in_double_quotes 
+                    && (prevChar == '\'' || prevChar == '\"' || i == 0)) {
+                    tokens[i] = 'w';
+        }
+        prevChar = arg[i];
+        if (in_double_quotes && tokens[i] == '0')
+            tokens[i] = 'd';
+        else if(in_single_quotes && tokens[i] == '0')
+            tokens[i] = 's';
+        else if(!in_single_quotes && !in_double_quotes  && tokens[i] == '0')
+            tokens[i] = 'w';
+    }
+    tokens[i] = '\0';
+    return tokens;
 }
 
 t_node *splitArg(char *str)
@@ -61,6 +61,7 @@ t_node *splitArg(char *str)
     int j =-1;
     head = NULL;
     token = tokenizer(str);
+    prevChar = token[0];
     while (token[++i])
     {
         if(token[i] != prevChar && i > 0){
@@ -75,11 +76,13 @@ t_node *splitArg(char *str)
         }
         prevChar = token[i];
     }
+    free(token);
     return head;
 }
 char *joiner(char *arg, t_env* env)
 {
     char* new;
+    char* tomp;
     t_node  *head;
     t_node  *tmp;
 
@@ -89,12 +92,14 @@ char *joiner(char *arg, t_env* env)
     new = ft_strdup("");
     while(tmp)
     {   
+        tomp = new;
         new = ft_strjoin(new, tmp->str);
+        free(tomp);
         tmp = tmp->next ;
     }
     free(arg);
     // free list
-    // free(nn);
+    free_lst(head);
     return new;
 }
 
