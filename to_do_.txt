@@ -1,0 +1,16 @@
+
+
+DONE
+    clean qoutes
+
+IN PROCCESS
+
+    fix leaks in builts ins
+
+    fix leaks in expander
+
+    exit
+
+    echo
+
+    check built ins

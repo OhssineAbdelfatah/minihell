@@ -2,8 +2,8 @@
 
 int pwd(t_cmd *cmd)
 {
-    struct exec_cmd *p;
-    p = (struct exec_cmd *)cmd;
+    t_ncmd  *p;
+    p = (t_ncmd *)cmd;
     char *curd = NULL;
     printf("%s\n",getcwd(curd, 1024));
     return 0;
@@ -31,10 +31,9 @@ int cd(t_cmd *cmd)
     // char *curd = NULL;
     // cast to exec_cmd
     // printf("%s\n",getcwd(curd,1024));
-    struct new_cmd *p;
-    p = (struct new_cmd *)cmd;
+    t_ncmd *p;
+    p = (t_ncmd *)cmd;
     char *arg;
-    p = (struct new_cmd *)cmd;
     // cd only without args
     if(ft_strslen(p->argv) == 1){ 
         if( !(arg = getEnvValue(p->myenv ,"HOME")) )

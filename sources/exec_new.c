@@ -128,7 +128,6 @@ int exec_new_cmd(t_cmd *cmd)
     int status;
     char *abs_path;
     char **cur_env;
-
     status = 0;
     p = (struct new_cmd *)cmd;
     // cmd_args = ft_split(p->argv , ' ');
@@ -148,6 +147,11 @@ int exec_new_cmd(t_cmd *cmd)
             close(p->fd_in);
         }
     }
+    p->argv = expnader(p->argv, p->myenv);
+    
+    printf(">>%s\n", p->argv[0]);
+    printf(">>%s\n", p->argv[1]);
+
     if(is_builtin(cmd))
     {
         exec_builtin(cmd);

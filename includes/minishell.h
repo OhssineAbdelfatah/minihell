@@ -14,6 +14,7 @@
 #include "helper.h"
 #include "struct.h"
 #include "builtins.h"
+#include "expander.h"
 #include "../libft/libft.h"
 
 /*Testing a new split shit */

@@ -11,7 +11,8 @@ CFILES = sources/one.c sources/two.c sources/three.c\
             sources/freedom.c sources/tokens.c sources/ordering.c\
             sources/exec_new.c  sources/builtins/env.c sources/builtins/lstoarry.c \
             sources/pipe.c sources/builtins/builtin.c sources/builtins/dir.c \
-            sources/builtins/unset.c sources/builtins/export.c  sources/del.c
+            sources/builtins/unset.c sources/builtins/export.c  sources/del.c \
+			sources/expander/expander.c sources/expander/expand_list.c sources/expander/utils.c 	
 
 MINISHELL_ART = \
 "\033[32m\n"\
@@ -23,9 +24,9 @@ MINISHELL_ART = \
 "╚═╝     ╚═╝ ╚═╝ ╚═╝  ╚═══╝ ╚═╝ ╚══════ ╝╚═╝  ╚═╝ ╚══════╝ ╚══════╝ ╚══════╝\n"\
 "						      By: TILLAS & NolYel  \033[0m"
 
-RLFLAGS =	-L/Users/ilaasri/.brew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
-RLINCLUDE	=	-I/Users/ilaasri/.brew/opt/readline/include  # tell compiler where to find headers
-
+RLFLAGS =	-L/Users/aohssine/.brew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
+RLINCLUDE	=	-I/Users/aohssine/.brew/opt/readline/include  # tell compiler where to find headers
+CFLAGS = 
 CC = cc
 OBJ = $(CFILES:.c=.o)
 NAME = minishell
@@ -41,7 +42,7 @@ $(My_lib) :
 
 $(NAME) : $(OBJ) $(My_lib)
 	@printf "\033[0;33mGenerating minishell objects... %-33.33s\r \033[0m" $@
-	$(CC) $^ $(CFLAGS) $(My_lib) $(RLFLAGS) -o $@
+	$(CC) $^ $(CFLAGS) $(My_lib) $(RLFLAGS) -lreadline -o $@
 
 clean :
 	@make clean -C libft

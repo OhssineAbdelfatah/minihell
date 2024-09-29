@@ -3,6 +3,7 @@
 
 
 typedef struct cmd t_cmd;
+typedef struct new_cmd t_ncmd;
 typedef struct token t_token;
 typedef struct new_red t_red;
 typedef struct s_env_var t_env;
@@ -47,12 +48,12 @@ struct cmd
     int type;
 };
 
-struct exec_cmd
-{
-    int type;
-    char *argv;
-    char **env;
-};
+// struct exec_cmd
+// {
+//     int type;
+//     char *argv;
+//     char **env;
+// };
 
 struct pipe
 {
