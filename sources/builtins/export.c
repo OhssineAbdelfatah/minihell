@@ -111,4 +111,5 @@ void export(t_env **ennv,char **cmd)
         tmp = add_env(cmd[i],*ennv);
         add_back_env(ennv,tmp);
     }
+    (void)cmd_args;
 }

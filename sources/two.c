@@ -21,6 +21,20 @@ int is_white_str(char *s)
     return(0);
 }
 
+int is_full_white_str(char *s)
+{
+    int i;
+
+    i = 0;
+    if (!s)
+        return (1);
+    while (s[i] &&  0 == is_white(s[i]))
+        i++;
+    if (i == ft_strlen1(s))
+        return(1);
+    return(0);
+}
+
 int ft_strlen1(char *s)
 {
     int i = 0;

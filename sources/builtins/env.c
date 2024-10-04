@@ -53,6 +53,12 @@ t_env *creat_env(char *env_main)
     return node;
 }
 
+// int is_str_in(char *s1, char *s2)
+// {
+
+// }
+
+
 t_env *init_env(char **env_main)
 { 
     t_env *env; // list head
@@ -61,8 +67,11 @@ t_env *init_env(char **env_main)
     env =NULL;
     while(env_main[++i])
     {
-        tmp = creat_env(env_main[i]); // create node 
-        add_back_env(&env,tmp);
+        if (ft_strnstr(env_main[i], "OLDPWD", 6) == NULL)
+        {
+            tmp = creat_env(env_main[i]); // create node 
+            add_back_env(&env,tmp);
+        }
     }
     return env;
 }

@@ -70,7 +70,7 @@ char *whithout_quotes(char *value)
         } 
     }
     res[i] = 0;
-    return(res);
+    return(free(value),res);
 }
 
 t_del *first_del(t_del *node, char *value)
@@ -141,17 +141,14 @@ void print_del(t_del *head)
 void free_delimiters(t_del *head)
 {
     t_del* tmp;
-    t_del* tmp1;
-
-    tmp1 = head;
-    while(head != NULL)
+    while (NULL != head)
     {
-        tmp = tmp1;
-        free(tmp1->del);
-        tmp1->del = NULL;
-        free(tmp1);
-        tmp1 = NULL;
-        tmp1 = tmp->next;
+        tmp = head->next;
+        free(head->del);
+        head->del = NULL;
+        free(head);
+        head = NULL;
+        head = tmp;
     }
 }
 
@@ -170,26 +167,25 @@ int to_exp_doc(t_del *head)
     return(0);
 }
 
-/*
-int main()
-{
-    t_del *del;
 
-    del =NULL;
-    char *s = ft_strdup("eofdd");
-    del = first_del(del, s);
-    s = ft_strdup("eofdd2");
-    del = add(del, s);
-    s = ft_strdup("eofdd9");
-    del = add(del, s);
-    s = ft_strdup("eofdd4");
-    del = add(del, s);
-    print_del(del);
-    free_nd_des(del);
-     print_del(del);
-    // printf("%s\n", s);
-    // printf("%d\n", get_reslen(s));
-    //  printf("%s\n", whithout_quotes(s));
+// int main()
+// {
+//     t_del *del;
 
-}
-*/
+//     del =NULL;
+//     char *s = ft_strdup("eofdd");
+//     del = first_del(del, s);
+//     s = ft_strdup("eofdd2");
+//     del = add(del, s);
+//     s = ft_strdup("eofdd9");
+//     del = add(del, s);
+//     s = ft_strdup("eofdd4");
+//     del = add(del, s);
+//     print_del(del);
+//     free_delimiters(del);
+//     print_del(NULL);
+//     // printf("%s\n", s);
+//     // printf("%d\n", get_reslen(s));
+//     //  printf("%s\n", whithout_quotes(s));
+
+// }

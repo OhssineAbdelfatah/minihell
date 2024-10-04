@@ -1,23 +1,13 @@
 #include"../../includes/minishell.h"
 
-void blt_echo(t_env *env, char **argv)
-{
-    argv = expnader(argv, env);
-    argv++;
-    while(*argv){
-        printf("%s ",*argv);
-        argv++;
-    }
-    printf("\n");
-}
-
-
 bool is_builtin(t_cmd *cmd)
 {
     struct new_cmd *p ;
     p = (struct new_cmd *)cmd;
+    if (p->argv == NULL)
+        return false;
     // char **bcmds = ft_split("cd pwd export unset env exit echo", ' ');
-    char **bcmds = ft_split("cd pwd export unset env exit echo", ' ');
+    char **bcmds = ft_split("cd pwd export unset env exit", ' ');
     int i = -1;
     while(++i < 7)
     {
@@ -27,6 +17,7 @@ bool is_builtin(t_cmd *cmd)
             return true;
         }
     }
+    free_mynigga(bcmds);
     return false;
 }
 
@@ -50,7 +41,5 @@ int exec_builtin(t_cmd *cmd)
     }
     else if(ft_strcmp(p->argv[0], "export"))
         export(&(p->myenv), p->argv);
-    else if(ft_strcmp(p->argv[0], "echo"))
-        blt_echo(p->myenv, p->argv);
     return 0;
 }

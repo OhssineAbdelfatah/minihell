@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-// int sig;
+int sig;
 
 int check_qoutes(char *s)
 {
@@ -44,75 +44,58 @@ void panic(char *str)
     exit(1);
 }
 
-void free_mynigga(char **str)
-{
-    int i;
-    
-    i = 0;
-    if (str)
-    {
+
+// int execute(t_cmd *cmd, t_env *env)
+// {
+//     // struct new_cmd *tmp;
+//     (void)env;
+//     int status;
    
-        while (str[i])
-        {
-            free(str[i]);
-            str[i] = NULL;
-            i++;
-        }
-    }
-    free(str);
-    str = NULL;
-}
+//     // if (cmd->type == NEW_CMD)
+//     // {
+//     //     tmp = (struct new_cmd*)cmd;
+//     //     pid = fork();
+//     //     if (pid == 0)
+//     //         exec_new_cmd(cmd);
+//     //     waitpid(pid, &status,0);
+//     //     if (tmp->herdoc->herdoc_pipe)
+//     //         close(tmp->herdoc->herdoc_pipe);
+//     // }
+//     // else
+//         status = new_exec(cmd, NOTHING);
+//     return status;
+// }
 
-void execute(t_cmd *cmd, t_env *env)
-{
-    (void)env;
-    int status;
-    if (cmd->type == NEW_CMD)
-    {
-        status = fork();
-        if (status == 0)
-            exec_new_cmd(cmd);
-        wait(&status);
-        // printf("status d'exit:%d\n", status);
-    }
-    else
-        status = new_exec(cmd);
-
-}
-
-void parse_nd_exec(char **my_tokens,t_env *dup_env)
+void parse_nd_exec(char **my_tokens,t_env *dup_env, int *status)
 {
     t_cmd *res;
-    int status;
+    // int status;
     
     res = NULL;
     if (ft_strcmp( my_tokens[0], "exit"))
+    {
+        free_mynigga(my_tokens);
         panic("BY!\n");
+    }
     res = root(my_tokens,dup_env);
     if (!res)
         return;
     // print_tree(res);
     // printf("\n");
+    *status = 0;
+    // (void)status;
     if (sig == -1)
-        execute(res, dup_env);
-    free_tree2(res);
+        *status = new_exec(res, NOTHING);
+    if (sig == 130)
+    {
+        *status = 130;
+        sig = -1;
+    }
+    printf("exit STATUS :%d\n", *status);
+    free_mynigga(my_tokens);
+    free_tree2(res); 
 }
 
-void	signal_handler(int signal)
-{
-	int	status;
-
-	status = 0;
-	// (void)signal;
-	wait(&status);
-	printf("\n");
-	rl_on_new_line();
-	// rl_replace_line("", 0);
-	// if (status && WIFSIGNALED(status) == TRUE)
-	// 	g_vars->exit_status = WTERMSIG(status) + 128;
-	// else
-	rl_redisplay();
-}
 
 void history(char *str)
 {
@@ -129,35 +112,41 @@ void history(char *str)
 int main(  int ac, char **av, char **env)
 {
     char *str;
+    int status;
     char **my_tokens;
     t_env *dup_env;
-   
+    int checker ;   
 
     (void)av;
     (void)ac;
+    (void)dup_env;
+    status = 0;
     dup_env = init_env(env);
 	signal(SIGINT, signal_handler);
-	// signal(SIGINT, do_nothing);
+	signal(SIGQUIT, SIG_IGN);
     while(1)
     {
         sig = -1;
-        str = readline("depechez-vous!> ");
+        str = readline("Depechez-vous!> ");
         history(str);
-        my_tokens = NULL;
-        if (0 !=_check_str(str))
+        // my_tokens = NULL;
+        if (ft_strlen(str) && _check_str(str) == 0)
         {
-            printf("corrupt str:%s\n", str);
-            panic("error from the main\n");
-        }
-        else if (ft_strlen(str))
-        {
+            // signal(SIGINT, SIG_DFL);
+            signal(SIGQUIT, SIG_DFL);
             my_tokens = fr9_trb7(str);
-            if (my_tokens)
-                parse_nd_exec(my_tokens, dup_env);
-            free_mynigga(my_tokens);
+            checker = _check_tokens(my_tokens);
+            if (checker != EXEC && checker != SUB_SH)
+            {
+                free_mynigga(my_tokens);
+                error(NULL,checker);
+            }
+            else if (my_tokens)
+                parse_nd_exec(my_tokens, dup_env, &status);
+            // printf("SIG :%d\n", sig);
         }
         free(str);
     }
 }
 
-// // GOAL EXEC THE REDIRECTION :
+

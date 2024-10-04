@@ -51,8 +51,12 @@ char *cmd_line(char **tokens, int *x)
     while (tokens[i])
     {
         j = which_one(tokens[i]);
-        if (PIPE == j)
+        if (PIPE == j || j == OR || j == AND || j == END_SUB || j == S_SUB)
+        {
+            // if (ref == END_SUB)
+            //     i--;
             break;
+        }
         if (ref == RED || ref == HERDOC )
            { ref = FILE_NAME;}
         else if (FILE_NAME == ref)
@@ -90,11 +94,6 @@ int get_type(char **tokens, int i)
     return (RED);
 }
 
-void do_nothing(int signal)
-{
-    printf("\n>\n");
-    return;
-}
 
 
 // int get_content(char *del, int *heredoc_pipe)
@@ -158,31 +157,42 @@ void assign_her_exp(t_del *lst, t_herdoc *herdoc)
     herdoc->to_exp = tmp->to_exp;
 }
 
-void herdoc_treat(t_del *lst, t_herdoc *herdoc)
+int herdoc_treat(t_del *lst, t_herdoc *herdoc)
 {   
     int pid, status;
     int p[2];
     char *str;
 
+    status = 0;
     if (NULL == lst)
-        return;
+        return 0;
     pipe(p);
     pid = fork();
     if (pid == 0)
     {
-        signal (SIGINT, NULL);
+        signal (SIGINT, SIG_DFL);
         while (lst != NULL)
         {
             while (1)
             {
                 str = readline(">");
-                if (ft_strcmp(str, lst->del))
+                if (!str)
+                {
+                    error("minishell: warning: here-document delimited by end-of-file\n", -9);
+                    // sig = -99;
                     break;
+                }
+                if (ft_strcmp(str, lst->del))
+                {
+                    free(str);
+                    break;
+                }
                 if (lst->next == NULL)
                 {
                     ft_putstr_fd(str, p[1]);
                     ft_putstr_fd("\n", p[1]);
                 }
+                free(str);
             }
             lst =lst->next;
         }
@@ -195,25 +205,39 @@ void herdoc_treat(t_del *lst, t_herdoc *herdoc)
         signal(SIGINT, do_nothing);
         waitpid(pid, &status,  0);
         signal(SIGINT, signal_handler);
+        // printf("herdoc ct status:%d|| %d\n", WEXITSTATUS( status), WTERMSIG(status));
         if (WTERMSIG(status)  == SIGINT)
-            sig = -99;
+        {
+            sig = 130;
+            status = 130;
+        }
+        else
+            status = 0;
         if (sig == -1)
             herdoc->herdoc_pipe = p[0];
         else
             close (p[0]);
         close(p[1]);
     }
+    return (status);
 }
 
-void get_herdoc(char **tokens,int i, t_herdoc *herdoc)
+int get_herdoc(char **tokens,int i, t_herdoc *herdoc)
 {
     t_del *str;
+    int ref;
     char *delimiter;
+    int status;
     
+    status = 0;
     str = NULL;
-    while (tokens[i] && PIPE != which_one(tokens[i]))
+    ref = which_one(tokens[i]);
+    while (tokens[i] && PIPE != ref && ref != AND && ref != OR)
     {
-        if (which_one(tokens[i]) == HERDOC)
+        if (ref == END_SUB || ref == S_SUB)
+            break;
+        ref = which_one(tokens[i]);
+        if (ref == HERDOC)
         {
             i++;
             delimiter = ft_strdup(tokens[i]);
@@ -221,24 +245,30 @@ void get_herdoc(char **tokens,int i, t_herdoc *herdoc)
                 str = first_del(str, delimiter);
             else
                 str = add(str, delimiter);
-            i--;
         }
         i++;
     }
     assign_her_exp(str, herdoc);
     if (sig == -1)
-        herdoc_treat(str, herdoc);
-    return;
+        status = herdoc_treat(str, herdoc);
+    free_delimiters(str);
+    return status;
 }
 
 t_red *get_red(char **tokens, int i, t_herdoc *herdoc)
 {
     t_red *red_lst;
+    int ref;
 
     red_lst = NULL;
-    while (tokens[i] && PIPE != which_one(tokens[i]))
+    ref = which_one(tokens[i]);
+    (void)herdoc;
+    while (tokens[i] && PIPE != ref && ref != AND && ref != OR)
     {
-        if (which_one(tokens[i]) == RED || HERDOC == which_one(tokens[i]))
+        if (ref == END_SUB)
+            break;
+        ref = which_one(tokens[i]);
+        if (ref == RED || HERDOC == ref)
         {
             if (NULL == red_lst)
                 red_lst = creat_red_lst(tokens, i);
@@ -249,6 +279,34 @@ t_red *get_red(char **tokens, int i, t_herdoc *herdoc)
             i++; 
         }
         i++;
+    }
+    return (red_lst);
+}
+
+t_red *get_red_for_sub(char **tokens, int i)
+{
+    t_red *red_lst;
+    int ref;
+
+    red_lst = NULL;
+    ref =0;
+    i = get_next_parenties_d(tokens, i) + 1;
+    while (tokens[i] && PIPE != ref && ref != AND && ref != OR)
+    {
+        ref = which_one(tokens[i]);
+        if (ref == END_SUB)
+            break;   
+        if (ref == RED || HERDOC == ref)
+        {
+            if (NULL == red_lst)
+                red_lst = creat_red_lst(tokens, i);
+            else
+                add_to_lst(red_lst, tokens, i);
+            if (!red_lst)
+                return(NULL);
+            i++; 
+        }
+        i++; 
     }
     return (red_lst);
 }
