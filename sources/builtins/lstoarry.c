@@ -14,6 +14,7 @@ char **lstoarry(t_env *root)
 {
     char **env_arr;
     char *single_env;
+    char *tmp;
     int env_len = env_size(root);
     int i = -1;
     if(env_len == 0)
@@ -24,7 +25,9 @@ char **lstoarry(t_env *root)
     while(++i < env_len)
     {
         single_env = ft_strjoin(root->key,"=");
+        tmp = single_env;
         single_env = ft_strjoin(single_env, root->value);
+        free(tmp);
         env_arr[i] = ft_strdup(single_env);
         free(single_env);
         root = root->next;

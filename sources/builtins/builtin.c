@@ -17,8 +17,10 @@ bool is_builtin(t_cmd *cmd)
 {
     struct new_cmd *p ;
     p = (struct new_cmd *)cmd;
+    if (p->argv == NULL)
+        return false;
     // char **bcmds = ft_split("cd pwd export unset env exit echo", ' ');
-    char **bcmds = ft_split("cd pwd export unset env exit echo", ' ');
+    char **bcmds = ft_split("cd pwd export unset env exit", ' ');
     int i = -1;
     while(++i < 7)
     {
@@ -28,6 +30,7 @@ bool is_builtin(t_cmd *cmd)
             return true;
         }
     }
+    free_mynigga(bcmds);
     return false;
 }
 

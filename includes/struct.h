@@ -3,12 +3,16 @@
 
 
 typedef struct cmd t_cmd;
-typedef struct new_cmd t_ncmd;
 typedef struct token t_token;
 typedef struct new_red t_red;
 typedef struct s_env_var t_env;
 typedef struct s_delimiter t_del;
 typedef struct s_herdoc_info t_herdoc;
+typedef struct pipe t_pipe;
+typedef struct and t_and;
+typedef struct or t_or;
+typedef struct new_cmd t_new_cmd;
+typedef struct sub_sh t_sub_sh;
 
 
 
@@ -29,31 +33,54 @@ typedef enum ss
     DOUBLE
 }ss;
 
+typedef enum error
+{
+    PIPE_ER,
+    RED_ER,
+    AND_ER,
+    OR_ER,
+    SYNTAX,
+    CMD_NOT_F
+}t_error;
+
 typedef enum typenode
 {
+    NEW_CMD,
     EXEC,
     PIPE,
     RED,
     HERDOC,
+    AND,
+    OR,
+    SUB_SH,
+    S_SUB,
+    END_SUB,
     ENV_VAR,
     FILE_NAME,
     NOTHING,
     STRING,
-    NEW_CMD
+    SPACES,
+    SPECIAL
 } t_typenode;
 
-
+// AST NODES :
+/********************* */
 struct cmd
 {
     int type;
 };
 
-// struct exec_cmd
-// {
-//     int type;
-//     char *argv;
-//     char **env;
-// };
+struct new_cmd
+{
+    int type;
+    char **argv;
+    int fd_in;
+    int fd_out;
+    int last_pipe_cmd;
+    t_herdoc *herdoc;
+    t_env *myenv;
+    t_red *redirect;
+};
 
 struct pipe
 {
@@ -63,32 +90,37 @@ struct pipe
     t_cmd *right;
 };
 
-// struct red
-// {
-//     int type;
-//     int mode;
-//     int fd;
-//     char **content;
-//     char *file;
-//     int last_red;
-//     t_cmd *cmd;
-// };
-
-// struct heredoc {
-//     int type;         
-//     struct cmd *cmd;  
-//     char *delimiter;   
-//     char **content; 
-// };
-
-
-struct token
+struct and
 {
     int type;
-    char *cont;
-    t_token *next;
-    t_token *prev;    
+    int status;
+    t_cmd *left;
+    t_cmd *right;
 };
+
+struct or
+{
+    int type;
+    int status;
+    t_cmd *left;
+    t_cmd *right;
+};
+
+
+struct sub_sh
+{
+    int type;
+    int status;
+    int fd_in;
+    int fd_out;
+    int last_pipe_cmd;
+    t_herdoc *herdoc;
+    t_env *myenv;
+    t_red *redirect;
+    t_cmd *sub_root;
+};
+
+/*********************************/
 
 struct new_red
 {
@@ -127,22 +159,5 @@ struct s_delimiter
     int to_exp;
     t_del *next;
 };
-
-
-struct new_cmd
-{
-    int type;
-    char **argv;
-    char **env;
-    int fd_in;
-    int fd_out;
-    int last_pipe_cmd;
-    // int herdoc_pipe;
-    // int herdoc_to_exp;
-    t_herdoc *herdoc;
-    t_env **myenv;
-    t_red *redirect;
-};
-
 
 #endif

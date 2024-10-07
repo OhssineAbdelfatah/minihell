@@ -37,6 +37,35 @@ t_cmd *init_pipe(t_cmd *left, t_cmd *right)
     return ((t_cmd *)res);
 }
 
+t_cmd *init_and(t_cmd *left, t_cmd *right)
+{
+    struct and *res;
+
+    res = malloc(sizeof(*res));
+    if (!res)
+        panic("init_and\n");
+    res->type = AND;
+    res->status = 0;
+    res->left = left;
+    res->right = right;
+    return ((t_cmd *)res);
+}
+
+t_cmd *init_or(t_cmd *left, t_cmd *right)
+{
+    struct or *res;
+
+    res = malloc(sizeof(*res));
+    if (!res)
+        panic("init_or\n");
+    res->type = OR;
+    res->status = 0;
+    res->left = left;
+    res->right = right;
+    return ((t_cmd *)res);
+}
+
+
 // void herdoc_content(t_cmd *herd)
 // {
 //     struct heredoc *p;
@@ -80,7 +109,7 @@ t_cmd *init_new_cmd(char **argv, t_env **myenv,t_red *redirect, t_herdoc *herdoc
 {
     struct new_cmd *res;
 
-    res = malloc(sizeof(*res));
+    res = (struct new_cmd *)malloc(sizeof(*res));
     if (NULL == res)
         return (NULL);
     res->type = NEW_CMD;
@@ -90,10 +119,27 @@ t_cmd *init_new_cmd(char **argv, t_env **myenv,t_red *redirect, t_herdoc *herdoc
     res->fd_out = -1;
     res->redirect = redirect;
     res->last_pipe_cmd = -1;
-    // res->herdoc_pipe = herdoc_pipe;
     res->herdoc = herdoc1;
     return ((t_cmd *)res);
 }
+
+t_cmd *init_sub(t_cmd *root_sub, t_env *myenv, t_red *redirect, t_herdoc * herdoc)
+{
+    struct sub_sh *res;
+
+    res = (struct sub_sh *)malloc(sizeof(struct sub_sh));
+    if (!res)
+        return (NULL);
+    res->type = SUB_SH;
+    res->fd_in = -1;
+    res->fd_out = -1;
+    res->redirect = redirect;
+    res->myenv = myenv;
+    res->last_pipe_cmd = -1;
+    res->herdoc = herdoc;
+    res->sub_root = root_sub;
+    return ((t_cmd *)res);
+} 
 
 t_red *creat_red_lst(char **tokens, int i)
 {

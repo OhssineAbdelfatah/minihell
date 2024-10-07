@@ -1,25 +1,26 @@
 # ifndef MINISHELL_H
 #define MINISHELL_H
 
+# include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <stdio.h>
 # include <stdlib.h>
 #include <fcntl.h>
 #include <signal.h>
 
+
 #include "helper.h"
 #include "struct.h"
 #include "builtins.h"
-#include "expander.h"
 #include "../libft/libft.h"
 
 #define GRN "\e[0;32m"
 #define CYNB "\e[46m"
 #define CRESET "\e[0m"
+extern int sig;
 
 /*Testing a new split shit */
 int count_tokens_new(char *s);
@@ -33,7 +34,6 @@ char **split_shit(char *s);
 char *getEnvValue(t_env *env, char *key);
 // void exec(t_cmd *cmd);
 
-int sig;
 
 // debug
 void pexit(char *s);

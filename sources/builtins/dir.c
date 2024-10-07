@@ -2,10 +2,15 @@
 
 int pwd(t_cmd *cmd)
 {
-    t_ncmd  *p;
-    p = (t_ncmd *)cmd;
+    struct exec_cmd *p;
+    char *tmp;
+    p = (struct exec_cmd *)cmd;
     char *curd = NULL;
-    printf("%s\n",getcwd(curd, 1024));
+    tmp = getcwd(curd, 1024);
+    printf("%s\n",tmp);
+    free(tmp);
+    tmp = NULL;
+    (void)p;
     return 0;
 }
 
@@ -22,9 +27,19 @@ int pwd(t_cmd *cmd)
 
 int cd(t_cmd *cmd)
 {
-    t_ncmd *p;
-    p = (t_ncmd *)cmd;
+   // i shoudld handle
+   /*
+   - : chdir to OLDPWD env variable if setted
+   ~ : chdir to HOME env variable
+   arg : pass directly to chdir
+   */
+    // char *curd = NULL;
+    // cast to exec_cmd
+    // printf("%s\n",getcwd(curd,1024));
+    struct new_cmd *p;
+    p = (struct new_cmd *)cmd;
     char *arg;
+    p = (struct new_cmd *)cmd;
     // cd only without args
     if(ft_strslen(p->argv) == 1){ 
         if( !(arg = getEnvValue(*(p->myenv) ,"HOME")) ){

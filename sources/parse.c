@@ -25,24 +25,30 @@ int which_one(char *s)
     i = EXEC;
     if (ft_strlen(s) == 1 && s[0] == '|')
         return(PIPE);
+    if (ft_strlen(s) == 1 && s[0] == 40)
+        return(S_SUB);
+    if (ft_strlen(s) == 1 && s[0] == 41)
+        return(END_SUB);
     if (ft_strlen(s) == 2)
     {
         if (ft_strcmp(s, "<<"))
             return (HERDOC);
         if (ft_strcmp(s,">>"))
             return (RED);
+        if (ft_strcmp(s, "&&"))
+            return (AND);
+        if (ft_strcmp(s, "||"))
+            return (OR);
     }
     if (s[1] == '\0' && (s[0] == '>' || s[0] == '<'))
         return(RED);
-    else if (s[0] == '$')
-        return(ENV_VAR);;
     return(i);
 }
 
 int is_special(char s)
 {
     int i;
-    char *symbols = "<|>";
+    char *symbols = "|<>&()";
 
     i = 0;
     if(s)
@@ -50,67 +56,17 @@ int is_special(char s)
         while(symbols[i])
         {
             if(symbols[i] == s)
-                return (1);
+                return (i);
             i++;
         }
     }
-    return(0);
+    return(-1);
 }
 
-int count_tokens(char *s)
-{
-    int i , j;
-    int res;
-
-    i= j= 0;
-    res =  0;
-    if (s)
-    {
-        while(s[i])
-        {
-            // write(1, "pp\n", 4);
-            if (s[i] == '|')
-            {
-                j = -1;
-                res++;
-                i++;
-            }
-            else
-            {
-                i = skip_spaces(s, i);
-                if (s[i] && (1 == is_special(s[i])) && (j >= 0))
-                {
-                    j = -1;
-                    res++;
-                    while (s[i] &&  (1 == is_special(s[i])))
-                    {
-                        if (s[i] == '\''|| s[i] == '"')
-                            i = get_next_quote(s, i);
-                        i++;
-                    }
-                }
-                i = skip_spaces(s, i);
-                if (s[i] && (0 == is_special(s[i])) && j <= 0)
-                {
-                    j = 1;
-                    res++;
-                    while (s[i] &&  (0 == is_special(s[i])))
-                    {
-                        if (s[i] == '\''|| s[i] == '"')
-                            i = get_next_quote(s, i);
-                        i++;
-                    }
-                }
-            }
-        }
-    }
-    return (res);
-
-}
 
 int next_nonspecial(char *s, int i)
 {
-    while(s[i] && is_special(s[i]))
+    while(s[i] && 0 <= is_special(s[i]))
         i++;
     return (i);
 }
@@ -155,92 +111,163 @@ int get_end(char *s, int i)
     return(i);
 }
 
-char **split_shit(char *s)
+int check_dtr_for_and(char *s)
 {
-    int i = 0;
-    int start;
-    int end;
-    char **res;
-    int reslen;
+    int i;
 
-    if (!s)
-        return(NULL);
-    start =skip_spaces(s,i);
-    reslen = count_tokens(s);
-    // printf("reslen :%d\n", reslen);
-    if (!reslen)
-        return (NULL);
-    res = (char **)malloc(sizeof(char *) *  (reslen + 1));
-    if (!res)
-        return(NULL);
-    while(i < reslen)
+    i = 0;
+    if (s[i] == '&' && s[i + 1] != '&')
+        return (1);
+    while (s[i])
     {
-        end = get_end(s, start);
-        res[i] = ft_substr(s, start, end - start);
-        start = get_start(s, end );
+        if (i > 0)
+        {
+            if (s[i] == '&' && s[i + 1] != '&' && s[i -1] != '&')
+                return (1);
+        }
         i++;
     }
-    res[i] = NULL;
-    return (res);    
+    return 0;
 }
-
 
 int _check_str(char *s)
 {
     int i = 0;
-    if (s)
+    if (!s)
+        return (1);
+    if (check_qoutes(s))
+        return(error(s, 10), 1);
+    if (is_full_white_str(s))
+        return(1);
+    if (check_dtr_for_and(s))
+        return(error(s, AND), 1);
+    while(s[i])
     {
-        if (check_qoutes(s))
-            panic("quotes\n");
-        while(s[i])
-        {
-            if (s[i] == '|' && s[i + 1] == '|')
-                panic("||\n");
-            if (s[i] == '<' && s[i + 1] == '<' && s[i + 2] == '<')
-                panic("<<<\n");
-            if (s[i] == '>' && s[i + 1] == '>' && s[i + 2] == '>')
-                panic(">>>\n");
-            else
-                i++;
-        }
-        return(0);
+        // printf("i am here\n");
+        if (s[i] == '|' && s[i + 1] == '|' && s[i + 2] == '|')
+            return(error(s, PIPE), 1);
+        if (s[i] == '&' && s[i + 1] == '&' && s[i + 2] == '&')
+            return(error(s, AND), 1);
+        if (s[i] == '<' && s[i + 1] == '<' && s[i + 2] == '<')
+            return(error(s, RED), 1);
+        if (s[i] == '>' && s[i + 1] == '>' && s[i + 2] == '>')
+            return(error(s, RED), 1);
+        // if (s[i] == ')' && s[i + 1] == ')' )
+        //     return(error(NULL, s[i]), 1);
+        else
+            i++;
     }
-    return(1);
+    return(0);
 }
 
 
-int _check_tokens(char **tokens)
-{
-    int i, j;
-
-    i = 0;
-    if (!tokens)
-        return (0);
-    j = 0;
-    if (ft_strcmp(tokens[i] , "|"))
-        return (0);
-    while(tokens[i])
-    {
-        //  printf("%s\n", tokens[i]);
-        if(is_special(tokens[i][0]) && j == 1)
-            return (0);
-        if (is_special(tokens[i][0]))
-            j = 1;
-        else if (0 == is_special(tokens[i][0]))
-            j = 0;
-        i++;
-    }
-    return(1);
-}
-
-
-
-
-// int new_count_tokens(char *s)
+// int _check_tokens(char **tokens)
 // {
-//     int res ;
-//     int i ;
-//     int type;
+//     int i, j;
+
+//     i = 0;
+//     if (!tokens)
+//         return (0);
+//     j = 0;
+//     if (ft_strcmp(tokens[i] , "|"))
+//         return (0);
+//     while(tokens[i])
+//     {
+//         //  printf("%s\n", tokens[i]);
+//         if(is_special(tokens[i][0]) && j == 1)
+//             return (0);
+//         if (is_special(tokens[i][0]))
+//             j = 1;
+//         else if (0 == is_special(tokens[i][0]))
+//             j = 0;
+//         i++;
+//     }
+//     return(1);
+// }
 
 
+
+
+
+
+
+
+// char **split_shit(char *s)
+// {
+//     int i = 0;
+//     int start;
+//     int end;
+//     char **res;
+//     int reslen;
+
+//     if (!s)
+//         return(NULL);
+//     start =skip_spaces(s,i);
+//     reslen = count_tokens(s);
+//     if (!reslen)
+//         return (NULL);
+//     res = (char **)malloc(sizeof(char *) *  (reslen + 1));
+//     if (!res)
+//         return(NULL);
+//     while(i < reslen)
+//     {
+//         end = get_end(s, start);
+//         res[i] = ft_substr(s, start, end - start);
+//         start = get_start(s, end );
+//         i++;
+//     }
+//     res[i] = NULL;
+//     return (res);    
+// }
+
+
+
+// int count_tokens(char *s)
+// {
+//     int i , j;
+//     int res;
+
+//     i= j= 0;
+//     res =  0;
+//     if (s)
+//     {
+//         while(s[i])
+//         {
+//             // write(1, "pp\n", 4);
+//             if (s[i] == '|')
+//             {
+//                 j = -1;
+//                 res++;
+//                 i++;
+//             }
+//             else
+//             {
+//                 i = skip_spaces(s, i);
+//                 if (s[i] && (1 == is_special(s[i])) && (j >= 0))
+//                 {
+//                     j = -1;
+//                     res++;
+//                     while (s[i] &&  (1 == is_special(s[i])))
+//                     {
+//                         if (s[i] == '\''|| s[i] == '"')
+//                             i = get_next_quote(s, i);
+//                         i++;
+//                     }
+//                 }
+//                 i = skip_spaces(s, i);
+//                 if (s[i] && (0 == is_special(s[i])) && j <= 0)
+//                 {
+//                     j = 1;
+//                     res++;
+//                     while (s[i] &&  (0 == is_special(s[i])))
+//                     {
+//                         if (s[i] == '\''|| s[i] == '"')
+//                             i = get_next_quote(s, i);
+//                         i++;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+//     return (res);
 // }
