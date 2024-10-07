@@ -14,3 +14,5 @@ IN PROCCESS
     echo
 
     check built ins
+
+    access $?

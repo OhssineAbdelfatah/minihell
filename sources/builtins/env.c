@@ -1,13 +1,14 @@
 #include"../../includes/minishell.h"
 
-void print_env(t_env *env)
+int print_env(t_env *env)
 {
     while(env != NULL)
     {
-        if(env->key && env->value && env->valid == true)
+        if(env->key && env->value )
             printf("%s=%s\n",env->key,env->value);
         env = env->next;
     }
+    return 0;
 }
 
 void add_back_env(t_env **head, t_env*node)
@@ -17,7 +18,7 @@ void add_back_env(t_env **head, t_env*node)
         return ;
     if(!head )
         return;
-    if(!(*head)){
+    if(*head == NULL){
         *head = node;
         return ;
     }
@@ -25,7 +26,10 @@ void add_back_env(t_env **head, t_env*node)
     while(tmp->next != NULL)
         tmp = tmp->next;
     tmp->next = node;
+    node->next = NULL;
 }
+
+
 
 t_env *creat_env(char *env_main)
 {
@@ -42,12 +46,10 @@ t_env *creat_env(char *env_main)
     char *value;
     value = ft_strchr(env_main ,'=');
     node->value = NULL;
-    node->valid = false;
     if(value != NULL)
     {
         value++;
         node->value = ft_strdup(value);
-        node->valid = true;
     }
     node->next = NULL;
     return node;

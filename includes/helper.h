@@ -25,7 +25,7 @@ t_cmd *init_herdoc(t_cmd *cmd, char *deliminater);
 char **tokens(char *str);
 int _check_str(char *s);
 int check_qoutes(char *s);
-t_cmd *root(char **tokens, t_env *env);
+t_cmd *root(char **tokens, t_env **env);
 void print_tree(t_cmd *res);
 int which_one(char *s);
 // int skip_nonspaces(char *str, int i);
@@ -42,10 +42,10 @@ t_red *get_red(char **tokens, int i,  t_herdoc *herdoc);
 char *cmd_line(char **tokens, int *x);
 // t_cmd *init_new_cmd(char *argv, char **env, t_red *redirect);
 // t_cmd *init_new_cmd(char **argv, t_env *myenv,t_red *redirect, int herdoc_pipe);
-t_cmd *init_new_cmd(char **argv, t_env *myenv,t_red *redirect, t_herdoc *herdoc);
+t_cmd *init_new_cmd(char **argv, t_env **myenv,t_red *redirect, t_herdoc *herdoc);
 void add_to_lst(t_red *red_lst, char **tokens, int i);
 t_red *creat_red_lst(char **tokens, int i);
-t_cmd *parse_new_exec(char **tokens, int *i, t_env *myenv);
+t_cmd *parse_new_exec(char **tokens, int *i, t_env **myenv);
 
 
 //new EXEC

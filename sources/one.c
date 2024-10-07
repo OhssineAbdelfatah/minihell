@@ -63,11 +63,12 @@ void free_mynigga(char **str)
     str = NULL;
 }
 
-void execute(t_cmd *cmd, t_env *env)
+void execute(t_cmd *cmd)
 {
-    (void)env;
     int status;
-    if (cmd->type == NEW_CMD)
+    if (cmd->type == NEW_CMD && is_builtin(cmd))
+        status = exec_builtin(cmd);
+    else if (cmd->type == NEW_CMD )
     {
         status = fork();
         if (status == 0)
@@ -80,7 +81,7 @@ void execute(t_cmd *cmd, t_env *env)
 
 }
 
-void parse_nd_exec(char **my_tokens,t_env *dup_env)
+void parse_nd_exec(char **my_tokens,t_env **dup_env)
 {
     t_cmd *res;
     int status;
@@ -94,7 +95,7 @@ void parse_nd_exec(char **my_tokens,t_env *dup_env)
     // print_tree(res);
     // printf("\n");
     if (sig == -1)
-        execute(res, dup_env);
+        execute(res);
     free_tree2(res);
 }
 
@@ -141,7 +142,7 @@ int main(  int ac, char **av, char **env)
     while(1)
     {
         sig = -1;
-        str = readline("depechez-vous!> ");
+        str = readline(CYNB"depechez-vous!> "CRESET);
         history(str);
         my_tokens = NULL;
         if (0 !=_check_str(str))
@@ -153,7 +154,7 @@ int main(  int ac, char **av, char **env)
         {
             my_tokens = fr9_trb7(str);
             if (my_tokens)
-                parse_nd_exec(my_tokens, dup_env);
+                parse_nd_exec(my_tokens, &dup_env);
             free_mynigga(my_tokens);
         }
         free(str);

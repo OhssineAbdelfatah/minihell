@@ -103,7 +103,6 @@ struct new_red
 struct s_env_var {
     char *key;
     char *value;
-    bool valid;
     t_env *next;
 };
 
@@ -141,7 +140,7 @@ struct new_cmd
     // int herdoc_pipe;
     // int herdoc_to_exp;
     t_herdoc *herdoc;
-    t_env *myenv;
+    t_env **myenv;
     t_red *redirect;
 };
 

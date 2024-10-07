@@ -98,7 +98,7 @@ char *joiner(char *arg, t_env* env)
     return new;
 }
 
-char **expnader(char **argv, t_env *env)
+char **expander(char **argv, t_env *env)
 {
     int i ;
 

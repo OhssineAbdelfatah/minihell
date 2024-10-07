@@ -17,6 +17,10 @@
 #include "expander.h"
 #include "../libft/libft.h"
 
+#define GRN "\e[0;32m"
+#define CYNB "\e[46m"
+#define CRESET "\e[0m"
+
 /*Testing a new split shit */
 int count_tokens_new(char *s);
 ///////that's it ///

@@ -1,0 +1,33 @@
+
+
+/// int export(t_env **myenv, char **cmd_arg)
+
+A .IF is len of cmd_arg is 1 
+    1. print export (exit status 0)
+B .ELSE len(cmd_arg) greater then 1
+    1. loop over each arg 
+        a.IF check is valid
+            i.IF is this arg key exist in myenvv
+                > update the node value with the value (exit status 0)
+            ii.ELSE create node {key , value }
+                > add back to myenv (exit status 0)
+        b. ELSE
+            continue (exit status 0)
+
+
+
+> update arg key
+    1. arg(key=value)
+        a. clean arg 
+        b. find addrs of '=' 
+        c. strdup value
+        d. update node.value
+
+> add back to myenv 
+    1. arg(key=value)
+        a. clean arg
+        b. dup key ({key}=) 
+        c. assign node.key = key
+        b. dup value (={value}) 
+        e. assign node.value = value
+        f. add back node

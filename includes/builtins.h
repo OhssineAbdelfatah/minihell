@@ -4,7 +4,7 @@
 #include "minishell.h"
 
 
-void execute_cmd(t_cmd *cmd);
+// void execute_cmd(t_cmd *cmd);
 int exec_builtin(t_cmd *cmd);
 bool is_builtin(t_cmd *cmd);
 
@@ -19,17 +19,17 @@ int pwd(t_cmd *cmd);
 t_env *init_env(char **env_main);
 t_env *creat_env(char *pair);
 void add_back_env(t_env **head, t_env*node);
-void print_env(t_env *env);
+int print_env(t_env *env);
 
 /*  EXPORT  */
-void export(t_env **ennv,char **cmd_args);
+int export(t_env **ennv,char **cmd_args);
 void print_export(t_env *env);
-char *clean_arg(char *arg);
+// char *clean_arg(char *arg);
 
 /*  UNSET   */
 void destroy_single_env(t_env *node);
-void unset_env(t_env **head, char **key);
-
+int unset_env(t_env **head, char **key);
+bool is_valid(char *key);
 /*   EXIT   */
 
 /*  UTILS   */

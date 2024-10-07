@@ -25,12 +25,8 @@ void mini_expander(t_node **head, t_env *env)
     tmp = *head ;
     while(tmp){
         // delete single or double
-        if(tmp->type == 'd' || tmp->type == 's'){
-            printf("b[%s\n]",tmp->str);
+        if(tmp->type == 'd' || tmp->type == 's')
             tmp->str = clean_qts(tmp->str);
-            printf("a[%s]\n",tmp->str);
-
-        }
         if(tmp->type == 'w' || tmp->type == 'd')
             tmp->str =  splitWordVar(tmp->str, env);
         tmp = tmp->next;

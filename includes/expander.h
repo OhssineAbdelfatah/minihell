@@ -7,10 +7,10 @@ typedef struct s_node {
     struct s_node *next;
 } t_node;
 
+char **expander(char **argv, t_env *env);
 char *tokenizer(char *arg);
 t_node *splitArg(char *str);
 char *joiner(char *arg, t_env* env);
-char **expnader(char **argv, t_env *env);
 
 t_node *create_node(char *value, char type);
 void add_node(t_node **head, t_node **tail, t_node *node);

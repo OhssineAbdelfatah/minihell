@@ -54,7 +54,7 @@ int is_pipe(char *s)
 //     return (res);
 // }
 
-struct cmd *parse_pipe(char **tokens, int *i, t_env *myenv)
+struct cmd *parse_pipe(char **tokens, int *i, t_env **myenv)
 {
     t_cmd *res;
 
@@ -69,7 +69,7 @@ struct cmd *parse_pipe(char **tokens, int *i, t_env *myenv)
     
 }
 
-t_cmd *parse_new_exec(char **tokens, int *i, t_env *env)
+t_cmd *parse_new_exec(char **tokens, int *i, t_env **env)
 {
     t_cmd *res;
     t_red *redirect;
@@ -95,7 +95,7 @@ t_cmd *parse_new_exec(char **tokens, int *i, t_env *env)
     return(res);
 }
 
-t_cmd *root(char **tokens, t_env *env)
+t_cmd *root(char **tokens, t_env **env)
 {
     int i = 0;
     t_cmd *res;

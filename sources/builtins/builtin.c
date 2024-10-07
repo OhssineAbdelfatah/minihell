@@ -1,14 +1,15 @@
 #include"../../includes/minishell.h"
 
-void blt_echo(t_env *env, char **argv)
+int blt_echo(t_env *env, char **argv)
 {
-    argv = expnader(argv, env);
+    // argv = expnader(argv, env);
     argv++;
     while(*argv){
         printf("%s ",*argv);
         argv++;
     }
     printf("\n");
+    return 0;
 }
 
 
@@ -34,23 +35,21 @@ int exec_builtin(t_cmd *cmd)
 {
     struct new_cmd* p ;
     p = (struct new_cmd*)cmd;
-    if(ft_strcmp(p->argv[0], "cd")){
-        cd(cmd);
-        puts("dkhel");
-
-    }
-    else if(ft_strcmp(p->argv[0], "pwd"))
-        pwd(cmd);
-    else if(ft_strcmp(p->argv[0], "env")){
-        print_env(p->myenv);
-    }
+    p->argv = expander( p->argv ,*(p->myenv));
+    if(ft_strcmp(p->argv[0], "cd")) // add oldpwd and change pwd
+        return cd(cmd);
+    else if(ft_strcmp(p->argv[0], "pwd")) // 
+        return pwd(cmd);
+    else if(ft_strcmp(p->argv[0], "env"))
+        return print_env(*(p->myenv));
     else if(ft_strcmp(p->argv[0], "unset")){
         if(ft_strslen(p->argv) > 1)
-            unset_env(&(p->myenv), p->argv);
+            return unset_env(p->myenv, p->argv);
+        return 0;
     }
     else if(ft_strcmp(p->argv[0], "export"))
-        export(&(p->myenv), p->argv);
+        return export(p->myenv, p->argv);
     else if(ft_strcmp(p->argv[0], "echo"))
-        blt_echo(p->myenv, p->argv);
+        return blt_echo(*(p->myenv), p->argv);
     return 0;
 }

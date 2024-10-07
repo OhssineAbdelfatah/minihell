@@ -76,7 +76,7 @@ t_cmd *init_pipe(t_cmd *left, t_cmd *right)
 //     return ((t_cmd *)res);
 // }
 
-t_cmd *init_new_cmd(char **argv, t_env *myenv,t_red *redirect, t_herdoc *herdoc1)
+t_cmd *init_new_cmd(char **argv, t_env **myenv,t_red *redirect, t_herdoc *herdoc1)
 {
     struct new_cmd *res;
 

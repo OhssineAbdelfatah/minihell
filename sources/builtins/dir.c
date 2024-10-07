@@ -22,22 +22,15 @@ int pwd(t_cmd *cmd)
 
 int cd(t_cmd *cmd)
 {
-   // i shoudld handle
-   /*
-   - : chdir to OLDPWD env variable if setted
-   ~ : chdir to HOME env variable
-   arg : pass directly to chdir
-   */
-    // char *curd = NULL;
-    // cast to exec_cmd
-    // printf("%s\n",getcwd(curd,1024));
     t_ncmd *p;
     p = (t_ncmd *)cmd;
     char *arg;
     // cd only without args
     if(ft_strslen(p->argv) == 1){ 
-        if( !(arg = getEnvValue(p->myenv ,"HOME")) )
+        if( !(arg = getEnvValue(*(p->myenv) ,"HOME")) ){
+            printf("bash: cd: HOME not set\n");
             return -1;
+        }
         chdir(arg);
     }else
     {

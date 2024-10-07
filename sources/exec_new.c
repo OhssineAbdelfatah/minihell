@@ -38,7 +38,10 @@ int open_file(t_red *redirect,int *in,int *out, t_herdoc *herdoc)
         if (*in != -1 && last_herdoc(redirect))
             close(*in);
         if (last_herdoc(redirect))
-            *in = herdoc->herdoc_pipe;
+        {
+            // here is the magic of expand herdoc
+            *in = herdoc->herdoc_pipe; // assign new pipe[0]
+        }
     }
     else
     {
@@ -147,24 +150,24 @@ int exec_new_cmd(t_cmd *cmd)
             close(p->fd_in);
         }
     }
-    p->argv = expnader(p->argv, p->myenv);
-    
-    printf(">>%s\n", p->argv[0]);
-    printf(">>%s\n", p->argv[1]);
+    p->argv = expander(p->argv, *(p->myenv));
+
 
     if(is_builtin(cmd))
     {
-        exec_builtin(cmd);
-        exit(0);
+        status = exec_builtin(cmd);
+        exit(status);
     }
-    cur_env = lstoarry(p->myenv);
+    cur_env = lstoarry(*(p->myenv));
     if(check_is_abs(p->argv[0]) == 0)
         abs_path = p->argv[0];
     else
     {
-        abs_path = getEnvValue(p->myenv, "PATH");
-        if(!abs_path)
+        abs_path = getEnvValue(*(p->myenv), "PATH");
+        if(!abs_path){
+            printf("bash: %s: No such file or directory\n",p->argv[0]);
             exit(-1);
+        }
         abs_path = cmd_abs_path(abs_path, p->argv[0]);
         if(!abs_path)
             exit(-1);
