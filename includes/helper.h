@@ -89,14 +89,11 @@ int get_mode(char **tokens, int i);
 char *cmd_line(char **tokens, int *x);
 // t_cmd *init_new_cmd(char *argv, char **env, t_red *redirect);
 // t_cmd *init_new_cmd(char **argv, t_env *myenv,t_red *redirect, int herdoc_pipe);
-<<<<<<< HEAD
 t_cmd *init_new_cmd(char **argv, t_env **myenv,t_red *redirect, t_herdoc *herdoc);
 void add_to_lst(t_red *red_lst, char **tokens, int i);
 t_red *creat_red_lst(char **tokens, int i);
 t_cmd *parse_new_exec(char **tokens, int *i, t_env **myenv);
-=======
 void add_to_lst(t_red *red_lst, char **tokens, int i);
->>>>>>> 12d9d7a93e8fc6b7ccb1559de06940f29cf3d9ff
 
 //PARSE AST NODES:
 /********************************************************** */
