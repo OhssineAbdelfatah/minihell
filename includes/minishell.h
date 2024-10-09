@@ -15,6 +15,7 @@
 #include "helper.h"
 #include "struct.h"
 #include "builtins.h"
+#include "expander.h"
 #include "../libft/libft.h"
 
 #define GRN "\e[0;32m"

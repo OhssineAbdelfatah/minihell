@@ -157,7 +157,7 @@ int check_red(struct new_cmd *p)
             close(p->fd_in);
         }
     }
-    p->argv = expander(p->argv, *(p->myenv));
+    p->argv = expander( p->argv, *(p->myenv));
 
     return (status);
 }
@@ -177,7 +177,6 @@ int exec_new_cmd(t_cmd *cmd)
         exit(status);
     }
     cur_env = lstoarry(*(p->myenv));
-    cur_env = lstoarry(p->myenv);
     if (p->argv == NULL)
         exit(status);
     if(check_is_abs(p->argv[0]) == 0)
@@ -185,12 +184,10 @@ int exec_new_cmd(t_cmd *cmd)
     else
     {
         abs_path = getEnvValue(*(p->myenv), "PATH");
-        if(!abs_path){
-            printf("bash: %s: No such file or directory\n",p->argv[0]);
-        abs_path = getEnvValue(p->myenv, "PATH");
         if(!abs_path)
         {
             // dprintf(2,"minishell: %s:command not found\n", p->argv[0]);
+            printf("bash: %s: No such file or directory\n",p->argv[0]);
             exit(-1);
         }
         abs_path = cmd_abs_path(abs_path, p->argv[0]);
@@ -199,21 +196,24 @@ int exec_new_cmd(t_cmd *cmd)
             dprintf(2,"minishell: %s:command not found\n", p->argv[0]);
             exit(127);
         }
-    } 
-    if(dstr_len(p->argv))
-    {
-        // dprintf(2,"executing..\n");
-        if (-1 == execve(abs_path, p->argv, cur_env))
+        if(dstr_len(p->argv))
         {
-            dprintf(2,"minishell: %s:command not found\n", p->argv[0]);
-            exit(127);
-            // panic("");
+            // dprintf(2,"executing..\n");
+            if (-1 == execve(abs_path, p->argv, cur_env))
+            {
+                dprintf(2,"minishell: %s:command not found\n", p->argv[0]);
+                exit(127);
+                // panic("");
+            }
         }
     }
-    free_mynigga(p->argv);
+    // free_mynigga(p->argv);
+    p->argv = NULL;
     free(abs_path);
+    abs_path = NULL;
     exit(0);
     return (status);  
+
 }
 
 int exec_sub_sh(t_cmd * cmd)
@@ -262,8 +262,10 @@ int new_exec(t_cmd *cmd, int ref)
         {     
             if (ref == PIPE)
                 status = exec_new_cmd(cmd);
-            else
-            {
+            else if(is_builtin(cmd)){
+                status = exec_builtin(cmd);
+            }   
+            else {
                 pid = fork();
                 if (pid == 0)
                     exec_new_cmd(cmd);

@@ -18,7 +18,7 @@ char *tokenizer(char *arg)
 	    char prevChar = ' ';
 	    
 	    int i = -1;
-	    while(++i < ft_strlen(arg) +1)
+	    while(++i < (int)ft_strlen(arg) +1)
 	      tokens[i] = '0';
 	    i = -1;
 	    while (arg[++i])
@@ -58,7 +58,6 @@ t_node *splitArg(char *str)
     char *start = str;
     int indx = 0;
     int i =-1;
-    int j =-1;
     head = NULL;
     token = tokenizer(str);
     while (token[++i])
@@ -103,7 +102,6 @@ char **expander(char **argv, t_env *env)
     int i ;
 
     i = -1 ;
-    char **new;
     while(argv[++i])
         argv[i] = joiner(argv[i], env);
     return argv;

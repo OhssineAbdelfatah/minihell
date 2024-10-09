@@ -78,7 +78,7 @@ struct new_cmd
     int fd_out;
     int last_pipe_cmd;
     t_herdoc *herdoc;
-    t_env *myenv;
+    t_env **myenv;
     t_red *redirect;
 };
 
@@ -115,7 +115,7 @@ struct sub_sh
     int fd_out;
     int last_pipe_cmd;
     t_herdoc *herdoc;
-    t_env *myenv;
+    t_env **myenv;
     t_red *redirect;
     t_cmd *sub_root;
 };

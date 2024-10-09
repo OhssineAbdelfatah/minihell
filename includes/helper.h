@@ -43,12 +43,12 @@ int is_full_white_str(char *s);
 //CONSTRACTORS :
 /***************************************************/
 
-t_cmd *init_sub(t_cmd *root_sub, t_env *myenv, t_red *redirect, t_herdoc *herdoc);
+t_cmd *init_sub(t_cmd *root_sub, t_env **myenv, t_red *redirect, t_herdoc *herdoc);
 t_cmd *init_or(t_cmd *left, t_cmd *right);
 t_cmd *init_and(t_cmd *left, t_cmd *right);
 t_cmd *init_pipe(t_cmd *left, t_cmd *right);
 // t_cmd *init_exec(int tp, char *s, char **env);
-t_cmd *init_new_cmd(char **argv, t_env *myenv,t_red *redirect, t_herdoc *herdoc);
+// t_cmd *init_new_cmd(char **argv, t_env *myenv,t_red *redirect, t_herdoc *herdoc);
 
 /****************************************************/
 
@@ -72,7 +72,7 @@ int get_next_parenties_d(char **s, int i);
 char **tokens(char *str);
 int _check_str(char *s);
 int check_qoutes(char *s);
-t_cmd *root(char **tokens, t_env **env);
+// t_cmd *root(char **tokens, t_env **env);
 
 void print_tree(t_cmd *res);
 // void print_tree(t_cmd *res, int level);
@@ -92,17 +92,17 @@ char *cmd_line(char **tokens, int *x);
 t_cmd *init_new_cmd(char **argv, t_env **myenv,t_red *redirect, t_herdoc *herdoc);
 void add_to_lst(t_red *red_lst, char **tokens, int i);
 t_red *creat_red_lst(char **tokens, int i);
-t_cmd *parse_new_exec(char **tokens, int *i, t_env **myenv);
+// t_cmd *parse_new_exec(char **tokens, int *i, t_env **myenv);
 void add_to_lst(t_red *red_lst, char **tokens, int i);
 
 //PARSE AST NODES:
 /********************************************************** */
-t_cmd *root(char **tokens, t_env *env);
-t_cmd *parse_new_exec(char **tokens, int *i, t_env *myenv);
-t_cmd *parse_pipe_loop(char **tokens, int *i, t_env *myenv);
-t_cmd *parse_and_or(char **tokens, int *i, t_env *myenv);
-struct cmd *parse_pipe_rec(char **tokens, int *i, t_env *myenv);
-t_cmd *parse_sub(char **tokens, int *i,t_env *myenv);
+t_cmd *root(char **tokens, t_env **env);
+t_cmd *parse_new_exec(char **tokens, int *i, t_env **myenv);
+t_cmd *parse_pipe_loop(char **tokens, int *i, t_env **myenv);
+t_cmd *parse_and_or(char **tokens, int *i, t_env **myenv);
+struct cmd *parse_pipe_rec(char **tokens, int *i, t_env **myenv);
+t_cmd *parse_sub(char **tokens, int *i,t_env **myenv);
 /************************************************************** */
 
 //new EXEC

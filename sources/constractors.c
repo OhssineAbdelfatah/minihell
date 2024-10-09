@@ -123,7 +123,7 @@ t_cmd *init_new_cmd(char **argv, t_env **myenv,t_red *redirect, t_herdoc *herdoc
     return ((t_cmd *)res);
 }
 
-t_cmd *init_sub(t_cmd *root_sub, t_env *myenv, t_red *redirect, t_herdoc * herdoc)
+t_cmd *init_sub(t_cmd *root_sub, t_env **myenv, t_red *redirect, t_herdoc * herdoc)
 {
     struct sub_sh *res;
 

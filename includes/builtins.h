@@ -9,6 +9,8 @@ int exec_builtin(t_cmd *cmd);
 bool is_builtin(t_cmd *cmd);
 
 /*   ECHO   */
+int echo(t_new_cmd*cmd);
+
 /*  CD  */
 int cd(t_cmd *cmd);
 

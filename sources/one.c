@@ -48,6 +48,7 @@ void panic(char *str)
 void execute(t_cmd *cmd)
 {
     int status;
+    status = 0;
     if (cmd->type == NEW_CMD && is_builtin(cmd))
         status = exec_builtin(cmd);
     else if (cmd->type == NEW_CMD )
@@ -59,11 +60,11 @@ void execute(t_cmd *cmd)
         // printf("status d'exit:%d\n", status);
     }
     else
-        status = new_exec(cmd);
+        status = new_exec(cmd , status);
 
 }
 
-void parse_nd_exec(char **my_tokens,t_env **dup_env)
+// void parse_nd_exec(char **my_tokens,t_env **dup_env)
 // int execute(t_cmd *cmd, t_env *env)
 // {
 //     // struct new_cmd *tmp;
@@ -85,7 +86,7 @@ void parse_nd_exec(char **my_tokens,t_env **dup_env)
 //     return status;
 // }
 
-void parse_nd_exec(char **my_tokens,t_env *dup_env, int *status)
+void parse_nd_exec(char **my_tokens,t_env **dup_env, int *status)
 {
     t_cmd *res;
     // int status;
@@ -104,20 +105,15 @@ void parse_nd_exec(char **my_tokens,t_env *dup_env, int *status)
     *status = 0;
     // (void)status;
     if (sig == -1)
-<<<<<<< HEAD
-        execute(res);
-    free_tree2(res);
-=======
         *status = new_exec(res, NOTHING);
     if (sig == 130)
     {
         *status = 130;
         sig = -1;
     }
-    printf("exit STATUS :%d\n", *status);
+    printf(GRN"exit STATUS :%d\n"CRESET, *status);
     free_mynigga(my_tokens);
     free_tree2(res); 
->>>>>>> 12d9d7a93e8fc6b7ccb1559de06940f29cf3d9ff
 }
 
 
@@ -151,11 +147,7 @@ int main(  int ac, char **av, char **env)
     while(1)
     {
         sig = -1;
-<<<<<<< HEAD
         str = readline(CYNB"depechez-vous!> "CRESET);
-=======
-        str = readline("Depechez-vous!> ");
->>>>>>> 12d9d7a93e8fc6b7ccb1559de06940f29cf3d9ff
         history(str);
         // my_tokens = NULL;
         if (ft_strlen(str) && _check_str(str) == 0)
@@ -163,11 +155,6 @@ int main(  int ac, char **av, char **env)
             // signal(SIGINT, SIG_DFL);
             signal(SIGQUIT, SIG_DFL);
             my_tokens = fr9_trb7(str);
-<<<<<<< HEAD
-            if (my_tokens)
-                parse_nd_exec(my_tokens, &dup_env);
-            free_mynigga(my_tokens);
-=======
             checker = _check_tokens(my_tokens);
             if (checker != EXEC && checker != SUB_SH)
             {
@@ -175,9 +162,8 @@ int main(  int ac, char **av, char **env)
                 error(NULL,checker);
             }
             else if (my_tokens)
-                parse_nd_exec(my_tokens, dup_env, &status);
+                parse_nd_exec(my_tokens, &dup_env, &status);
             // printf("SIG :%d\n", sig);
->>>>>>> 12d9d7a93e8fc6b7ccb1559de06940f29cf3d9ff
         }
         free(str);
     }

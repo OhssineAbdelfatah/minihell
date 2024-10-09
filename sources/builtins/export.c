@@ -90,7 +90,7 @@ void update_env(t_env *node, char *value)
 
 void print_export(t_env *env)
 {
-    while(env != NULL)
+    while(env->next != NULL)
     {
         printf("declare -x %s=\"",env->key);
         if(env->value)

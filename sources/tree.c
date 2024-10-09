@@ -44,7 +44,7 @@ int is_and_or(char *s)
 //PARSE NEW_EXEC
 /******************************************** */
 
-t_cmd *parse_new_exec(char **tokens, int *i, t_env *env)
+t_cmd *parse_new_exec(char **tokens, int *i, t_env **env)
 {
     t_cmd *res;
     t_red *redirect;
@@ -73,7 +73,7 @@ t_cmd *parse_new_exec(char **tokens, int *i, t_env *env)
 //PARSE_SUB
 /*********************************************************** */
 
-struct cmd * parse_sub(char **tokens, int *i, t_env *myenv)
+struct cmd * parse_sub(char **tokens, int *i, t_env **myenv)
 {
     t_cmd *res, *sub_root;
     t_red *redirect;
@@ -102,7 +102,7 @@ struct cmd * parse_sub(char **tokens, int *i, t_env *myenv)
 
 //PARSE PIPE WITH RECURSION :
 /********************************************************* */
-struct cmd *parse_pipe_rec(char **tokens, int *i, t_env *myenv)
+struct cmd *parse_pipe_rec(char **tokens, int *i, t_env **myenv)
 {
     t_cmd *res;
 
@@ -121,7 +121,7 @@ struct cmd *parse_pipe_rec(char **tokens, int *i, t_env *myenv)
 //PARSE IT WITH WHILE LOOP:
 /************************************************************************ */
 
-t_cmd *parse_pipe_loop(char **tokens, int *i, t_env *myenv)
+t_cmd *parse_pipe_loop(char **tokens, int *i, t_env **myenv)
 {
     t_cmd *res;
 
@@ -146,7 +146,7 @@ t_cmd *parse_pipe_loop(char **tokens, int *i, t_env *myenv)
 
 /************************************************************************* */
 
-t_cmd *parse_and_or(char **tokens, int *i, t_env *myenv)
+t_cmd *parse_and_or(char **tokens, int *i, t_env **myenv)
 {
     t_cmd *res;
     int ref;
@@ -172,7 +172,7 @@ t_cmd *parse_and_or(char **tokens, int *i, t_env *myenv)
 
 /*************************************************************************** */
 
-t_cmd *root(char **tokens, t_env *env)
+t_cmd *root(char **tokens, t_env **env)
 {
     int i = 0;
     t_cmd *res;
@@ -322,50 +322,50 @@ struct cmd *parse_pipe(char **tokens, int *i, t_env **myenv)
     
 }
 
-t_cmd *parse_new_exec(char **tokens, int *i, t_env **env)
-{
-    t_cmd *res;
-    t_red *redirect;
-    t_herdoc *herdoc;
-    char *argv;
-    char **argv1;
-    int x;
-    int heredoc_pipe;
+// t_cmd *parse_new_exec(char **tokens, int *i, t_env **env)
+// {
+//     t_cmd *res;
+//     t_red *redirect;
+//     t_herdoc *herdoc;
+//     char *argv;
+//     char **argv1;
+//     int x;
+//     int heredoc_pipe;
 
-    res = NULL;
-    x = *i;
-    herdoc = (t_herdoc *)malloc(sizeof (*herdoc));
-    if (!herdoc)
-        panic("malloc failed\n");
-    herdoc->herdoc_pipe = -1;
-    herdoc->to_exp = 0;
-    get_herdoc(tokens, *i, herdoc);
-    argv = cmd_line(tokens, i);
-    argv1 = fr9_trb7(argv);
-    free(argv);
-    redirect = get_red(tokens, x, herdoc);
-    res = (t_cmd *)init_new_cmd(argv1, env, redirect, herdoc);
-    return(res);
-}
+//     res = NULL;
+//     x = *i;
+//     herdoc = (t_herdoc *)malloc(sizeof (*herdoc));
+//     if (!herdoc)
+//         panic("malloc failed\n");
+//     herdoc->herdoc_pipe = -1;
+//     herdoc->to_exp = 0;
+//     get_herdoc(tokens, *i, herdoc);
+//     argv = cmd_line(tokens, i);
+//     argv1 = fr9_trb7(argv);
+//     free(argv);
+//     redirect = get_red(tokens, x, herdoc);
+//     res = (t_cmd *)init_new_cmd(argv1, env, redirect, herdoc);
+//     return(res);
+// }
 
-t_cmd *root(char **tokens, t_env **env)
-{
-    int i = 0;
-    t_cmd *res;
-    // struct pipe *p;
-    // struct new_cmd *cmd;
+// t_cmd *root(char **tokens, t_env **env)
+// {
+//     int i = 0;
+//     t_cmd *res;
+//     // struct pipe *p;
+//     // struct new_cmd *cmd;
 
-    res = NULL;
-    res = parse_pipe(tokens, &i, env);
-    // if (res->type == PIPE)
-    // {
-    //     // p = (struct pipe *)res;
-    //     // cmd = (struct new_cmd *)p->right;
-    //     // printf("root heredoc pipe cmd :%d\n", cmd->);
-    //     // printf("root type cmd :%d\n", cmd->type);
-    //     // printf("root left cmd :%s\n", cmd->argv);
-    //     // printf("root cmd :%d\n", p->left->type);
-    //     // printf("root cmd :%d\n", res->type);
-    // }
-    return(res);
-}
+//     res = NULL;
+//     res = parse_pipe(tokens, &i, env);
+//     // if (res->type == PIPE)
+//     // {
+//     //     // p = (struct pipe *)res;
+//     //     // cmd = (struct new_cmd *)p->right;
+//     //     // printf("root heredoc pipe cmd :%d\n", cmd->);
+//     //     // printf("root type cmd :%d\n", cmd->type);
+//     //     // printf("root left cmd :%s\n", cmd->argv);
+//     //     // printf("root cmd :%d\n", p->left->type);
+//     //     // printf("root cmd :%d\n", res->type);
+//     // }
+//     return(res);
+// }
