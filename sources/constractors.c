@@ -65,46 +65,6 @@ t_cmd *init_or(t_cmd *left, t_cmd *right)
     return ((t_cmd *)res);
 }
 
-
-// void herdoc_content(t_cmd *herd)
-// {
-//     struct heredoc *p;
-//     char *str;
-//     int i;
-
-//     i = 0;
-//     p = (struct heredoc *)herd;
-//     p->content = NULL;
-//     str = readline(">");
-//     while(ft_strcmp(str, p->delimiter) == 0)
-//     {
-       
-//         p->content = new_str(p->content);
-//         p->content[i] = ft_strdup(str);
-//         //  printf("ALO\n");
-//         free(str);
-//         i++;
-//         p->content[i] = NULL;
-//         str = readline(">");
-//     }
-// }
-
-// t_cmd *init_new_cmd(char *argv, char **env, t_red *redirect)
-// {
-//     struct new_cmd *res;
-
-//     res = malloc(sizeof(*res));
-//     if (NULL == res)
-//         return (NULL);
-//     res->type = NEW_CMD;
-//     res->argv = argv;
-//     res->env = env;
-//     res->fd_in = 0;
-//     res->fd_out = 1;
-//     res->redirect = redirect;
-//     return ((t_cmd *)res);
-// }
-
 t_cmd *init_new_cmd(char **argv, t_env **myenv,t_red *redirect, t_herdoc *herdoc1)
 {
     struct new_cmd *res;
@@ -117,6 +77,8 @@ t_cmd *init_new_cmd(char **argv, t_env **myenv,t_red *redirect, t_herdoc *herdoc
     res->myenv = myenv;
     res->fd_in = -1;
     res->fd_out = -1;
+    res->std_in = -1;
+    res->std_out = -1;
     res->redirect = redirect;
     res->last_pipe_cmd = -1;
     res->herdoc = herdoc1;
@@ -177,11 +139,3 @@ void add_to_lst(t_red *red_lst, char **tokens, int i)
     }
     tmp->next = new_red;
 }
-
-
-
-// int main (int ac, char **av)
-// {
-//    char **s = NULL;
-//    printf("%d\n", dstr_len(s));
-// }

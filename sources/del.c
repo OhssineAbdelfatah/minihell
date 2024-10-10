@@ -166,26 +166,3 @@ int to_exp_doc(t_del *head)
     // if (tmp->del)
     return(0);
 }
-
-
-// int main()
-// {
-//     t_del *del;
-
-//     del =NULL;
-//     char *s = ft_strdup("eofdd");
-//     del = first_del(del, s);
-//     s = ft_strdup("eofdd2");
-//     del = add(del, s);
-//     s = ft_strdup("eofdd9");
-//     del = add(del, s);
-//     s = ft_strdup("eofdd4");
-//     del = add(del, s);
-//     print_del(del);
-//     free_delimiters(del);
-//     print_del(NULL);
-//     // printf("%s\n", s);
-//     // printf("%d\n", get_reslen(s));
-//     //  printf("%s\n", whithout_quotes(s));
-
-// }

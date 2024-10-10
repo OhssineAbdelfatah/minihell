@@ -1,5 +1,19 @@
 #include"../../includes/minishell.h"
 
+void reset_fds(t_cmd *p)
+{
+    t_new_cmd * cmd = (t_new_cmd *)p;
+    if(cmd->std_in != -1){
+        dup2(cmd->std_in, 0);
+        close(cmd->fd_in);
+    }
+    if(cmd->fd_out != -1){
+        dup2(cmd->std_out, 1);
+        close(cmd->fd_out);
+    }
+    return ;
+}
+
 int blt_echo(t_env *env, char **argv)
 {
     argv = expander(argv, env);
@@ -36,23 +50,27 @@ bool is_builtin(t_cmd *cmd)
 
 int exec_builtin(t_cmd *cmd)
 {
+    int status ;
     struct new_cmd* p ;
     p = (struct new_cmd*)cmd;
-    p->argv = expander( p->argv ,*(p->myenv));
+    // p->argv = expander( p->argv ,*(p->myenv));
+    status = check_red(p);
+
     if(ft_strcmp(p->argv[0], "cd")) // add oldpwd and change pwd
-        return cd(cmd);
+        status = cd(cmd);
     else if(ft_strcmp(p->argv[0], "pwd")) // 
-        return pwd(cmd);
+        status = pwd(cmd);
     else if(ft_strcmp(p->argv[0], "env"))
-        return print_env(*(p->myenv));
+        status = print_env(*(p->myenv));
     else if(ft_strcmp(p->argv[0], "unset")){
         if(ft_strslen(p->argv) > 1)
-            return unset_env(p->myenv, p->argv);
-        return 0;
+            status = unset_env(p->myenv, p->argv);
     }
     else if(ft_strcmp(p->argv[0], "export"))
-        return export(p->myenv, p->argv);
+        status = export(p->myenv, p->argv);
     else if(ft_strcmp(p->argv[0], "echo"))
-        return echo(p);
-    return 0;
+        status = echo(p);
+    else if(ft_strcmp(p->argv[0], "exit"))
+        status = exit_blt(p);
+    return status;
 }

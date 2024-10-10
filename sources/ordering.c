@@ -94,55 +94,6 @@ int get_type(char **tokens, int i)
     return (RED);
 }
 
-
-
-// int get_content(char *del, int *heredoc_pipe)
-// {
-//      char *str;
-//     int p[2];
-//     int pid;
-//     int pid_status, status;
-//     // struct sigaction sa_old, sa_ignore;
-//     // sa_ignore.sa_handler = SIG_IGN;
-//     // sigaction(SIGINT, &sa_ignore, &sa_old);
-//     if (*heredoc_pipe != -1)
-//     {
-//         dprintf(2,"closing this pipe:%d\n", *heredoc_pipe);
-//         close(*heredoc_pipe);
-//     }
-//     pipe(p);
-//     pid = fork();
-//     if(0 == pid)
-//     {
-//         signal(SIGINT, NULL);
-//         while(1)
-//         {
-//             str = readline(">");
-//             if (ft_strcmp(str, del))
-//                 break;
-//             ft_putstr_fd(str, p[1]);
-//             ft_putstr_fd("\n", p[1]);
-//         }
-//         close(p[1]);
-//         close(p[0]);
-//         exit(0);
-//     }
-//     else if (pid > 0)
-//     {
-//         signal(SIGINT, do_nothing);
-//         pid_status =  waitpid(pid, &status,0);
-//         signal(SIGINT, signal_handler);
-//         if (WTERMSIG(status)  == SIGINT)
-//             sig = -99;
-//         if (pid_status != -1)
-//             *heredoc_pipe = p[0];
-//         else
-//             close(p[0]);
-//         close(p[1]);
-//     }
-//     return (p[0]);
-// }
-
 void assign_her_exp(t_del *lst, t_herdoc *herdoc)
 {
     t_del *tmp;

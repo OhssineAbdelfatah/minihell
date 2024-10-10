@@ -1,39 +1,5 @@
 #include "../includes/minishell.h"
 
-// void free_cmd(t_cmd *cmd)
-// {
-//     struct exec_cmd *p;
-
-//     p = (struct exec_cmd *)cmd;
-//     free(p->argv);
-//     p->argv = NULL;
-//     free(p);
-//     p = NULL;
-// }
-
-// void free_pipe(t_cmd *cmd)
-// {
-//     struct pipe *p;
-
-//     p = (struct pipe *)cmd;
-//     free_tree(p->left);
-//     free_tree(p->right);
-//     free(p);
-//     p = NULL;
-// }
-
-// void free_red(t_cmd *cmd)
-// {
-//     struct red *p;
-
-//     p = (struct red *)cmd;
-//     free(p->file);
-//     p->file = NULL;
-//     free_tree(p->cmd);
-//     free(p);
-//     p = NULL;
-// }
-
 void free_mynigga(char **str)
 {
     int i;

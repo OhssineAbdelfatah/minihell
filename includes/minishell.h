@@ -1,7 +1,9 @@
 # ifndef MINISHELL_H
 #define MINISHELL_H
 
+
 # include <stdio.h>
+# include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>

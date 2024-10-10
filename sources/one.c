@@ -64,39 +64,18 @@ void execute(t_cmd *cmd)
 
 }
 
-// void parse_nd_exec(char **my_tokens,t_env **dup_env)
-// int execute(t_cmd *cmd, t_env *env)
-// {
-//     // struct new_cmd *tmp;
-//     (void)env;
-//     int status;
-   
-//     // if (cmd->type == NEW_CMD)
-//     // {
-//     //     tmp = (struct new_cmd*)cmd;
-//     //     pid = fork();
-//     //     if (pid == 0)
-//     //         exec_new_cmd(cmd);
-//     //     waitpid(pid, &status,0);
-//     //     if (tmp->herdoc->herdoc_pipe)
-//     //         close(tmp->herdoc->herdoc_pipe);
-//     // }
-//     // else
-//         status = new_exec(cmd, NOTHING);
-//     return status;
-// }
-
 void parse_nd_exec(char **my_tokens,t_env **dup_env, int *status)
 {
     t_cmd *res;
     // int status;
     
     res = NULL;
-    if (ft_strcmp( my_tokens[0], "exit"))
-    {
-        free_mynigga(my_tokens);
-        panic("BY!\n");
-    }
+    // if (ft_strcmp( my_tokens[0], "exit"))
+    // {
+    //     free_mynigga(my_tokens);
+    //     // exit_blt
+    //     panic("BY!\n");
+    // }
     res = root(my_tokens,dup_env);
     if (!res)
         return;
@@ -139,7 +118,6 @@ int main(  int ac, char **av, char **env)
 
     (void)av;
     (void)ac;
-    (void)dup_env;
     status = 0;
     dup_env = init_env(env);
 	signal(SIGINT, signal_handler);
@@ -168,5 +146,3 @@ int main(  int ac, char **av, char **env)
         free(str);
     }
 }
-
-

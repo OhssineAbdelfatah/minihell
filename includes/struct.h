@@ -75,7 +75,9 @@ struct new_cmd
     int type;
     char **argv;
     int fd_in;
+    int std_in;
     int fd_out;
+    int std_out;
     int last_pipe_cmd;
     t_herdoc *herdoc;
     t_env **myenv;

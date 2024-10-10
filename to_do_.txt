@@ -1,18 +1,30 @@
 
 
 DONE
-    clean qoutes
+    [*] clean qoutes
+    [*] echo
+    [*] reset fd in out after bultins exec
+    [*] check built ins
 
-IN PROCCESS
+NOL_YEl TASKS {
+    IN PROCCESS
 
-    fix leaks in builts ins
+    [] exit
+    [] fix ft_atoi_exit
+    
+    [] split args with spasecs inside expander
 
-    fix leaks in expander
+    [] fix leaks in builts ins
 
-    exit
+    [] fix leaks in expander
 
-    echo
+    [] access $?
 
-    check built ins
+    [] expand herdoc
 
-    access $?
+    [] expand redirection filename
+
+    [] print error to fd 1
+
+
+}

@@ -3,6 +3,8 @@
 
 #include "minishell.h"
 
+int check_red(struct new_cmd *p);
+void reset_fds(t_cmd *cmd);
 
 // void execute_cmd(t_cmd *cmd);
 int exec_builtin(t_cmd *cmd);
@@ -32,13 +34,13 @@ void print_export(t_env *env);
 void destroy_single_env(t_env *node);
 int unset_env(t_env **head, char **key);
 bool is_valid(char *key);
+
 /*   EXIT   */
+int exit_blt(t_new_cmd *arg);
 
 /*  UTILS   */
 
 char **lstoarry(t_env *root);
-
-
 
 // void penv(t_env *env);
 

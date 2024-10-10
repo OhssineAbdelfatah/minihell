@@ -45,6 +45,7 @@ int open_file(t_red *redirect,int *in,int *out, t_herdoc *herdoc)
     }
     else
     {
+        //her to expand name of file 
         if (*out != -1 && (77 == redirect->mode || 7== redirect->mode))
         {
             // dprintf(2,">>>about to close %d\n", *out);
@@ -148,17 +149,18 @@ int check_red(struct new_cmd *p)
     {
         if (p->fd_out != -1)
         {
+            p->std_out = dup(1);
             dup2(p->fd_out, 1);
             close(p->fd_out);
         }
         if(p->fd_in != -1)
         {
+            p->std_in = dup(0);
             dup2(p->fd_in, 0);
             close(p->fd_in);
         }
     }
     p->argv = expander( p->argv, *(p->myenv));
-
     return (status);
 }
 
@@ -264,6 +266,7 @@ int new_exec(t_cmd *cmd, int ref)
                 status = exec_new_cmd(cmd);
             else if(is_builtin(cmd)){
                 status = exec_builtin(cmd);
+                reset_fds(cmd);
             }   
             else {
                 pid = fork();

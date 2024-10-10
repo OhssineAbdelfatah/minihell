@@ -1,13 +1,12 @@
-CFILES = sources/one.c sources/two.c sources/three.c\
-            sources/constractors.c sources/parse.c \
+CFILES = sources/one.c sources/two.c sources/constractors.c sources/parse.c \
             sources/print.c sources/tree.c sources/exec.c\
             sources/freedom.c sources/tokens.c sources/ordering.c\
             sources/exec_new.c  sources/builtins/env.c sources/builtins/lstoarry.c \
             sources/builtins/builtin.c sources/builtins/dir.c \
             sources/builtins/unset.c sources/builtins/export.c  sources/del.c \
-			sources/signals.c sources/sub_check.c \
-			sources/test.c sources/expander/expander.c sources/expander/expand_list.c \
-			sources/expander/utils.c  sources/builtins/echo.c
+			sources/signals.c sources/sub_check.c sources/builtins/exit.c \
+			sources/expander/expander.c sources/expander/expand_list.c \
+			sources/expander/utils.c  sources/builtins/echo.c 
 
 MINISHELL_ART = \
 "\033[32m\n"\
