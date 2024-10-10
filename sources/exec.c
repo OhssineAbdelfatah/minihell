@@ -53,7 +53,6 @@ int execute_pipe(t_cmd *cmd)
             close(cmd_child->herdoc->herdoc_pipe);
         }
     }
-
     //RIGHT CHILD COMMAND:
     pid2 = fork();
     if(pid2 == 0)
@@ -86,8 +85,6 @@ int execute_pipe(t_cmd *cmd)
     close(p[1]);
     waitpid(pid2, &status, 0);
     wait(0);
-    // printf("pid1 %d,pid2 %d\n", pid1, pid2);
-    // printf("lst pid:%d\n", status);
     return (status);
 
 } 
@@ -166,7 +163,6 @@ int recursion_pipe(t_cmd *cmd, int fd)
     pcmd = (struct pipe *)cmd;
     status = 0;
 
-    // (void)slchild;
     (void)srchild;
     // LEFT CHILD
     if (pcmd->left->type == NEW_CMD || pcmd->left->type == SUB_SH)
@@ -241,12 +237,11 @@ int exec_and(t_cmd *cmd)
 
     and_cmd = (struct and*)cmd;
     status = new_exec(and_cmd->left, AND);
-    printf("1>STATUS: %d\n", status);
+    // printf("1>STATUS: %d\n", status);
     if (status == 0)
     {
         status = new_exec(and_cmd->right, AND);
-        printf("2>STATUS: %d\n", status);
-
+        // printf("2>STATUS: %d\n", status);
     }
     return (status);
 }
@@ -274,3 +269,51 @@ int exec_or(t_cmd *cmd)
 
 
 
+/**********************************************************************************/
+// THE MIGHTY PERFECT EXEC PIPE FUNCTION !!!
+/**********************************************************************************/
+
+
+typedef struct s_exec_pipe
+{
+    int status;
+    int rpid;
+    int lpid;
+    int p[2];
+    t_pipe *node_p;
+    t_cmd_exec *lchild;
+    t_cmd_exec *rchild;
+
+} t_execp;
+
+
+
+int exec_pipe(t_cmd *cmd)
+{
+    t_execp sp;
+
+    if (pipe(sp.p) < 0)
+        panic("PIPE FAILED !\n");
+    sp.node_p = (t_pipe *)cmd;
+    sp.lpid = fork();
+    if (sp.lpid == 0)
+    {
+        
+
+    }
+    if (sp.node_p->right->type == PIPE)
+    {
+
+    }
+    else if (sp.node_p->right->type == EXEC)
+    {
+        sp.rpid = fork();
+        if (sp.rpid == 0)
+        {
+
+        }
+        waitpid (sp.rpid, &sp.status, 0);
+        WEXITSTATUS(sp.status);
+    }
+    return(sp.status);
+}

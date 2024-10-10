@@ -160,7 +160,8 @@ int check_red(struct new_cmd *p)
             close(p->fd_in);
         }
     }
-    p->argv = expander( p->argv, *(p->myenv));
+    if (p->argv)
+        p->argv = expander( p->argv, *(p->myenv));
     return (status);
 }
 

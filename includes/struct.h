@@ -3,6 +3,7 @@
 
 
 typedef struct cmd t_cmd;
+typedef struct new_cmd t_cmd_exec;
 typedef struct token t_token;
 typedef struct new_red t_red;
 typedef struct s_env_var t_env;
