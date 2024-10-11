@@ -119,9 +119,10 @@ int herdoc_treat(t_del *lst, t_herdoc *herdoc)
         return 0;
     pipe(p);
     pid = fork();
+    signal(SIGQUIT, SIG_IGN);
     if (pid == 0)
     {
-        signal (SIGINT, SIG_DFL);
+        signal (SIGINT, NULL);
         while (lst != NULL)
         {
             while (1)
@@ -156,7 +157,6 @@ int herdoc_treat(t_del *lst, t_herdoc *herdoc)
         signal(SIGINT, do_nothing);
         waitpid(pid, &status,  0);
         signal(SIGINT, signal_handler);
-        // printf("herdoc ct status:%d|| %d\n", WEXITSTATUS( status), WTERMSIG(status));
         if (WTERMSIG(status)  == SIGINT)
         {
             sig = 130;

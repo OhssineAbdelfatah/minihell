@@ -163,4 +163,21 @@ struct s_delimiter
     t_del *next;
 };
 
+/******************************** */
+//IN ORDER TO EXEC A PIPE PROPERLY !
+/********************************* */
+
+typedef struct s_exec_pipe
+{
+    int status;
+    int rpid;
+    int lpid;
+    int p[2];
+    t_pipe *node_p;
+    t_cmd_exec *lchild;
+    t_cmd_exec *rchild;
+
+} t_execp;
+
+
 #endif

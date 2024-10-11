@@ -55,36 +55,28 @@ void execute(t_cmd *cmd)
     {
         status = fork();
         if (status == 0)
-            exec_new_cmd(cmd);
+            exec_new_cmd(cmd ,&status);
         wait(&status);
         // printf("status d'exit:%d\n", status);
     }
     else
-        status = new_exec(cmd , status);
+        status = new_exec(cmd , NOTHING, &status);
 
 }
 
 void parse_nd_exec(char **my_tokens,t_env **dup_env, int *status)
 {
     t_cmd *res;
-    // int status;
     
     res = NULL;
-    // if (ft_strcmp( my_tokens[0], "exit"))
-    // {
-    //     free_mynigga(my_tokens);
-    //     // exit_blt
-    //     panic("BY!\n");
-    // }
+
     res = root(my_tokens,dup_env);
     if (!res)
         return;
     // print_tree(res);
     // printf("\n");
-    *status = 0;
-    // (void)status;
     if (sig == -1)
-        *status = new_exec(res, NOTHING);
+        *status = new_exec(res, NOTHING, status);
     if (sig == 130)
     {
         *status = 130;
@@ -127,10 +119,8 @@ int main(  int ac, char **av, char **env)
         sig = -1;
         str = readline(CYNB"depechez-vous!> "CRESET);
         history(str);
-        // my_tokens = NULL;
         if (ft_strlen(str) && _check_str(str) == 0)
         {
-            // signal(SIGINT, SIG_DFL);
             signal(SIGQUIT, SIG_DFL);
             my_tokens = fr9_trb7(str);
             checker = _check_tokens(my_tokens);
@@ -138,10 +128,12 @@ int main(  int ac, char **av, char **env)
             {
                 free_mynigga(my_tokens);
                 error(NULL,checker);
+                status = 258;
             }
             else if (my_tokens)
                 parse_nd_exec(my_tokens, &dup_env, &status);
             // printf("SIG :%d\n", sig);
+            // printf("status AT the very end :%d\n", status);
         }
         free(str);
     }

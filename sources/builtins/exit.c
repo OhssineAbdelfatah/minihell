@@ -47,6 +47,7 @@ long long ft_atoi_exit(const char *str)
 	unsigned long long	result;
 	unsigned long long	temp;
 
+    (void)temp;
 	result = 0;
 	sign = 1;
 	i = space_sign(str, &sign);
