@@ -22,4 +22,6 @@ char *ft_name(char *arg);
 void free_lst(t_node *head);
 char *clean_qts(char *str);
 
+int herdoc_newfd( int fd, t_env* myenv);
+
 #endif

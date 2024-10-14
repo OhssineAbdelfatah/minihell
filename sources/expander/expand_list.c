@@ -86,6 +86,8 @@ char *expand(t_node **head, t_env *env)
         if (tmp->type == '1')
         {
             value = getEnvValue(env, tmp->str + 1);
+            if(ft_strcmp(tmp->str + 1, "?"))
+                value = "sandwich piknik !! la mayo"; // 
             // free(tmp->str);
             if (value)
                 tmp->str = ft_strdup(value);

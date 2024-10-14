@@ -1,3 +1,5 @@
+GNL = lib/gnl/get_next_line.c lib/gnl/get_next_line_utils.c
+
 CFILES = sources/one.c sources/two.c sources/constractors.c sources/parse.c \
             sources/print.c sources/tree.c sources/exec.c\
             sources/freedom.c sources/tokens.c sources/ordering.c\
@@ -6,7 +8,8 @@ CFILES = sources/one.c sources/two.c sources/constractors.c sources/parse.c \
             sources/builtins/unset.c sources/builtins/export.c  sources/del.c \
 			sources/signals.c sources/sub_check.c sources/builtins/exit.c \
 			sources/expander/expander.c sources/expander/expand_list.c \
-			sources/expander/utils.c  sources/builtins/echo.c 
+			sources/expander/utils.c sources/expander/expand_heredoc.c \
+			 sources/builtins/echo.c ${GNL}
 
 MINISHELL_ART = \
 "\033[32m\n"\
@@ -27,7 +30,7 @@ FFLAG = -fsanitize=address -g
 CC = cc
 OBJ = $(CFILES:.c=.o)
 NAME = minishell
-My_lib = libft/libft.a
+My_lib = lib/libft/libft.a
 
 all : ascii_art $(My_lib) $(NAME)
 
@@ -35,21 +38,21 @@ all : ascii_art $(My_lib) $(NAME)
 	$(CC)  $(CFLAGS)  $(RLINCLUDE) -c  $< -o $@
 
 $(My_lib) : 
-	make -C libft
+	make -C lib/libft
 
 $(NAME) : $(OBJ) $(My_lib)
 	@printf "\033[0;33mGenerating minishell objects... %-33.33s\r \033[0m" $@
 	$(CC) $^ $(CFLAGS) $(My_lib) $(RLFLAGS)  -o $@
 
 clean :
-	@make clean -C libft
+	@make clean -C lib/libft
 	rm -rf $(OBJ)
 
 ascii_art :
 	@echo $(MINISHELL_ART)
 
 fclean : clean
-	@make fclean -C libft
+	@make fclean -C lib/libft
 	rm -rf $(NAME)
 
 re : fclean all

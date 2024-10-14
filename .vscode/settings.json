@@ -2,6 +2,7 @@
     "files.associations": {
         "history.h": "c",
         "minishell.h": "c",
-        "limits.h": "c"
+        "limits.h": "c",
+        "get_next_line.h": "c"
     }
 }

@@ -28,51 +28,57 @@ char *getEnvValue(t_env *env, char *key)
     return NULL;
 }
 
-int open_file(t_red *redirect,int *in,int *out, t_herdoc *herdoc)
+int open_file(t_red *redirect,int *std[2], t_herdoc *herdoc,__unused t_env *env)
 {
     int status;
     status = 0;
-
+    // (void)env;
     if (HERDOC==redirect->type)
     {
-        if (*in != -1 && last_herdoc(redirect))
-            close(*in);
+        if (*std[0] != -1 && last_herdoc(redirect))
+            close(*std[0]);
         if (last_herdoc(redirect))
         {
-            // here is the magic of expand herdoc
-            *in = herdoc->herdoc_pipe; // assign new pipe[0]
+            *std[0] = herdoc->herdoc_pipe; // assign new pipe[0]
+            if(!herdoc->to_exp)
+                *std[0] = herdoc_newfd( herdoc->herdoc_pipe, env);
         }
     }
     else
     {
         //her to expand name of file 
-        if (*out != -1 && (77 == redirect->mode || 7== redirect->mode))
+        if (*std[1] != -1 && (77 == redirect->mode || 7== redirect->mode))
         {
             // dprintf(2,">>>about to close %d\n", *out);
-            close(*out);
+            close(*std[1]);
         }
-        if (*in != -1 && 4 == redirect->mode)
-            close(*in);
-        if (77 == redirect->mode)
-            *out = open(redirect->file, O_RDWR | O_CREAT | O_APPEND, 0644);
-        else if (7== redirect->mode)
-            *out = open(redirect->file, O_RDWR | O_CREAT | O_TRUNC, 0644);
+        if (*std[0] != -1 && 4 == redirect->mode)
+            close(*std[0]);
+        if (77 == redirect->mode){
+            redirect->file = *expander(&(redirect->file), env);
+            *std[1] = open(redirect->file, O_RDWR | O_CREAT | O_APPEND, 0644);
+        }
+        else if (7== redirect->mode){
+            redirect->file = *expander(&(redirect->file), env);
+            *std[1] = open(redirect->file, O_RDWR | O_CREAT | O_TRUNC, 0644);
+        }
         else if (4== redirect->mode)
         {
-            *in = open(redirect->file, O_RDONLY);
-            if (*in < 0)
+            redirect->file = *expander(&(redirect->file), env);
+            *std[0] = open(redirect->file, O_RDONLY);
+            if (*std[0] < 0)
             {
                 dprintf(2,"minishell: %s:No such file or directory!\n", redirect->file);
                 panic("");
             }
         }
-        if (*out < 0 && 4 != redirect->mode)
+        if (*std[1] < 0 && 4 != redirect->mode)
             panic("minishell: Permission denied\n");
     }
     return(status);
 }
 
-int exec_red(t_red *redirect, int *in, int *out, t_herdoc *herdoc)
+int exec_red(t_red *redirect, int *std[2], t_herdoc *herdoc, t_env *env)
 {
     int status;
     t_red *tmp;
@@ -82,7 +88,7 @@ int exec_red(t_red *redirect, int *in, int *out, t_herdoc *herdoc)
     while(redirect)
     {
         tmp = redirect->next;
-        status = open_file(redirect, in, out, herdoc);
+        status = open_file(redirect, std, herdoc, env);
         redirect = tmp;
     }
     return(status);
@@ -141,26 +147,30 @@ void pexit(char *s)
 int check_red(struct new_cmd *p)
 {
     int status;
+    int *std[2];
+
 
     status = 0;
-    if (NULL != p->redirect)
-        status = exec_red(p->redirect, &(p->fd_in), &(p->fd_out), p->herdoc);
+    if (NULL != p->redirect){
+        std[0] = &(p->fd_in);
+        std[1] = &(p->fd_out);
+        status = exec_red(p->redirect, std, p->herdoc ,*(p->myenv));
+    }
     if (p->fd_in != -1 || p->fd_out != -1)
     {
         if (p->fd_out != -1)
         {
             p->std_out = dup(1);
-            dup2(p->fd_out, 1);
-            close(p->fd_out);
+            dup2(*std[1], 1);
+            close(*std[1]);
         }
         if(p->fd_in != -1)
         {
             p->std_in = dup(0);
-            dup2(p->fd_in, 0);
-            close(p->fd_in);
+            dup2(*std[0], 0);
+            close(*std[0]);
         }
     }
-    p->argv = expander( p->argv, *(p->myenv));
     return (status);
 }
 
@@ -172,6 +182,7 @@ int exec_new_cmd(t_cmd *cmd)
     char **cur_env;
 
     p = (struct new_cmd *)cmd;
+    p->argv = expander( p->argv, *(p->myenv));
     status = check_red(p);
     if(is_builtin(cmd))
     {
@@ -223,13 +234,17 @@ int exec_sub_sh(t_cmd * cmd)
     struct sub_sh* p;
     int pid;
     int status;
+    int *std[2];
 
     p = (struct sub_sh *)cmd;
     pid = fork();
     if (pid == 0)
     {
-        if (p->redirect)
-            exec_red(p->redirect, &(p->fd_in), &(p->fd_out),p->herdoc);
+        if (p->redirect){
+            std[0] = &(p->fd_in);
+            std[1] = &(p->fd_out);
+            exec_red(p->redirect, std,p->herdoc,*(p->myenv));
+        }
         if (p->fd_in != -1 || p->fd_out != -1)
         {
             if (p->fd_out != -1)

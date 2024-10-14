@@ -6,7 +6,7 @@ char *ft_name(char *arg)
         return NULL;
     arg++;
     while(*arg){
-        if( (!ft_isalnum(*arg) && *arg != '_') || *arg == '\0')
+        if( (!ft_isalnum(*arg) && *arg != '_' && *arg!= '?') || *arg == '\0')
             return arg;
         arg++;
     }

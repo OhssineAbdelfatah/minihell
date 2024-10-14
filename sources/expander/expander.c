@@ -102,6 +102,8 @@ char **expander(char **argv, t_env *env)
     int i ;
 
     i = -1 ;
+    if(!argv || !(*argv))
+        return NULL;
     while(argv[++i])
         argv[i] = joiner(argv[i], env);
     return argv;

@@ -5,26 +5,25 @@ DONE
     [*] echo
     [*] reset fd in out after bultins exec
     [*] check built ins
+    [*] expand herdoc
+    [*] fix ft_atoi_exit
+    [*] exit
 
 NOL_YEl TASKS {
     IN PROCCESS
 
-    [] exit
-    [] fix ft_atoi_exit
-    
-    [] split args with spasecs inside expander
+    [] split args with spasecs inside expander // asc ur peer
 
     [] fix leaks in builts ins
 
     [] fix leaks in expander
 
-    [] access $?
+    [] access $? // asc ur peer hoe he passes
 
-    [] expand herdoc
-
-    [] expand redirection filename
+    [] expand redirection filename //
 
     [] print error to fd 1
 
+    [] update pwd in env at cd command exec
 
 }

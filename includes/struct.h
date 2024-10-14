@@ -153,6 +153,7 @@ struct s_herdoc_info
 {
     int herdoc_pipe;
     int to_exp;
+    // t_env **env;
 };
 
 struct s_delimiter

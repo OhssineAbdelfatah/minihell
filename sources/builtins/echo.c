@@ -29,7 +29,7 @@ int echo(t_new_cmd *p)
     int new_line;
     int new_line_1;
 
-    p->argv = expander( p->argv, *(p->myenv));
+    // p->argv = expander( p->argv, *(p->myenv));
     new_line = 0;
     if(ft_strslen(p->argv) > 1 && isvalid_echo(&(p->argv[1])) > 0)
         new_line += isvalid_echo(&(p->argv[1]));

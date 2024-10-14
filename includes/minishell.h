@@ -18,7 +18,8 @@
 #include "struct.h"
 #include "builtins.h"
 #include "expander.h"
-#include "../libft/libft.h"
+#include "../lib/libft/libft.h"
+#include "../lib/gnl/get_next_line.h"
 
 #define GRN "\e[0;32m"
 #define CYNB "\e[46m"
