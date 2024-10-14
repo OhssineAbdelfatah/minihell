@@ -42,6 +42,7 @@ size_t ft_atoi_exit(const char *str)
 	size_t	result;
 	size_t	temp;
 
+    (void)temp;
 	result = 0;
 	sign = 1;
 	i = space_sign(str, &sign);

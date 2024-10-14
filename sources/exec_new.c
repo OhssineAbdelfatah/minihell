@@ -174,8 +174,9 @@ int check_red(struct new_cmd *p)
     return (status);
 }
 
-int exec_new_cmd(t_cmd *cmd)
+int exec_new_cmd(t_cmd *cmd , int *last_status)
 {
+    // (void)last_status;
     struct new_cmd *p;
     int status;
     char *abs_path;
@@ -183,6 +184,15 @@ int exec_new_cmd(t_cmd *cmd)
 
     p = (struct new_cmd *)cmd;
     p->argv = expander( p->argv, *(p->myenv));
+    /********************************************** */
+    // THIS ONE JUST TO KNOW IF THE STATUS IS WORKING PROPERLY
+    /********************************************** */
+    if ( p->argv && ft_strcmp("echo", p->argv[0]) &&  ft_strcmp("$?", p->argv[1]))
+    {
+        printf("STATUS : %d\n", *last_status);
+        exit (0);
+    }
+    /********************************************************** */
     status = check_red(p);
     if(is_builtin(cmd))
     {
@@ -229,12 +239,13 @@ int exec_new_cmd(t_cmd *cmd)
 
 }
 
-int exec_sub_sh(t_cmd * cmd)
+int exec_sub_sh(t_cmd * cmd , int *last_status)
 {
     struct sub_sh* p;
     int pid;
     int status;
     int *std[2];
+    int sub_status;
 
     p = (struct sub_sh *)cmd;
     pid = fork();
@@ -258,15 +269,15 @@ int exec_sub_sh(t_cmd * cmd)
                 close(p->fd_in);
             }
         }
-        status = new_exec(p->sub_root, 0);
-        exit(status);
+        sub_status = new_exec(p->sub_root, 0, last_status);
+        exit(sub_status);
     }
-    waitpid(pid, &status, 0);
-    status = WEXITSTATUS(status);
-    return (status);
+    waitpid(pid, &sub_status, 0);
+    *last_status = WEXITSTATUS(sub_status);
+    return (*last_status);
 }
 
-int new_exec(t_cmd *cmd, int ref)
+int new_exec(t_cmd *cmd, int ref, int *last_status)
 {
     int status, pid;
     struct new_cmd * p;
@@ -276,9 +287,18 @@ int new_exec(t_cmd *cmd, int ref)
     {
         p = (struct new_cmd *)cmd;
         if (p)
-        {     
+        {   
+            /********************************************** */
+            // THIS ONE JUST TO KNOW IF THE STATUS IS WORKING PROPERLY
+            /********************************************** */
+            if ( p->argv && ft_strcmp("echo", p->argv[0]) &&  ft_strcmp("$?", p->argv[1]))
+            {
+                printf("STATUS : %d\n", *last_status);
+                return 0;
+            }
+            /********************************************** */
             if (ref == PIPE)
-                status = exec_new_cmd(cmd);
+                status = exec_new_cmd(cmd, last_status);
             else if(is_builtin(cmd)){
                 status = exec_builtin(cmd);
                 reset_fds(cmd);
@@ -286,7 +306,7 @@ int new_exec(t_cmd *cmd, int ref)
             else {
                 pid = fork();
                 if (pid == 0)
-                    exec_new_cmd(cmd);
+                    exec_new_cmd(cmd, last_status);
                 else
                     waitpid(pid, &status, 0);
                 status = WEXITSTATUS(status);
@@ -294,13 +314,20 @@ int new_exec(t_cmd *cmd, int ref)
         }
       
     }
-    else if (PIPE == cmd->type)
-        status = recursion_pipe(cmd, 0);
     else if (AND == cmd->type)
-        status = exec_and(cmd);
+        status = exec_and(cmd, last_status);
     else if (OR == cmd->type)
-        status = exec_or(cmd);
+        status = exec_or(cmd, last_status);
     else if (SUB_SH == cmd->type)
-        status = exec_sub_sh(cmd);
+        status = exec_sub_sh(cmd , last_status);
+    else if (PIPE == cmd->type)
+    {
+        status = exec_pipe(cmd, last_status);
+        status = WEXITSTATUS(status);
+    }
+    // else if (PIPE == cmd->type)
+    //     status = execute_pipe(cmd);
+    // else if (PIPE == cmd->type)
+    //     status = recursion_pipe(cmd, 0);
     return (status);
 }

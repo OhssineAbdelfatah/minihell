@@ -56,7 +56,7 @@ void free_new_cmd(t_cmd *cmd)
     struct new_cmd *p;
 
     p = (struct new_cmd *)cmd;
-    // free_mynigga(p->argv);
+    free_mynigga(p->argv);
     if (NULL != p->redirect)
         free_red_lst(& (p->redirect));
     if (NULL != p->herdoc)

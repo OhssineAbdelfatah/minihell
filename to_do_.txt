@@ -27,3 +27,13 @@ NOL_YEl TASKS {
     [] update pwd in env at cd command exec
 
 }
+
+
+what TILLAS did in lately
+{
+    the Exit status works just fine !
+    but check the exepend of it cause i just made i temporary 
+    solution there >exec_new.c line 279 also line 179;
+    the pipe also works ;
+    (btw leaks in the expand folder and builtins are serious shit hh)
+}

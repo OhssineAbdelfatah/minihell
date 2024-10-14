@@ -1,7 +1,7 @@
 GNL = lib/gnl/get_next_line.c lib/gnl/get_next_line_utils.c
 
 CFILES = sources/one.c sources/two.c sources/constractors.c sources/parse.c \
-            sources/print.c sources/tree.c sources/exec.c\
+            sources/print.c sources/tree.c sources/exec.c sources/exec_pipe.c\
             sources/freedom.c sources/tokens.c sources/ordering.c\
             sources/exec_new.c  sources/builtins/env.c sources/builtins/lstoarry.c \
             sources/builtins/builtin.c sources/builtins/dir.c \
@@ -21,11 +21,14 @@ MINISHELL_ART = \
 "╚═╝     ╚═╝ ╚═╝ ╚═╝  ╚═══╝ ╚═╝ ╚══════ ╝╚═╝  ╚═╝ ╚══════╝ ╚══════╝ ╚══════╝\n"\
 "						      By: TILLAS & NolYel  \033[0m"
 
-RLFLAGS =	-L/Users/aohssine/goinfre/homebrew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
-RLINCLUDE	=	-I/Users/aohssine/goinfre/homebrew/opt/readline/include  # tell compiler where to find headers
+# RLFLAGS =	-L/Users/aohssine/goinfre/homebrew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
+# RLINCLUDE	=	-I/Users/aohssine/goinfre/homebrew/opt/readline/include  # tell compiler where to find headers
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
-FFLAG = -fsanitize=address -g
+RLFLAGS =	-L/Users/ilaasri/.brew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
+RLINCLUDE	=	-I/Users/ilaasri/.brew/opt/readline/include  #
+
+CFLAGS = -Wall -Wextra -Werror
+# FFLAG = -fsanitize=address -g
 
 CC = cc
 OBJ = $(CFILES:.c=.o)
@@ -35,7 +38,7 @@ My_lib = lib/libft/libft.a
 all : ascii_art $(My_lib) $(NAME)
 
 %.o : %.c Makefile
-	$(CC)  $(CFLAGS)  $(RLINCLUDE) -c  $< -o $@
+	$(CC)  $(CFLAGS) $(FFLAG)  $(RLINCLUDE) -c  $< -o $@
 
 $(My_lib) : 
 	make -C lib/libft

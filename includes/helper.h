@@ -108,13 +108,15 @@ t_cmd *parse_sub(char **tokens, int *i,t_env **myenv);
 //new EXEC
 /************************************ */
 
-int exec_or(t_cmd *cmd);
-int exec_and(t_cmd *cmd);
-int new_exec(t_cmd *cmd, int ref);
+int exec_sub_sh(t_cmd * cmd, int *last_status);
+int exec_or(t_cmd * cmd, int *last_status);
+int exec_and(t_cmd * cmd, int *last_status);
+int new_exec(t_cmd * cmd, int ref, int *last_status);
 // int new_exec(t_cmd *cmd);
-int execute_pipe (t_cmd *cmd);
-int recursion_pipe(t_cmd *cmd, int fd);
-int exec_new_cmd(t_cmd *cmd);
+int exec_pipe(t_cmd * cmd, int *last_status);
+int execute_pipe (t_cmd * cmd, int *last_status);
+int recursion_pipe(t_cmd * cmd, int *last_status);
+int exec_new_cmd(t_cmd * cmd, int *last_status);
 /************************************ */
 
 //SIGNALS
@@ -140,7 +142,7 @@ void print_del(t_del *head);
 void free_delimiters(t_del *head);
 void free_tree2(t_cmd *cmd);
 void free_mynigga(char **str);
-void free_tree(t_cmd *cmd);
+// void free_tree(t_cmd *cmd);
 
 /************************************* */
 

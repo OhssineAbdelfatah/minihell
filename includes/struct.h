@@ -3,6 +3,7 @@
 
 
 typedef struct cmd t_cmd;
+typedef struct new_cmd t_cmd_exec;
 typedef struct token t_token;
 typedef struct new_red t_red;
 typedef struct s_env_var t_env;
@@ -162,5 +163,22 @@ struct s_delimiter
     int to_exp;
     t_del *next;
 };
+
+/******************************** */
+//IN ORDER TO EXEC A PIPE PROPERLY !
+/********************************* */
+
+typedef struct s_exec_pipe
+{
+    int status;
+    int rpid;
+    int lpid;
+    int p[2];
+    t_pipe *node_p;
+    t_cmd_exec *lchild;
+    t_cmd_exec *rchild;
+
+} t_execp;
+
 
 #endif

@@ -60,6 +60,8 @@ t_node *splitArg(char *str)
     int i =-1;
     head = NULL;
     token = tokenizer(str);
+    //ALWAYS INITIALIZE YOUR VARIABALS >>
+    //>> prevChar = 0;
     while (token[++i])
     {
         if(token[i] != prevChar && i > 0){

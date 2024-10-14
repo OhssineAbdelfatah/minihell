@@ -99,14 +99,18 @@ struct cmd * parse_sub(char **tokens, int *i, t_env **myenv)
 }
 
 /*********************************************************** */
-
 //PARSE PIPE WITH RECURSION :
 /********************************************************* */
 struct cmd *parse_pipe_rec(char **tokens, int *i, t_env **myenv)
 {
     t_cmd *res;
+    int what_next;
 
-    res = parse_new_exec(tokens, i, myenv);
+    what_next = which_one(tokens[*i]);
+    if (tokens[*i] && what_next == S_SUB)
+        res = parse_sub(tokens, i, myenv);
+    else if (tokens[*i] && (what_next == EXEC || what_next == HERDOC || what_next == RED))
+        res = parse_new_exec(tokens, i, myenv);
     if  (tokens[*i] && is_pipe(tokens[*i]))
     {
         (*i)++;
@@ -124,17 +128,20 @@ struct cmd *parse_pipe_rec(char **tokens, int *i, t_env **myenv)
 t_cmd *parse_pipe_loop(char **tokens, int *i, t_env **myenv)
 {
     t_cmd *res;
+    int what_next;
 
-    if (tokens[*i] && which_one(tokens[*i]) == S_SUB)
+    what_next = which_one(tokens[*i]);
+    if (tokens[*i] && what_next == S_SUB)
         res = parse_sub(tokens, i, myenv);
-    else if (tokens[*i] && (which_one(tokens[*i]) == EXEC || which_one(tokens[*i]) == HERDOC || which_one(tokens[*i]) == RED))
+    else if (tokens[*i] && (what_next == EXEC || what_next == HERDOC || what_next == RED))
         res = parse_new_exec(tokens, i, myenv);
     while  (tokens[*i] && is_pipe(tokens[*i]))
     {
         (*i)++;
-        if (tokens[*i] && which_one(tokens[*i]) == S_SUB)
+         what_next = which_one(tokens[*i]);
+        if (tokens[*i] &&  what_next == S_SUB)
             res = (t_cmd *)init_pipe(res, parse_sub(tokens , i, myenv));
-        else if (tokens[*i] && which_one(tokens[*i]) == EXEC)
+        else if (tokens[*i] && (what_next == EXEC || what_next == HERDOC || what_next == RED))
             res = (t_cmd *)init_pipe(res, parse_new_exec(tokens , i, myenv));
     }
     return (res);
@@ -151,19 +158,20 @@ t_cmd *parse_and_or(char **tokens, int *i, t_env **myenv)
     t_cmd *res;
     int ref;
 
-    res = parse_pipe_loop(tokens, i, myenv);
+    // res = parse_pipe_loop(tokens, i, myenv);
+    res = parse_pipe_rec(tokens, i, myenv);
     ref = is_and_or(tokens[*i]);
     while  (tokens[*i] && ref != -1)
     {
         if (ref == AND)
         {
             (*i) ++;
-            res = (t_cmd *)init_and(res, parse_pipe_loop(tokens , i, myenv));
+            res = (t_cmd *)init_and(res, parse_pipe_rec(tokens , i, myenv));
         }
         if (ref == OR)
         {
             (*i) ++;
-            res = (t_cmd *)init_or(res, parse_pipe_loop(tokens , i, myenv));
+            res = (t_cmd *)init_or(res, parse_pipe_rec(tokens , i, myenv));
         }
         ref = is_and_or(tokens[*i]);
     }
@@ -176,21 +184,9 @@ t_cmd *root(char **tokens, t_env **env)
 {
     int i = 0;
     t_cmd *res;
-    // struct pipe *tmp;
-
     
     res = NULL;
     res = parse_and_or(tokens, &i, env);
-    // printf("root TYPE %d\n", res->type);
-    // if (res->type == PIPE)
-    // {
-    //     int i = 0;
-    //     while (tokens[i])
-    //         printf("%s\n", tokens[i ++]);
-    //     tmp = (struct pipe *)res;
-    //     printf("left:%d\n", tmp->left->type);
-    //     printf("RIGHT:%d\n", tmp->right->type); 
-    // }
     return(res);
 }
 
