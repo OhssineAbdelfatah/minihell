@@ -101,6 +101,7 @@ char *expand(t_node **head, t_env *env)
     new = ft_strdup("");
     while (tmp)
     {
+        printf("%s\n",tmp->str);
         tmpstr = new ;
         new = ft_strjoin(new, tmp->str);
         free(tmpstr);

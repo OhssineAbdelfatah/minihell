@@ -80,6 +80,7 @@ t_node *splitArg(char *str)
     free(token);
     return head;
 }
+
 char *joiner(char *arg, t_env* env)
 {
     char* new;
@@ -87,7 +88,7 @@ char *joiner(char *arg, t_env* env)
     t_node  *head;
     t_node  *tmp;
 
-    if (ft_strchr(arg, '$') == NULL)
+    if(ft_strchr(arg, '$') == NULL)
         return arg;
     head = splitArg(arg);
     mini_expander(&head, env);

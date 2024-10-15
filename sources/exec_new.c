@@ -151,9 +151,9 @@ int check_red(struct new_cmd *p)
 
 
     status = 0;
+    std[1] = &(p->fd_out);
+    std[0] = &(p->fd_in);
     if (NULL != p->redirect){
-        std[0] = &(p->fd_in);
-        std[1] = &(p->fd_out);
         status = exec_red(p->redirect, std, p->herdoc ,*(p->myenv));
     }
     if (p->fd_in != -1 || p->fd_out != -1)
@@ -250,9 +250,10 @@ int exec_sub_sh(t_cmd * cmd , int *last_status)
     pid = fork();
     if (pid == 0)
     {
+        std[0] = &(p->fd_in);
+        std[1] = &(p->fd_out);
         if (p->redirect){
-            std[0] = &(p->fd_in);
-            std[1] = &(p->fd_out);
+        
             exec_red(p->redirect, std,p->herdoc,*(p->myenv));
         }
         if (p->fd_in != -1 || p->fd_out != -1)

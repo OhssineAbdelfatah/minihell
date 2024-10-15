@@ -21,6 +21,7 @@ void free_lst(t_node *head)
         tmp = head->next;
         if(!head->str)
             free(head->str);
+        // free(head->str);
         free(head);
         head = tmp;
     }
