@@ -27,7 +27,7 @@ MINISHELL_ART = \
 RLFLAGS =	-L/Users/ilaasri/.brew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
 RLINCLUDE	=	-I/Users/ilaasri/.brew/opt/readline/include  #
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 # FFLAG = -fsanitize=address -g
 
 CC = cc

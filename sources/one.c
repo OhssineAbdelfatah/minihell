@@ -39,8 +39,9 @@ int check_qoutes(char *s)
 
 void panic(char *str)
 {
-    if (str)
-        dprintf(2, "%s", str);
+    (void)str;
+    // if (str)
+        // dprintf(2, "%s", str);
     exit(1);
 }
 
@@ -118,8 +119,8 @@ int main(  int ac, char **av, char **env)
     {
         sig = -1;
         str = readline(GRN"depechez-vous!> "CRESET);
-        history(str);
-        if (ft_strlen(str) && _check_str(str) == 0)
+            history(str);
+        if (str && ft_strlen(str) && _check_str(str) == 0)
         {
             signal(SIGQUIT, SIG_DFL);
             my_tokens = fr9_trb7(str);
