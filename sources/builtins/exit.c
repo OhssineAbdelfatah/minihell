@@ -70,9 +70,11 @@ int exit_blt(t_new_cmd *cmd)
     {
         if(ft_isnumber(cmd->argv[1])){
             status = ft_atoi_exit(cmd->argv[1]);
+            free_mynigga(cmd->argv);
             exit( (unsigned char )status);
         }else{
             printf("1bash: exit: %s: numeric argument required\n", cmd->argv[1]);
+            free_mynigga(cmd->argv);
             exit(255) ;
         }
     }else if( args_len > 2)
@@ -83,8 +85,10 @@ int exit_blt(t_new_cmd *cmd)
             return 1;
         }else{
             printf("bash: exit: %s: numeric argument required\n",cmd->argv[1]);
+            free_mynigga(cmd->argv);
             exit(255);
         }
     }
+    free_mynigga(cmd->argv);
     exit(0);
 }

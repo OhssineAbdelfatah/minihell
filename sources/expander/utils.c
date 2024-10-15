@@ -19,7 +19,8 @@ void free_lst(t_node *head)
 
     while(head){
         tmp = head->next;
-        free(head->str);
+        if(!head->str)
+            free(head->str);
         free(head);
         head = tmp;
     }

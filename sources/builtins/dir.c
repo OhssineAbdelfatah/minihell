@@ -53,5 +53,5 @@ int cd(t_cmd *cmd)
             return -1;
         chdir(p->argv[1]);
     }
-     return 0;   
+    return 0;   
 }

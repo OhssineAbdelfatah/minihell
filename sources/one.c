@@ -100,6 +100,10 @@ void history(char *str)
 
 }
 
+void ff(void){
+    system("leaks minishell");
+}
+
 int main(  int ac, char **av, char **env)
 {
     char *str;
@@ -107,7 +111,7 @@ int main(  int ac, char **av, char **env)
     char **my_tokens;
     t_env *dup_env;
     int checker ;   
-
+    atexit(ff);
     (void)av;
     (void)ac;
     status = 0;
