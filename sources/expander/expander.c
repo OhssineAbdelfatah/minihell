@@ -59,9 +59,10 @@ t_node *splitArg(char *str)
     int indx = 0;
     int i =-1;
     head = NULL;
+    tail = NULL;
     token = tokenizer(str);
     //ALWAYS INITIALIZE YOUR VARIABALS >>
-    //>> prevChar = 0;
+    prevChar = token[0];
     while (token[++i])
     {
         if(token[i] != prevChar && i > 0){
@@ -76,11 +77,13 @@ t_node *splitArg(char *str)
         }
         prevChar = token[i];
     }
+    free(token);
     return head;
 }
 char *joiner(char *arg, t_env* env)
 {
     char* new;
+    char* tmp_new;
     t_node  *head;
     t_node  *tmp;
 
@@ -90,9 +93,12 @@ char *joiner(char *arg, t_env* env)
     new = ft_strdup("");
     while(tmp)
     {   
+        tmp_new = new;
         new = ft_strjoin(new, tmp->str);
+        free(tmp_new);
         tmp = tmp->next ;
     }
+    free_lst(head);
     free(arg);
     // free list
     // free(nn);

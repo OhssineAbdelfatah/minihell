@@ -28,7 +28,7 @@ char *getEnvValue(t_env *env, char *key)
     return NULL;
 }
 
-int open_file(t_red *redirect,int *std[2], t_herdoc *herdoc,__unused t_env *env)
+int open_file(t_red *redirect,int *std[2], t_herdoc *herdoc, t_env *env)
 {
     int status;
     status = 0;
@@ -243,7 +243,6 @@ int exec_sub_sh(t_cmd * cmd , int *last_status)
 {
     struct sub_sh* p;
     int pid;
-    int status;
     int *std[2];
     int sub_status;
 

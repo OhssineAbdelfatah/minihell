@@ -71,7 +71,7 @@ char *splitWordVar(char *value, t_env *env)
     if (head == NULL)
         return value;
  
-    return expand(&head, env);
+    return (expand(&head, env));
 } 
 
 char *expand(t_node **head, t_env *env)
@@ -79,6 +79,7 @@ char *expand(t_node **head, t_env *env)
     t_node *tmp;
     char *new;
     char *value;
+    char *tmpstr;
     tmp = *head;
     while (tmp)
     {
@@ -100,9 +101,11 @@ char *expand(t_node **head, t_env *env)
     new = ft_strdup("");
     while (tmp)
     {
+        tmpstr = new ;
         new = ft_strjoin(new, tmp->str);
+        free(tmpstr);
         tmp = tmp->next;
     }
-    // free_lst(*head);
+    free_lst(*head);
     return new;
 }

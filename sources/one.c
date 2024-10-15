@@ -117,7 +117,7 @@ int main(  int ac, char **av, char **env)
     while(1)
     {
         sig = -1;
-        str = readline(CYNB"depechez-vous!> "CRESET);
+        str = readline(GRN"depechez-vous!> "CRESET);
         history(str);
         if (ft_strlen(str) && _check_str(str) == 0)
         {
