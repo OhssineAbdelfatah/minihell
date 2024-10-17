@@ -2,7 +2,7 @@
 
 t_node *create_node(char *value, char type)
 {
-    t_node *node = malloc(sizeof(t_node));
+    t_node *node = debug_malloc(sizeof(t_node));
     node->str = value;
     node->type = type;
     node->next = NULL;
@@ -63,15 +63,14 @@ char *splitWordVar(char *value, t_env *env)
             // free(bdollar);
         }
         else{
-            node = create_node(value, '0');
+            node = create_node(ft_strdup(value), '0');
             add_node( &head, &tail, node);
             break;     
         }
     }
-    if (head == NULL)
-        return value;
- 
-    return (expand(&head, env));
+    dollar = expand(&head, env);
+    free_lst(head);
+    return (dollar);
 } 
 
 char *expand(t_node **head, t_env *env)
@@ -104,9 +103,9 @@ char *expand(t_node **head, t_env *env)
         printf("%s\n",tmp->str);
         tmpstr = new ;
         new = ft_strjoin(new, tmp->str);
-        free(tmpstr);
+        debug_free(tmpstr);
         tmp = tmp->next;
     }
-    free_lst(*head);
+    // free_lst(*head);
     return new;
 }

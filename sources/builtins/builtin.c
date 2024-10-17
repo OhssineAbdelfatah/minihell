@@ -60,29 +60,23 @@ int exec_builtin(t_cmd *cmd)
     if(ft_strcmp(p->argv[0], "cd")) // add oldpwd and change pwd
     {
         status = cd(cmd);
-        free_mynigga(p->argv);
     }
     else if(ft_strcmp(p->argv[0], "pwd")) // 
     {
         status = pwd(cmd);
-        free_mynigga(p->argv);
     }
     else if(ft_strcmp(p->argv[0], "env")){
         status = print_env(*(p->myenv));
-        free_mynigga(p->argv);
     }
     else if(ft_strcmp(p->argv[0], "unset")){
         if(ft_strslen(p->argv) > 1)
             status = unset_env(p->myenv, p->argv);
-        free_mynigga(p->argv);
     }
     else if(ft_strcmp(p->argv[0], "export")){
         status = export(p->myenv, p->argv);
-        free_mynigga(p->argv);
     }
     else if(ft_strcmp(p->argv[0], "echo")){
         status = echo(p);
-        free_mynigga(p->argv);
     }
     else if(ft_strcmp(p->argv[0], "exit"))
         status = exit_blt(p);

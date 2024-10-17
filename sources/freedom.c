@@ -29,7 +29,7 @@ void free_red_lst(t_red **lst)
         free((*lst)->file);
         (*lst)->file = NULL;
         free(*lst);
-         *lst = NULL;
+        *lst = NULL;
         *lst = tmp;
     }
     *lst = NULL;

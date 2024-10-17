@@ -19,10 +19,8 @@ void free_lst(t_node *head)
 
     while(head){
         tmp = head->next;
-        if(!head->str)
-            free(head->str);
-        // free(head->str);
-        free(head);
+        debug_free(head->str);
+        debug_free(head);
         head = tmp;
     }
 }
@@ -34,6 +32,6 @@ char *clean_qts(char *str)
         new = ft_strdup("");
     else
         new = ft_strndup(str+1,ft_strlen(str+1)-1);
-    free(str);
+    debug_free(str);
     return new;
 }

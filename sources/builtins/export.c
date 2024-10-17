@@ -31,7 +31,7 @@
 
 void update_env(t_env *node, char *value)
 {
-    free(node->value);
+    debug_free(node->value);
     node->value = value;
     return ;
 }
@@ -134,7 +134,7 @@ t_env *env_exist(char *key, t_env* node)
 t_env* creat_new_env(char *key, char *value)
 {
     t_env *node;
-    node = malloc(sizeof(t_env));
+    node = debug_malloc(sizeof(t_env));
     if(!node)
         return NULL;
 

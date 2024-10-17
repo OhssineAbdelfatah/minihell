@@ -77,7 +77,7 @@ t_node *splitArg(char *str)
         }
         prevChar = token[i];
     }
-    free(token);
+    debug_free(token);
     return head;
 }
 
@@ -98,11 +98,11 @@ char *joiner(char *arg, t_env* env)
     {   
         tmp_new = new;
         new = ft_strjoin(new, tmp->str);
-        free(tmp_new);
+        debug_free(tmp_new);
         tmp = tmp->next ;
     }
     free_lst(head);
-    free(arg);
+    debug_free(arg);
     // free list
     // free(nn);
     return new;
@@ -115,7 +115,9 @@ char **expander(char **argv, t_env *env)
     i = -1 ;
     if(!argv || !(*argv))
         return NULL;
-    while(argv[++i])
+    while(argv[++i]){
+        printf("argalloc [%p]\n",argv[i]);
         argv[i] = joiner(argv[i], env);
+    }
     return argv;
 }

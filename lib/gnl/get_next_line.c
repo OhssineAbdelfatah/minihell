@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include "./../../includes/minishell.h"
 
 char	*ft_calloc_gnl(int count, int size)
 {

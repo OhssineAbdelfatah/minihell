@@ -15,6 +15,7 @@
 
 
 #include "helper.h"
+#include "colors.h"
 #include "struct.h"
 #include "builtins.h"
 #include "expander.h"
@@ -24,7 +25,20 @@
 #define GRN "\e[0;32m"
 #define CYNB "\e[46m"
 #define CRESET "\e[0m"
+
+
 extern int sig;
+
+///////////////////////////////
+///////////      DEBUG       //
+///////////////////////////////
+
+void debug_free(void *ptr);
+void *debug_malloc(size_t size);
+
+///////////////////////////////
+///////////      DEBUG       //
+///////////////////////////////
 
 /*Testing a new split shit */
 int count_tokens_new(char *s);

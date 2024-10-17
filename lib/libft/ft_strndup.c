@@ -21,7 +21,7 @@ char	*ft_strndup(const char *s1, size_t size)
 	i = ft_strlen(s1);
 	if(size > (size_t)i )
 		return NULL;
-	new = (char *)malloc(size * sizeof(char) + 1);
+	new = (char *)debug_malloc(size * sizeof(char) + 1);
 	if (!new)
 		return (NULL);
 	i = 0;
@@ -41,7 +41,7 @@ char	*ft_strnmdup(const char *s1, size_t n, size_t m)
 	i = ft_strlen(s1);
 	if(n > (size_t)i || m > (size_t)i)
 		return NULL;
-	new = (char *)malloc((m -n) * sizeof(char) + 1);
+	new = (char *)debug_malloc((m -n) * sizeof(char) + 1);
 	if (!new)
 		return (NULL);
 	// temp = new;
