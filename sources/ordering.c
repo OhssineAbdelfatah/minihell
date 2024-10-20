@@ -119,7 +119,6 @@ int herdoc_treat(t_del *lst, t_herdoc *herdoc)
         return 0;
     pipe(p);
     pid = fork();
-    signal(SIGQUIT, SIG_IGN);
     if (pid == 0)
     {
         signal (SIGINT, NULL);

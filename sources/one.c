@@ -72,7 +72,10 @@ void execute(t_cmd *cmd)
     {
         status = fork();
         if (status == 0)
+        {
+            // signal (SIGINT, NULL); 
             exec_new_cmd(cmd ,&status);
+        }
         wait(&status);
         // printf("status d'exit:%d\n", status);
     }
@@ -129,7 +132,7 @@ int main(  int ac, char **av, char **env)
     t_env *dup_env;
     int checker ;   
 
-    atexit(ff);
+    // atexit(ff);
     (void)av;
     (void)ac;
     status = 0;
