@@ -7,6 +7,32 @@ typedef struct s_node {
     struct s_node *next;
 } t_node;
 
+typedef struct s_split_arg 
+{
+    char *token;
+    char prevChar;
+    t_node *head;
+    t_node *tail;
+    t_node *node;
+    char *tmpdup;
+    char *start ;
+    int indx ;
+} t_split_arg;
+
+typedef struct s_expn {
+    t_node *tmp;
+    char *new;
+    char *value;
+    char *tmpstr;
+} t_expn;
+
+typedef struct s_tokens_exp {
+    bool in_double_quotes ;
+    bool in_single_quotes ;
+    char prevChar ;
+    int i;
+} t_tokens;
+
 char **expander(char **argv, t_env *env);
 char *tokenizer(char *arg);
 t_node *splitArg(char *str);

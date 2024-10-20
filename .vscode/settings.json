@@ -1,8 +1,8 @@
 {
 	"workbench.colorCustomizations": {
-		"activityBar.background": "#ff0000",
-		"titleBar.activeBackground": "#ff0000",
-		"titleBar.activeForeground": "#ff0000"
+		// "activityBar.background": "#ffffff",
+		"titleBar.activeBackground": "#fff0685d",
+		// "titleBar.activeForeground": "#ff0000"
 	},
 	"files.associations": {
 		"minishell.h": "c",

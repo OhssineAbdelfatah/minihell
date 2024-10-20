@@ -1,7 +1,7 @@
 #include "../includes/minishell.h"
 void debug_free(void *ptr)
 {   
-    printf(G"freed addrs[%p]\n"CRESET,ptr);
+    // printf(G"freed addrs[%p]\n"CRESET,ptr);
     if(ptr)
         free(ptr);
 }
@@ -12,7 +12,7 @@ void *debug_malloc(size_t size)
     ptr = malloc(size);
     if(!ptr)
         return NULL;
-    printf(R"Allocate [%zu] addrs [%p]\n"CRESET,size,ptr);
+    // printf(R"Allocate [%zu] addrs [%p]\n"CRESET,size,ptr);
     return ptr;
 }
 
@@ -117,6 +117,10 @@ void history(char *str)
 
 }
 
+void ff(){
+    system("leaks minishell");
+}
+
 int main(  int ac, char **av, char **env)
 {
     char *str;
@@ -124,6 +128,8 @@ int main(  int ac, char **av, char **env)
     char **my_tokens;
     t_env *dup_env;
     int checker ;   
+
+    atexit(ff);
     (void)av;
     (void)ac;
     status = 0;
