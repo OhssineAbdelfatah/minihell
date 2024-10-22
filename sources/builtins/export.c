@@ -104,7 +104,7 @@ char *getKey(char* arg)
     char *eql;
     eql = ft_strchr(arg, '=');
     if(!eql)
-        return arg;
+        return ft_strdup(arg);
     eql = ft_strndup(arg, eql - arg);
     return eql;
 }
@@ -151,7 +151,6 @@ int export(t_env **ennv,char **cmd)
     int i;
 
     tmp = NULL;
-    cmd = expander(cmd, *ennv);
     status = 0;
     if(ft_strslen(cmd) == 1)
         return (print_export(*ennv), status);
@@ -174,6 +173,7 @@ int export(t_env **ennv,char **cmd)
         }else if(!is_valid(key)){
             status  = 1;
             printf("bash: export: `%s': not a valid identifier\n" ,cmd[i]);
+            free(key);
         }
     }
     return status;

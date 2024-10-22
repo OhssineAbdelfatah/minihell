@@ -132,7 +132,7 @@ int main(  int ac, char **av, char **env)
     t_env *dup_env;
     int checker ;   
 
-    // atexit(ff);
+    atexit(ff);
     (void)av;
     (void)ac;
     status = 0;

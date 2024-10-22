@@ -24,7 +24,12 @@ NOL_YEl TASKS {
 
     [] print error to fd 1
 
-    [] update pwd in env at cd command exec
+    [] update pwd in env at cd command exec 
+        {   
+            when i open bash there is no OLDPWD
+                check if there is 
+
+        }
 
 }
 
