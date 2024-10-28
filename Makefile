@@ -17,6 +17,7 @@ CFILES = sources/one.c sources/two.c sources/constractors.c sources/parse.c \
 			sources/expander/expander.c sources/expander/expand_list.c \
 			sources/expander/utils.c sources/expander/expand_heredoc.c \
 			sources/builtins/echo.c ${GNL} sources/expander/tokenizer.c \
+			sources/test.c
 
 MINISHELL_ART = \
 "\033[32m\n"\

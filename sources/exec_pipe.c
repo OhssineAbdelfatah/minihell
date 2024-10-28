@@ -82,7 +82,6 @@ int treat_right_child(t_cmd* right_cmd, t_execp *sp, int *last_status)
 int exec_pipe(t_cmd *cmd, int *last_status)
 {
     t_execp sp;
-    (void)last_status;
 
     if (pipe(sp.p) < 0)
         panic("PIPE FAILED !\n");

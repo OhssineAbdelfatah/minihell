@@ -9,6 +9,7 @@
 		"get_next_line.h": "c",
 		"libft.h": "c",
 		"unistd.h": "c",
-		"helper.h": "c"
+		"helper.h": "c",
+		"readline.h": "c"
 	}
 }

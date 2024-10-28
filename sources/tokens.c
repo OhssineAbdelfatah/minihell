@@ -27,9 +27,6 @@ int get_starto(char *s, int x)
 
 void error(char *s, int er_num)
 {
-    // free(s);
-    // s = NULL;
-    // (void)s;
     if (er_num == 40)
         ft_putstr_fd("minishell: syntax error near unexpected token '('\n", 2);
     else if (er_num == 41)
@@ -46,8 +43,6 @@ void error(char *s, int er_num)
         ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
     else if (s)
         ft_putstr_fd(s, 2);
-
-            // signal_handler(0);
 }
 
 
