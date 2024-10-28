@@ -25,7 +25,7 @@ char **new_str(char **old_str)
 
 t_cmd *init_pipe(t_cmd *left, t_cmd *right)
 {
-    struct pipe *res;
+    t_pipe  *res;
 
     res = malloc(sizeof(*res));
     if (!res)
@@ -39,7 +39,7 @@ t_cmd *init_pipe(t_cmd *left, t_cmd *right)
 
 t_cmd *init_and(t_cmd *left, t_cmd *right)
 {
-    struct and *res;
+    t_and  *res;
 
     res = malloc(sizeof(*res));
     if (!res)
@@ -53,7 +53,7 @@ t_cmd *init_and(t_cmd *left, t_cmd *right)
 
 t_cmd *init_or(t_cmd *left, t_cmd *right)
 {
-    struct or *res;
+    t_or *res;
 
     res = malloc(sizeof(*res));
     if (!res)
@@ -67,9 +67,9 @@ t_cmd *init_or(t_cmd *left, t_cmd *right)
 
 t_cmd *init_new_cmd(char **argv, t_env **myenv,t_red *redirect, t_herdoc *herdoc1)
 {
-    struct new_cmd *res;
+    t_cmd_exec  *res;
 
-    res = (struct new_cmd *)malloc(sizeof(*res));
+    res = (t_cmd_exec  *)malloc(sizeof(*res));
     if (NULL == res)
         return (NULL);
     res->type = NEW_CMD;
@@ -87,9 +87,9 @@ t_cmd *init_new_cmd(char **argv, t_env **myenv,t_red *redirect, t_herdoc *herdoc
 
 t_cmd *init_sub(t_cmd *root_sub, t_env **myenv, t_red *redirect, t_herdoc * herdoc)
 {
-    struct sub_sh *res;
+    t_sub_sh  *res;
 
-    res = (struct sub_sh *)malloc(sizeof(struct sub_sh));
+    res = (t_sub_sh  *)malloc(sizeof(t_sub_sh ));
     if (!res)
         return (NULL);
     res->type = SUB_SH;

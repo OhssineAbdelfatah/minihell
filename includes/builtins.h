@@ -3,7 +3,7 @@
 
 #include "minishell.h"
 
-int check_red(struct new_cmd *p);
+int check_red(t_cmd_exec  *p);
 void reset_fds(t_cmd *cmd);
 
 // void execute_cmd(t_cmd *cmd);

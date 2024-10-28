@@ -144,7 +144,7 @@ void pexit(char *s)
     exit(0);
 }
 
-int check_red(struct new_cmd *p)
+int check_red(t_cmd_exec  *p)
 {
     int status;
     int *std[2];
@@ -177,13 +177,13 @@ int check_red(struct new_cmd *p)
 int exec_new_cmd(t_cmd *cmd , int *last_status)
 {
     // (void)last_status;
-    struct new_cmd *p;
+    t_cmd_exec  *p;
     int status;
     char *abs_path;
     char **cur_env;
 
     signal (SIGINT, NULL);
-    p = (struct new_cmd *)cmd;
+    p = (t_cmd_exec  *)cmd;
     p->argv = expander( p->argv, *(p->myenv), last_status);
     p->argv = wild_expand(p->argv);
     /********************************************** */
@@ -243,12 +243,12 @@ int exec_new_cmd(t_cmd *cmd , int *last_status)
 
 int exec_sub_sh(t_cmd * cmd , int *last_status)
 {
-    struct sub_sh* p;
+    t_sub_sh * p;
     int pid;
     int *std[2];
     int sub_status;
 
-    p = (struct sub_sh *)cmd;
+    p = (t_sub_sh  *)cmd;
     pid = fork();
     if (pid == 0)
     {
@@ -283,12 +283,12 @@ int exec_sub_sh(t_cmd * cmd , int *last_status)
 int new_exec(t_cmd *cmd, int ref, int *last_status)
 {
     int status, pid;
-    struct new_cmd * p;
+    t_cmd_exec  * p;
 
     status = 0;
     if (NEW_CMD == cmd->type)
     {
-        p = (struct new_cmd *)cmd;
+        p = (t_cmd_exec  *)cmd;
         if (p)
         {   
             /********************************************** */

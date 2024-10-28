@@ -16,7 +16,7 @@ void *debug_malloc(size_t size)
     return ptr;
 }
 
-int sig;
+int g_sig;
 
 int check_qoutes(char *s)
 {
@@ -93,12 +93,12 @@ void parse_nd_exec(char **my_tokens,t_env **dup_env, int *status)
     res = root(my_tokens,dup_env);
     if (!res)
         return;
-    if (sig == -1)
+    if (g_sig == -1)
         *status = new_exec(res, NOTHING, status);
-    if (sig == 130)
+    if (g_sig == 130)
     {
         *status = 130;
-        sig = -1;
+        g_sig = -1;
     }
     // printf(GRN"D exit STATUS :%d\n"CRESET, *status);
     free_mynigga(my_tokens);
@@ -139,12 +139,12 @@ int main(  int ac, char **av, char **env)
         signal(SIGQUIT, SIG_IGN);
         str = readline(GRN"depechez-vous!> "CRESET);
         history(str);
-        if (sig == 1300)
+        if (g_sig == 1300)
         {
             // printf("Status : %d\n", status);
             status = 1;
         }
-        sig = -1;
+        g_sig = -1;
         if (str && ft_strlen(str) && _check_str(str) == 0)
         {
             my_tokens = fr9_trb7(str);

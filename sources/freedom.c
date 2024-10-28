@@ -53,9 +53,9 @@ void free_env_lst(t_env **lst)
 
 void free_new_cmd(t_cmd *cmd)
 {
-    struct new_cmd *p;
+    t_cmd_exec  *p;
 
-    p = (struct new_cmd *)cmd;
+    p = (t_cmd_exec  *)cmd;
     free_mynigga(p->argv);
     if (NULL != p->redirect)
         free_red_lst(& (p->redirect));
@@ -70,7 +70,7 @@ void free_new_cmd(t_cmd *cmd)
     free(p);
 }
 
-void free_sub(struct sub_sh *cmd)
+void free_sub(t_sub_sh  *cmd)
 {
     if (NULL != cmd->redirect)
         free_red_lst(&(cmd->redirect));
@@ -88,9 +88,9 @@ void free_sub(struct sub_sh *cmd)
 
 void free_pipe2(t_cmd *cmd)
 {
-    struct pipe *p;
+    t_pipe  *p;
 
-    p = (struct pipe *)cmd;
+    p = (t_pipe  *)cmd;
     free_tree2((p->left));
     free_tree2((p->right));
     free(p);
@@ -99,9 +99,9 @@ void free_pipe2(t_cmd *cmd)
 
 void free_or(t_cmd *cmd)
 {
-    struct or *p;
+    t_or *p;
 
-    p = (struct or *)cmd;
+    p = (t_or *)cmd;
     free_tree2((p->left));
     free_tree2((p->right));
     free(p);
@@ -109,9 +109,9 @@ void free_or(t_cmd *cmd)
 }
 void free_and(t_cmd *cmd)
 {
-    struct and *p;
+    t_and  *p;
 
-    p = (struct and *)cmd;
+    p = (t_and  *)cmd;
     free_tree2((p->left));
     free_tree2((p->right));
     free(p);
@@ -120,7 +120,7 @@ void free_and(t_cmd *cmd)
 
 void free_tree2(t_cmd *cmd)
 {
-    struct sub_sh *tmp;
+    t_sub_sh  *tmp;
     if (!cmd)
         return;
     if (cmd->type == NEW_CMD)
@@ -133,7 +133,7 @@ void free_tree2(t_cmd *cmd)
         free_or(cmd);
     else if (cmd->type == SUB_SH)
     {
-        tmp = (struct sub_sh *)cmd;
+        tmp = (t_sub_sh  *)cmd;
         free_tree2(tmp->sub_root);
         free_sub(tmp);
     }

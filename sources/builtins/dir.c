@@ -37,10 +37,10 @@ int pwd(t_cmd *cmd)
 //     // char *curd = NULL;
 //     // cast to exec_cmd
 //     // printf("%s\n",getcwd(curd,1024));
-//     struct new_cmd *p;
-//     p = (struct new_cmd *)cmd;
+//     t_cmd_exec  *p;
+//     p = (t_cmd_exec  *)cmd;
 //     char *arg;
-//     p = (struct new_cmd *)cmd;
+//     p = (t_cmd_exec  *)cmd;
 //     // cd only without args
 //     if(ft_strslen(p->argv) == 1){ 
 //         if( !(arg = getEnvValue(*(p->myenv) ,"HOME")) ){
@@ -98,7 +98,7 @@ int cd(t_cmd *cmd)
     t_new_cmd *p;
     char *arg;
 
-    p = (struct new_cmd *)cmd;
+    p = (t_cmd_exec *)cmd;
     if(ft_strslen(p->argv) == 1){ 
         if( !(arg = getEnvValue(*(p->myenv) ,"HOME")) ){
             printf("bash: cd: HOME not set\n");

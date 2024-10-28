@@ -120,7 +120,7 @@ int herdoc_treat(t_del *lst, t_herdoc *herdoc)
                 if (!str)
                 {
                     error("minishell: warning: here-document delimited by end-of-file\n", -9);
-                    // sig = -99;
+                    // g_sig = -99;
                     break;
                 }
                 if (ft_strcmp(str, lst->del))
@@ -148,12 +148,12 @@ int herdoc_treat(t_del *lst, t_herdoc *herdoc)
         // signal(SIGINT, signal_handler);
         if (WTERMSIG(status)  == SIGINT)
         {
-            sig = 130;
+            g_sig = 130;
             status = 130;
         }
         else
             status = 0;
-        if (sig == -1)
+        if (g_sig == -1)
             herdoc->herdoc_pipe = p[0];
         else
             close (p[0]);
@@ -189,7 +189,7 @@ int get_herdoc(char **tokens,int i, t_herdoc *herdoc)
         i++;
     }
     assign_her_exp(str, herdoc);
-    if (sig == -1)
+    if (g_sig == -1)
         status = herdoc_treat(str, herdoc);
     free_delimiters(str);
     return status;

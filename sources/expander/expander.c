@@ -62,7 +62,7 @@ void print_nodes(t_node *head){
     
     while(head)
     {
-        printf("str[%s] type[%c]\n",head->str ,head->type);
+        // printf("str[%s] type[%c]\n",head->str ,head->type);
         head = head->next;
     }
 }

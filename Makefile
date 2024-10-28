@@ -29,11 +29,11 @@ MINISHELL_ART = \
 "╚═╝     ╚═╝ ╚═╝ ╚═╝  ╚═══╝ ╚═╝ ╚══════ ╝╚═╝  ╚═╝ ╚══════╝ ╚══════╝ ╚══════╝\n"\
 "						      By: TILLAS & NolYel  \033[0m"
 
-RLFLAGS =	-L/Users/aohssine/goinfre/homebrew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
-RLINCLUDE	=	-I/Users/aohssine/goinfre/homebrew/opt/readline/include  # tell compiler where to find headers
+# RLFLAGS =	-L/Users/aohssine/goinfre/homebrew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
+# RLINCLUDE	=	-I/Users/aohssine/goinfre/homebrew/opt/readline/include  # tell compiler where to find headers
 
-# RLFLAGS =	-L/Users/ilaasri/.brew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
-# RLINCLUDE	=	-I/Users/ilaasri/.brew/opt/readline/include  #
+RLFLAGS =	-L/Users/ilaasri/.brew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
+RLINCLUDE	=	-I/Users/ilaasri/.brew/opt/readline/include  #
 
 
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
@@ -46,7 +46,7 @@ My_lib = lib/libft/libft.a
 
 all : ascii_art $(My_lib) $(NAME)
 
-%.o : %.c Makefile
+%.o : %.c  Makefile
 	$(CC)  $(CFLAGS) $(FFLAG)  $(RLINCLUDE) -c  $< -o $@
 
 $(My_lib) : 
