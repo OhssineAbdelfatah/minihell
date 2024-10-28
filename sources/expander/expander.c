@@ -102,7 +102,7 @@ char *joiner(char *arg, t_env* env, int *st)
     t_node  *tmp;
 
     head = splitArg(arg);
-    print_nodes(head);
+    // print_nodes(head);
     mini_expander(&head, env,st);
     tmp = head;
     new = ft_strdup("");
