@@ -296,7 +296,10 @@ int  count_sub_sh(char *s)
         if (s[i] == '"' || s[i] == '\'')
             i = get_next_quote(s, i);
         if (s[i] == ')' && res == 0)
+        {
+            // printf("rturning from here 1!\n");
             return (error(NULL, 41), -1);
+        }
         if (s[i] == '(')
         {
             next_par = get_next_parenties(s, i);
@@ -309,7 +312,10 @@ int  count_sub_sh(char *s)
         i++;
     }
     if (res != total_sub(s))
+    {
+        // printf("rturning from here 2!\n");
         return (error(NULL, 41),-1);
+    }
     return (res);
 }
 

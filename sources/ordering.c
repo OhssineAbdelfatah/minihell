@@ -1,15 +1,5 @@
 #include "../includes/minishell.h"
 
-void ft_swap_str(char **s1,char **s2)
-{
-    char *tmp;
-
-    tmp = *s1;
-    *s1 = *s2;
-    *s2 = tmp;
-}
-
-
 char *join_cmd(char *s1, char *s2)
 {
     int i;
@@ -155,7 +145,7 @@ int herdoc_treat(t_del *lst, t_herdoc *herdoc)
     {
         signal(SIGINT, do_nothing);
         waitpid(pid, &status,  0);
-        signal(SIGINT, signal_handler);
+        // signal(SIGINT, signal_handler);
         if (WTERMSIG(status)  == SIGINT)
         {
             sig = 130;

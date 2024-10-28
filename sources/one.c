@@ -102,7 +102,7 @@ void parse_nd_exec(char **my_tokens,t_env **dup_env, int *status)
         *status = 130;
         sig = -1;
     }
-    printf(GRN"exit STATUS :%d\n"CRESET, *status);
+    // printf(GRN"exit STATUS :%d\n"CRESET, *status);
     free_mynigga(my_tokens);
     free_tree2(res); 
 }
@@ -132,21 +132,20 @@ int main(  int ac, char **av, char **env)
     t_env *dup_env;
     int checker ;   
 
-    atexit(ff);
+    // atexit(ff);
     (void)av;
     (void)ac;
     status = 0;
     dup_env = init_env(env);
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, SIG_IGN);
     while(1)
     {
+        signal(SIGINT, signal_handler);
+        signal(SIGQUIT, SIG_IGN);
         sig = -1;
         str = readline(GRN"depechez-vous!> "CRESET);
             history(str);
         if (str && ft_strlen(str) && _check_str(str) == 0)
         {
-            signal(SIGQUIT, SIG_DFL);
             my_tokens = fr9_trb7(str);
             checker = _check_tokens(my_tokens);
             if (checker != EXEC && checker != SUB_SH)
