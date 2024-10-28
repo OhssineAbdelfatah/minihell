@@ -1,8 +1,15 @@
 GNL = lib/gnl/get_next_line.c lib/gnl/get_next_line_utils.c
 
+WILDCARD_FILES = sources/wildcard/globing.c sources/wildcard/wildcard.c \
+				sources/wildcard/tools.c    sources/wildcard/sorted_res.c \
+				sources/wildcard/array_to_lst.c   sources/wildcard/search_for_names.c\
+				sources/wildcard/simple_expand.c sources/wildcard/simple_expand_tools.c\
+				sources/wildcard/tool_box.c sources/wildcard/searching_tools.c
+
 CFILES = sources/one.c sources/two.c sources/constractors.c sources/parse.c \
             sources/print.c sources/tree.c sources/exec.c sources/exec_pipe.c\
             sources/freedom.c sources/tokens.c sources/ordering.c\
+			${WILDCARD_FILES}\
             sources/exec_new.c  sources/builtins/env.c sources/builtins/lstoarry.c \
             sources/builtins/builtin.c sources/builtins/dir.c \
             sources/builtins/unset.c sources/builtins/export.c  sources/del.c \
@@ -10,6 +17,7 @@ CFILES = sources/one.c sources/two.c sources/constractors.c sources/parse.c \
 			sources/expander/expander.c sources/expander/expand_list.c \
 			sources/expander/utils.c sources/expander/expand_heredoc.c \
 			sources/builtins/echo.c ${GNL} sources/expander/tokenizer.c \
+			sources/test.c
 
 MINISHELL_ART = \
 "\033[32m\n"\
@@ -21,11 +29,11 @@ MINISHELL_ART = \
 "╚═╝     ╚═╝ ╚═╝ ╚═╝  ╚═══╝ ╚═╝ ╚══════ ╝╚═╝  ╚═╝ ╚══════╝ ╚══════╝ ╚══════╝\n"\
 "						      By: TILLAS & NolYel  \033[0m"
 
-RLFLAGS =	-L/Users/aohssine/goinfre/homebrew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
-RLINCLUDE	=	-I/Users/aohssine/goinfre/homebrew/opt/readline/include  # tell compiler where to find headers
+# RLFLAGS =	-L/Users/aohssine/goinfre/homebrew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
+# RLINCLUDE	=	-I/Users/aohssine/goinfre/homebrew/opt/readline/include  # tell compiler where to find headers
 
-# RLFLAGS =	-L/Users/ilaasri/.brew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
-# RLINCLUDE	=	-I/Users/ilaasri/.brew/opt/readline/include  #
+RLFLAGS =	-L/Users/ilaasri/.brew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
+RLINCLUDE	=	-I/Users/ilaasri/.brew/opt/readline/include  #
 
 
 CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g

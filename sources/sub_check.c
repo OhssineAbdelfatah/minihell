@@ -45,7 +45,9 @@ int is_there_cmd_before(char **tokens, int i)
 
 int check_tok_sub(char **tokens)
 {
-    int ref, i;
+    int ref;
+    int i;
+    int which;
 
     i = 0;
     while (tokens[i])
@@ -55,8 +57,12 @@ int check_tok_sub(char **tokens)
         {
             if (i > 0 && which_one(tokens[i - 1]) == EXEC)
                 return (error(NULL, 40),7878);
-            if ( tokens[i + 1] && which_one(tokens[i + 1]) != EXEC && which_one(tokens[i + 1]) != S_SUB)
-                return (error(NULL, 41), 1008);
+            if (tokens[i + 1])
+            {
+                which = which_one(tokens[i + 1]);
+                if (which != EXEC && which != S_SUB && which != HERDOC )
+                    return (error(NULL, 41), 1008);
+            }
         }
         if (ref == END_SUB)
         {

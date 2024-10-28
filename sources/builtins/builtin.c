@@ -55,6 +55,7 @@ int exec_builtin(t_cmd *cmd)
 
     p = (struct new_cmd*)cmd;
     p->argv = expander(p->argv, *(p->myenv), 0);
+    p->argv = wild_expand(p->argv);
     status = check_red(p);
 
     if(ft_strcmp(p->argv[0], "cd")) // add oldpwd and change pwd

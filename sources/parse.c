@@ -86,7 +86,6 @@ int get_start(char *s, int i)
 
 int get_end(char *s, int i)
 {
-    // int j;
     if (s[i] == '|')
         return i + 1;
     if (is_special(s[i]))
@@ -143,7 +142,6 @@ int _check_str(char *s)
         return(error(s, AND), 1);
     while(s[i])
     {
-        // printf("i am here\n");
         if (s[i] == '|' && s[i + 1] == '|' && s[i + 2] == '|')
             return(error(s, PIPE), 1);
         if (s[i] == '&' && s[i + 1] == '&' && s[i + 2] == '&')

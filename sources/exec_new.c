@@ -182,8 +182,10 @@ int exec_new_cmd(t_cmd *cmd , int *last_status)
     char *abs_path;
     char **cur_env;
 
+    signal (SIGINT, NULL);
     p = (struct new_cmd *)cmd;
-    p->argv = expander( p->argv, *(p->myenv), last_status);
+    p->argv = expander( p->argv, *(p->myenv));
+    p->argv = wild_expand(p->argv);
     /********************************************** */
     // THIS ONE JUST TO KNOW IF THE STATUS IS WORKING PROPERLY
     /********************************************** */
@@ -272,6 +274,7 @@ int exec_sub_sh(t_cmd * cmd , int *last_status)
         sub_status = new_exec(p->sub_root, 0, last_status);
         exit(sub_status);
     }
+    signal(SIGINT, SIG_IGN);
     waitpid(pid, &sub_status, 0);
     *last_status = WEXITSTATUS(sub_status);
     return (*last_status);
@@ -308,11 +311,16 @@ int new_exec(t_cmd *cmd, int ref, int *last_status)
                 if (pid == 0)
                     exec_new_cmd(cmd, last_status);
                 else
+                {
+                    signal(SIGINT, do_nothing);
                     waitpid(pid, &status, 0);
-                status = WEXITSTATUS(status);
+                    if (WTERMSIG(status) == SIGINT)
+                        status = 130;
+                    else
+                        status = WEXITSTATUS(status);
+                }
             }
-        }
-      
+        }      
     }
     else if (AND == cmd->type)
         status = exec_and(cmd, last_status);

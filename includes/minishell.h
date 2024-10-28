@@ -12,9 +12,11 @@
 # include <stdlib.h>
 #include <fcntl.h>
 #include <signal.h>
-
+#include <dirent.h>
+#include <sys/types.h>
 
 #include "helper.h"
+#include "helper2.h"
 #include "colors.h"
 #include "struct.h"
 #include "builtins.h"

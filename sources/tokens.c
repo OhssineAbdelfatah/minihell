@@ -27,9 +27,6 @@ int get_starto(char *s, int x)
 
 void error(char *s, int er_num)
 {
-    // free(s);
-    // s = NULL;
-    // (void)s;
     if (er_num == 40)
         ft_putstr_fd("minishell: syntax error near unexpected token '('\n", 2);
     else if (er_num == 41)
@@ -46,8 +43,6 @@ void error(char *s, int er_num)
         ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
     else if (s)
         ft_putstr_fd(s, 2);
-
-            // signal_handler(0);
 }
 
 
@@ -296,7 +291,10 @@ int  count_sub_sh(char *s)
         if (s[i] == '"' || s[i] == '\'')
             i = get_next_quote(s, i);
         if (s[i] == ')' && res == 0)
+        {
+            // printf("rturning from here 1!\n");
             return (error(NULL, 41), -1);
+        }
         if (s[i] == '(')
         {
             next_par = get_next_parenties(s, i);
@@ -309,7 +307,10 @@ int  count_sub_sh(char *s)
         i++;
     }
     if (res != total_sub(s))
+    {
+        // printf("rturning from here 2!\n");
         return (error(NULL, 41),-1);
+    }
     return (res);
 }
 
