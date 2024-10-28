@@ -105,7 +105,7 @@ char	**wild_expand(char **old)
 
 	var.i = 0;
 	if (is_it_wild_args(old) == 0)
-		return (old);
+		return (unquote_old(old));
 	var.work_dir = get_work_direc();
 	var.dir_cont_array = all_dir_sorted(var.work_dir);
 	var.dir_cont = array_to_lst_dir(var.dir_cont_array, var.work_dir);

@@ -18,4 +18,3 @@ void	signal_handler(int signal)
 	rl_redisplay();
 	sig =1300;
 }
-
