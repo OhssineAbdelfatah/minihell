@@ -111,6 +111,9 @@ char *joiner(char *arg, t_env* env, int *st)
 char **expander(char **argv, t_env *env, int *st)
 {
     int i ;
+    int old_len;
+
+    old_len = ft_strslen(argv);
 
     i = -1 ;
     if(!argv || !(*argv))

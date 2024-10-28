@@ -1,5 +1,27 @@
 #include"../../includes/minishell.h"
 
+// static int	count_word(char const *s, char c)
+// {
+// 	size_t	i;
+// 	size_t	words;
+
+// 	words = 0;
+// 	i = 0;
+// 	if (*s == '\0')
+// 		return (0);
+// 	while (*(s + i) == c)
+// 		i++;
+// 	while (*(s + i))
+// 	{
+// 		if (*(s + i) == c && *(s + i + 1) != c)
+// 			words++;
+// 		i++;
+// 	}
+// 	if (*(s + i - 1) != c)
+// 		words++;
+// 	return (words);
+// }
+
 t_node *create_node(char *value, char type)
 {
     t_node *node = debug_malloc(sizeof(t_node));
@@ -19,6 +41,18 @@ void add_node(t_node **head, t_node **tail, t_node *node)
     *tail = node;
 }
 
+void split_inside_arg(t_node **head)
+{
+    t_node *tmp;
+
+    tmp = *head;
+    while(tmp)
+    {
+        if(tmp->type)
+        tmp = tmp->next;
+    }
+}
+
 void mini_expander(t_node **head, t_env *env, int *st)
 {
     t_node *tmp;
@@ -35,47 +69,9 @@ void mini_expander(t_node **head, t_env *env, int *st)
         }
         tmp = tmp->next;
     }
+    split_inside_arg(head);
     return ;
 }
-
-/*
-char *splitWordVar(char *value, t_env *env){
-    t_node *head;
-    t_node *tail;
-    t_node *node;
-    char *dollar;
-    char *bdollar;
-
-    head = NULL;
-    while(value){
-        dollar = ft_strchr(value, '$'); 
-        if(dollar && *(dollar+1)){
-
-            bdollar = ft_strndup(value, dollar - value);
-            node = create_node(bdollar, '0');
-            add_node( &head, &tail, node);
-            // free(bdollar);
-            
-            bdollar = ft_strndup(dollar  , ft_name(dollar ) - dollar );
-            if(ft_strlen(bdollar) == 1 && *bdollar == '$')
-                node = create_node(bdollar, '0');
-            else
-                node = create_node(bdollar, '1');
-            add_node( &head, &tail, node);
-            value = ft_name(dollar) ;
-            // free(bdollar);
-        }
-        else{
-            node = create_node(ft_strdup(value), '0');
-            add_node( &head, &tail, node);
-            break;     
-        }
-    }
-    dollar = expand(&head, env);
-    free_lst(head);
-    return (dollar);
-} 
-*/
 
 //char *dt.start; // start
 //char *dt.token; // token
@@ -108,43 +104,6 @@ char *splitWordVar(char *value, t_env *env ,int *st)
     }
     return expand(&dt.head, env, st);
 }
-/*
-char *expand(t_node **head, t_env *env)
-{
-    t_node *tmp;
-    char *new;
-    char *value;
-    char *tmpstr;
-    tmp = *head;
-    while (tmp)
-    {
-
-        if (tmp->type == '1')
-        {
-            value = getEnvValue(env, tmp->str + 1);
-            if(ft_strcmp(tmp->str + 1, "?"))
-                value = "sandwich piknik !! la mayo"; // 
-            // free(tmp->str);
-            if (value)
-                tmp->str = ft_strdup(value);
-            else
-                tmp->str = ft_strdup("");
-        }
-        tmp = tmp->next;
-    }
-    tmp = *head;
-    new = ft_strdup("");
-    while (tmp)
-    {
-        tmpstr = new ;
-        new = ft_strjoin(new, tmp->str);
-        free(tmpstr);
-        tmp = tmp->next;
-    }
-    free_lst(*head);
-    return new;
-}
-*/
 
 char *expand(t_node **head, t_env *env, int *st)
 {
