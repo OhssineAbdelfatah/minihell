@@ -30,7 +30,7 @@ int unset_env(t_env **head, char **key)
     int i ;
 
     status = 0;
-    key = expander(key, *head);
+    key = expander(key, *head, 0);
     if(!head || !(*head))
         return status;
     i = 0;

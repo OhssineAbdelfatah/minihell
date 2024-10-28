@@ -19,7 +19,7 @@ void add_node(t_node **head, t_node **tail, t_node *node)
     *tail = node;
 }
 
-void mini_expander(t_node **head, t_env *env)
+void mini_expander(t_node **head, t_env *env, int *st)
 {
     t_node *tmp;
     char *tmpstr;
@@ -29,7 +29,7 @@ void mini_expander(t_node **head, t_env *env)
         // delete single or double
         if(tmp->type == 'w' || tmp->type == 'd'){
             tmpstr = tmp->str;   
-            tmp->str =  splitWordVar(tmp->str, env);
+            tmp->str =  splitWordVar(tmp->str, env, st);
             if(tmpstr != tmp->str)
                 free(tmpstr);
         }
@@ -80,7 +80,7 @@ char *splitWordVar(char *value, t_env *env){
 //char *dt.start; // start
 //char *dt.token; // token
 
-char *splitWordVar(char *value, t_env *env)
+char *splitWordVar(char *value, t_env *env ,int *st)
 {
     t_split_arg dt;
 
@@ -106,7 +106,7 @@ char *splitWordVar(char *value, t_env *env)
             break;     
         }
     }
-    return expand(&dt.head, env);
+    return expand(&dt.head, env, st);
 }
 /*
 char *expand(t_node **head, t_env *env)
@@ -146,7 +146,7 @@ char *expand(t_node **head, t_env *env)
 }
 */
 
-char *expand(t_node **head, t_env *env)
+char *expand(t_node **head, t_env *env, int *st)
 {
     t_expn dt;
     dt.tmp = *head;
@@ -155,8 +155,10 @@ char *expand(t_node **head, t_env *env)
         if (dt.tmp->type == '1')
         {
             dt.value = getEnvValue(env, dt.tmp->str + 1);
-            if(ft_strcmp(dt.tmp->str + 1, "?"))
-                dt.value = "sandwich piknik !! la mayo"; // 
+            if(ft_strcmp(dt.tmp->str + 1, "?")){
+                free( dt.value);
+                dt.value = ft_itoa(*st); // 
+            }
             dt.tmpstr = dt.tmp->str;
             dt.tmp->str = ft_strdup(dt.value);
             free(dt.tmpstr);

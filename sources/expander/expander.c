@@ -85,7 +85,7 @@ t_node *splitArg(char *str)
     return (free(dt.token), (dt.head));
 }
 
-char *joiner(char *arg, t_env* env)
+char *joiner(char *arg, t_env* env, int *st)
 {
     char* new;
     char* tmp_new;
@@ -93,7 +93,7 @@ char *joiner(char *arg, t_env* env)
     t_node  *tmp;
 
     head = splitArg(arg);
-    mini_expander(&head, env);
+    mini_expander(&head, env,st);
     tmp = head;
     new = ft_strdup("");
     while(tmp)
@@ -108,7 +108,7 @@ char *joiner(char *arg, t_env* env)
     return new;
 }
 
-char **expander(char **argv, t_env *env)
+char **expander(char **argv, t_env *env, int *st)
 {
     int i ;
 
@@ -117,7 +117,7 @@ char **expander(char **argv, t_env *env)
         return NULL;
     while(argv[++i]){
         // printf("argalloc [%p]\n",argv[i]);
-        argv[i] = joiner(argv[i], env);
+        argv[i] = joiner(argv[i], env, st);
     }
     return argv;
 }

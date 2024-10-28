@@ -8,28 +8,27 @@ DONE
     [*] expand herdoc
     [*] fix ft_atoi_exit
     [*] exit
-
-NOL_YEl TASKS {
-    IN PROCCESS
-
-    [] split args with spasecs inside expander // asc ur peer
-
-    [] fix leaks in builts ins
-
-    [] fix leaks in expander
-
-    [] access $? // asc ur peer hoe he passes
-
-    [] expand redirection filename //
-
-    [] print error to fd 1
-
-    [] update pwd in env at cd command exec 
+    [*] update pwd in env at cd command exec 
         {   
             when i open bash there is no OLDPWD
                 check if there is 
 
         }
+    [*] fix leaks in expander
+
+NOL_YEl TASKS {
+    IN PROCCESS
+
+    [] split args with spasecs inside expander //keep space in double split in Word
+    
+    [] fix leaks in builts ins
+
+    [] access $? // asc ur peer hoe he passes last modified where
+
+    [] expand redirection filename //
+
+    [] print error to fd 1
+
 
 }
 

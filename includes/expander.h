@@ -33,16 +33,16 @@ typedef struct s_tokens_exp {
     int i;
 } t_tokens;
 
-char **expander(char **argv, t_env *env);
+char **expander(char **argv, t_env *env, int *last_status);
 char *tokenizer(char *arg);
 t_node *splitArg(char *str);
-char *joiner(char *arg, t_env* env);
+char *joiner(char *arg, t_env* env, int*st);
 
 t_node *create_node(char *value, char type);
 void add_node(t_node **head, t_node **tail, t_node *node);
-char *splitWordVar(char *value, t_env *env);
-void mini_expander(t_node **head, t_env *env);
-char *expand(t_node **head, t_env *env);
+char *splitWordVar(char *value, t_env *env, int *st);
+void mini_expander(t_node **head, t_env *env, int *st);
+char *expand(t_node **head, t_env *env, int *st);
 
 char *ft_name(char *arg);
 void free_lst(t_node *head);

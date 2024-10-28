@@ -16,7 +16,7 @@ void reset_fds(t_cmd *p)
 
 int blt_echo(t_env *env, char **argv)
 {
-    argv = expander(argv, env);
+    argv = expander(argv, env, 0);
     argv++;
     while(*argv){
         printf("%s ",*argv);
@@ -54,7 +54,7 @@ int exec_builtin(t_cmd *cmd)
     struct new_cmd* p ;
 
     p = (struct new_cmd*)cmd;
-    p->argv = expander(p->argv, *(p->myenv));
+    p->argv = expander(p->argv, *(p->myenv), 0);
     status = check_red(p);
 
     if(ft_strcmp(p->argv[0], "cd")) // add oldpwd and change pwd
