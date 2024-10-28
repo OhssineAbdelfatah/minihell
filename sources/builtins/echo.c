@@ -36,7 +36,7 @@ int echo(t_new_cmd *p)
     new_line_1 = new_line;
     while(p->argv[++new_line])
     {   
-        printf("%s",p->argv[new_line]);
+        ft_putstr_fd(p->argv[new_line], 1);
         if(p->argv[new_line])
         if(p->argv[new_line+1] != NULL)
             printf(" ");

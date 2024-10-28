@@ -102,6 +102,7 @@ int exec_pipe(t_cmd *cmd, int *last_status)
     }
     close(sp.p[0]);
     close(sp.p[1]);
+    signal(SIGINT, do_nothing);
     waitpid(sp.rpid , &(sp.status), 0);
     wait(0);
     return(sp.status);

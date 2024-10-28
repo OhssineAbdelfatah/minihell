@@ -58,6 +58,15 @@ static t_split_arg init_spliter(t_split_arg data, char *str)
     return data ;
 }
 
+void print_nodes(t_node *head){
+    
+    while(head)
+    {
+        printf("str[%s] type[%c]\n",head->str ,head->type);
+        head = head->next;
+    }
+}
+
 t_node *splitArg(char *str)
 {
     t_split_arg dt;
@@ -93,6 +102,7 @@ char *joiner(char *arg, t_env* env, int *st)
     t_node  *tmp;
 
     head = splitArg(arg);
+    print_nodes(head);
     mini_expander(&head, env,st);
     tmp = head;
     new = ft_strdup("");

@@ -5,7 +5,7 @@
 void do_nothing(int signal)
 {
     (void)signal;
-    
+    printf("\n");
     return;
 }
 
