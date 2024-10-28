@@ -184,7 +184,7 @@ int exec_new_cmd(t_cmd *cmd , int *last_status)
 
     signal (SIGINT, NULL);
     p = (struct new_cmd *)cmd;
-    p->argv = expander( p->argv, *(p->myenv));
+    p->argv = expander( p->argv, *(p->myenv), last_status);
     p->argv = wild_expand(p->argv);
     /********************************************** */
     // THIS ONE JUST TO KNOW IF THE STATUS IS WORKING PROPERLY
