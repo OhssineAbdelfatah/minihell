@@ -115,9 +115,7 @@ char **expander(char **argv, t_env *env, int *st)
     i = -1 ;
     if(!argv || !(*argv))
         return NULL;
-    while(argv[++i]){
-        // printf("argalloc [%p]\n",argv[i]);
+    while(argv[++i])
         argv[i] = joiner(argv[i], env, st);
-    }
     return argv;
 }
