@@ -29,6 +29,7 @@
 # include "helper2.h"
 # include "colors.h"
 # include "struct.h"
+# include "norm_structs.h"
 # include "builtins.h"
 # include "expander.h"
 # include "../lib/libft/libft.h"

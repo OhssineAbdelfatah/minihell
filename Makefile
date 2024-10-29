@@ -6,7 +6,8 @@ WILDCARD_FILES = sources/wildcard/globing.c sources/wildcard/wildcard.c \
 				sources/wildcard/simple_expand.c sources/wildcard/simple_expand_tools.c\
 				sources/wildcard/tool_box.c sources/wildcard/searching_tools.c
 
-CFILES = sources/one.c sources/two.c sources/constractors.c sources/parse.c \
+CFILES = sources/one.c sources/two.c sources/constractors.c sources/constractors2.c\
+			sources/parse.c sources/new_tools.c \
             sources/print.c sources/tree.c sources/exec.c sources/exec_pipe.c\
             sources/freedom.c sources/tokens.c sources/ordering.c\
 			${WILDCARD_FILES}\

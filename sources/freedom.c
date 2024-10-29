@@ -139,3 +139,17 @@ void free_tree2(t_cmd *cmd)
     }
 }
 
+void	free_delimiters(t_del *head)
+{
+	t_del	*tmp;
+
+	while (NULL != head)
+	{
+		tmp = head->next;
+		free(head->del);
+		head->del = NULL;
+		free(head);
+		head = NULL;
+		head = tmp;
+	}
+}
