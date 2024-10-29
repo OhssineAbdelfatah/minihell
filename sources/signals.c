@@ -1,6 +1,4 @@
 #include "../includes/minishell.h"
-// #include <readline/readline.h>
-
 
 void do_nothing(int signal)
 {
