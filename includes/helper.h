@@ -140,7 +140,12 @@ void	print_del(t_del *head);
 
 // ALWAYS FREE
 /********************************** */
-
+void	free_red_lst(t_red **lst);
+void	free_new_cmd(t_cmd *cmd);
+void	free_pipe2(t_cmd *cmd);
+void	free_or(t_cmd *cmd);
+void	free_and(t_cmd *cmd);
+void	free_sub(t_sub_sh *cmd);
 void	free_delimiters(t_del *head);
 void	free_tree2(t_cmd *cmd);
 void	free_mynigga(char **str);

@@ -1,6 +1,5 @@
 #include "../includes/minishell.h"
 
-int which_time;
 
 int get_end_sub(char **tokens, int i)
 {

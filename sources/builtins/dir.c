@@ -12,6 +12,7 @@ int pwd(t_cmd *cmd)
     printf("%s\n",curd);
     free(curd);
     curd = NULL;
+    (void)p;
     return 0;
 }
 

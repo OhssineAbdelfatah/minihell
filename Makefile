@@ -5,11 +5,13 @@ WILDCARD_FILES = sources/wildcard/globing.c sources/wildcard/wildcard.c \
 				sources/wildcard/array_to_lst.c   sources/wildcard/search_for_names.c\
 				sources/wildcard/simple_expand.c sources/wildcard/simple_expand_tools.c\
 				sources/wildcard/tool_box.c sources/wildcard/searching_tools.c
+FREEDOM = sources/freedom/freedom.c sources/freedom/freedom2.c 
 
-CFILES = sources/one.c sources/two.c sources/constractors.c sources/constractors2.c\
+CFILES =	${FREEDOM}\
+			sources/one.c sources/two.c sources/constractors.c sources/constractors2.c\
 			sources/parse.c sources/new_tools.c \
             sources/print.c sources/tree.c sources/exec.c sources/exec_pipe.c\
-            sources/freedom.c sources/tokens.c sources/ordering.c\
+            sources/tokens.c sources/ordering.c\
 			${WILDCARD_FILES}\
             sources/exec_new.c  sources/builtins/env.c sources/builtins/lstoarry.c \
             sources/builtins/builtin.c sources/builtins/dir.c \

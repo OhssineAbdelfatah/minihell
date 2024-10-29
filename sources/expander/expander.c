@@ -130,5 +130,6 @@ char **expander(char **argv, t_env *env, int *st)
         return NULL;
     while(argv[++i])
         argv[i] = joiner(argv[i], env, st);
+    (void)old_len;
     return argv;
 }
