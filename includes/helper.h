@@ -32,6 +32,7 @@ int		_check_tokens(char **tokens);
 /********************************************/
 
 int		check_tok_sub(char **tokens);
+int	get_end_sub(char **tokens, int i);
 
 /****************************************** */
 
@@ -109,6 +110,12 @@ t_cmd	*parse_and_or(char **tokens, int *i, t_env **myenv);
 t_cmd	*parse_pipe_rec(char **tokens, int *i, t_env **myenv);
 t_cmd	*parse_sub(char **tokens, int *i, t_env **myenv);
 /************************************************************** */
+
+/*******************************************/
+// 	BUILTING THE TREE TOOLS :
+/*******************************************/
+int	is_pipe(char *s);
+int	is_and_or(char *s);
 
 // new EXEC
 /************************************ */

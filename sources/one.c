@@ -56,8 +56,8 @@ int check_qoutes(char *s)
 void panic(char *str)
 {
     (void)str;
-    // if (str)
-        // dprintf(2, "%s", str);
+    if (str)
+        ft_putstr_fd(str, 2);
     exit(1);
 }
 
