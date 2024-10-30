@@ -55,16 +55,16 @@ int open_file(t_red *redirect,int *std[2], t_herdoc *herdoc, t_env *env)
         if (*std[0] != -1 && 4 == redirect->mode)
             close(*std[0]);
         if (77 == redirect->mode){
-            redirect->file = *expander(&(redirect->file), env,0);
+            // redirect->file = *expander(&(redirect->file), env,0);
             *std[1] = open(redirect->file, O_RDWR | O_CREAT | O_APPEND, 0644);
         }
         else if (7== redirect->mode){
-            redirect->file = *expander(&(redirect->file), env,0);
+            // redirect->file = *expander(&(redirect->file), env,0);
             *std[1] = open(redirect->file, O_RDWR | O_CREAT | O_TRUNC, 0644);
         }
         else if (4== redirect->mode)
         {
-            redirect->file = *expander(&(redirect->file), env, 0);
+            // redirect->file = *expander(&(redirect->file), env, 0);
             *std[0] = open(redirect->file, O_RDONLY);
             if (*std[0] < 0)
             {

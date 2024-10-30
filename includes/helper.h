@@ -14,6 +14,7 @@
 # define HELPER_H
 
 # include "struct.h"
+# include "norm_structs.h"
 
 // PARSE THINGS :
 /********************************************/
@@ -25,13 +26,20 @@ char	**fr9_trb7(char *s);
 int		dstr_len(char **s);
 int		_check_tokens(char **tokens);
 
+/********************************************** */
+// 	COUNTING TOOLS
+/********************************************** */
+int	get_next_parenties(char *s, int i);
+int	total_sub(char *s);
+
 /****************************************** */
 // COUNTING THINGS :
 /********************************************/
 
-// int	counts_and_or(char *s);
+int	counts_and_or(char *s);
 int count_red (char *s, t_count_pipe_red *var);
 int	count_pipe_red(char *s);
+int	count_sub_sh(char *s);
 
 
 /****************************************** */

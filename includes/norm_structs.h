@@ -21,7 +21,8 @@ typedef struct s_get_herdoc t_get_herdoc;
 typedef struct s_herdoc_treat t_herdoc_treat;
 typedef struct s_check_tok_sub t_check_sub_tok;
 typedef struct s_count_pipe_red t_count_pipe_red;
-
+typedef struct s_count_sub_sh t_count_sub_sh;
+typedef struct s_ct_tk_pro t_ct_tk_pro;
 
 struct s_without_quotes
 {
@@ -88,6 +89,20 @@ struct s_count_pipe_red
 {
 	int i;
 	int res;
+};
+
+struct s_count_sub_sh
+{
+	int	i;
+	int res;
+	int next_par;
+};
+
+
+struct s_ct_tk_pro
+{
+	int res;
+	int i;
 	int ref;
 };
 

@@ -1,11 +1,12 @@
 GNL = lib/gnl/get_next_line.c lib/gnl/get_next_line_utils.c
 
-PARSE = sources/parse/parse_tools.c sources/parse/parse.c\
+PARSE = sources/parse/parse_tools.c sources/parse/parse.c sources/parse/counting_tools.c\
 		sources/parse/sub_check.c sources/parse/counting_things.c sources/parse/tokens.c
 
 REDIRECTION = sources/redirection_things/del.c sources/redirection_things/ordering.c\
 				sources/redirection_things/redirection_tools.c sources/redirection_things/herdoc.c
 
+ERRORS  = sources/errors/error.c
 
 WILDCARD_FILES = sources/wildcard/globing.c sources/wildcard/wildcard.c \
 				sources/wildcard/tools.c    sources/wildcard/sorted_res.c \
@@ -19,7 +20,7 @@ BUILT_TREE = sources/built_tree/builting_tools.c sources/built_tree/tree.c \
 			sources/built_tree/constractors.c sources/built_tree/constractors2.c
 
 CFILES =	${PARSE}\
-			${BUILT_TREE} ${FREEDOM}\
+			${BUILT_TREE} ${FREEDOM} ${ERRORS}\
 			sources/one.c sources/two.c\
 			sources/new_tools.c \
             sources/print.c sources/exec.c sources/exec_pipe.c\
