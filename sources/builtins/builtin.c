@@ -29,8 +29,8 @@ int blt_echo(t_env *env, char **argv)
 
 bool is_builtin(t_cmd *cmd)
 {
-    struct new_cmd *p ;
-    p = (struct new_cmd *)cmd;
+    t_cmd_exec  *p ;
+    p = (t_cmd_exec  *)cmd;
     if (p->argv == NULL)
         return false;
     // char **bcmds = ft_split("cd pwd export unset env exit echo", ' ');
@@ -51,9 +51,9 @@ bool is_builtin(t_cmd *cmd)
 int exec_builtin(t_cmd *cmd)
 {
     int status ;
-    struct new_cmd* p ;
+    t_cmd_exec *p ;
 
-    p = (struct new_cmd*)cmd;
+    p = (t_cmd_exec *)cmd;
     p->argv = expander(p->argv, *(p->myenv), 0);
     p->argv = wild_expand(p->argv);
     status = check_red(p);

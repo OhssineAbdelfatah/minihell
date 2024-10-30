@@ -1,19 +1,34 @@
 GNL = lib/gnl/get_next_line.c lib/gnl/get_next_line_utils.c
 
+PARSE = sources/parse/parse_tools.c sources/parse/parse.c\
+		sources/parse/sub_check.c sources/parse/counting_things.c sources/parse/tokens.c
+
+REDIRECTION = sources/redirection_things/del.c sources/redirection_things/ordering.c\
+				sources/redirection_things/redirection_tools.c sources/redirection_things/herdoc.c
+
+
 WILDCARD_FILES = sources/wildcard/globing.c sources/wildcard/wildcard.c \
 				sources/wildcard/tools.c    sources/wildcard/sorted_res.c \
 				sources/wildcard/array_to_lst.c   sources/wildcard/search_for_names.c\
 				sources/wildcard/simple_expand.c sources/wildcard/simple_expand_tools.c\
 				sources/wildcard/tool_box.c sources/wildcard/searching_tools.c
 
-CFILES = sources/one.c sources/two.c sources/constractors.c sources/parse.c \
-            sources/print.c sources/tree.c sources/exec.c sources/exec_pipe.c\
-            sources/freedom.c sources/tokens.c sources/ordering.c\
+FREEDOM = sources/freedom/freedom.c sources/freedom/freedom2.c 
+
+BUILT_TREE = sources/built_tree/builting_tools.c sources/built_tree/tree.c \
+			sources/built_tree/constractors.c sources/built_tree/constractors2.c
+
+CFILES =	${PARSE}\
+			${BUILT_TREE} ${FREEDOM}\
+			sources/one.c sources/two.c\
+			sources/new_tools.c \
+            sources/print.c sources/exec.c sources/exec_pipe.c\
+			${REDIRECTION}\
 			${WILDCARD_FILES}\
             sources/exec_new.c  sources/builtins/env.c sources/builtins/lstoarry.c \
             sources/builtins/builtin.c sources/builtins/dir.c \
-            sources/builtins/unset.c sources/builtins/export.c  sources/del.c \
-			sources/signals.c sources/sub_check.c sources/builtins/exit.c \
+            sources/builtins/unset.c sources/builtins/export.c \
+			sources/signals.c sources/builtins/exit.c \
 			sources/expander/expander.c sources/expander/expand_list.c \
 			sources/expander/utils.c sources/expander/expand_heredoc.c \
 			sources/builtins/echo.c ${GNL} sources/expander/tokenizer.c \
@@ -29,11 +44,11 @@ MINISHELL_ART = \
 "╚═╝     ╚═╝ ╚═╝ ╚═╝  ╚═══╝ ╚═╝ ╚══════ ╝╚═╝  ╚═╝ ╚══════╝ ╚══════╝ ╚══════╝\n"\
 "						      By: TILLAS & NolYel  \033[0m"
 
-RLFLAGS =	-L/Users/aohssine/goinfre/homebrew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
-RLINCLUDE	=	-I/Users/aohssine/goinfre/homebrew/opt/readline/include  # tell compiler where to find headers
+# RLFLAGS =	-L/Users/aohssine/goinfre/homebrew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
+# RLINCLUDE	=	-I/Users/aohssine/goinfre/homebrew/opt/readline/include  # tell compiler where to find headers
 
-# RLFLAGS =	-L/Users/ilaasri/.brew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
-# RLINCLUDE	=	-I/Users/ilaasri/.brew/opt/readline/include  #
+RLFLAGS =	-L/Users/ilaasri/.brew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
+RLINCLUDE	=	-I/Users/ilaasri/.brew/opt/readline/include  #
 
 
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
@@ -46,7 +61,7 @@ My_lib = lib/libft/libft.a
 
 all : ascii_art $(My_lib) $(NAME)
 
-%.o : %.c Makefile
+%.o : %.c  Makefile
 	$(CC)  $(CFLAGS) $(FFLAG)  $(RLINCLUDE) -c  $< -o $@
 
 $(My_lib) : 

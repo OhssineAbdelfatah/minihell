@@ -63,7 +63,7 @@ void print_nodes(t_node *head)
     
     while(head)
     {
-        printf("str[%s] type[%c]\n",head->str ,head->type);
+        // printf("str[%s] type[%c]\n",head->str ,head->type);
         head = head->next;
     }
 }
@@ -218,4 +218,7 @@ char **expander(char **argv, t_env *env, int *st)
     // return NULL;
     new_argv = joiner(args, env, st);
     return new_argv;
+    while(argv[++i])
+        argv[i] = joiner(argv[i], env, st);
+    return argv;
 }

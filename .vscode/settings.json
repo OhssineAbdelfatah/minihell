@@ -10,6 +10,10 @@
 		"libft.h": "c",
 		"unistd.h": "c",
 		"helper.h": "c",
-		"readline.h": "c"
+		"readline.h": "c",
+		"history.h": "c",
+		"fcntl.h": "c",
+		"helper2.h": "c",
+		"struct.h": "c"
 	}
 }

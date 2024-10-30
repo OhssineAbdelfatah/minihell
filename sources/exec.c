@@ -1,48 +1,70 @@
 #include "../includes/minishell.h"
 
-// }
-
-int check_cmd_type(t_cmd *cmd)
+int	check_cmd_type(t_cmd *cmd)
 {
-    if (cmd->type == NEW_CMD)
-        return(1);
-    return(0);
+	if (cmd->type == NEW_CMD)
+		return (1);
+	return (0);
 }
 
-int dstr_len(char **s)
+int	dstr_len(char **s)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    if (s)
-    {
-        while(s[i])
-            i++;
-    }
-    return(i);
+	i = 0;
+	if (s)
+	{
+		while (s[i])
+			i++;
+	}
+	return (i);
 }
 
-//OLD EXECUTE_PIPE:
+int	exec_and(t_cmd *cmd, int *last_status)
+{
+	t_and	*and_cmd;
+	int		status;
+
+	and_cmd = (t_and *)cmd;
+	status = new_exec(and_cmd->left, AND, last_status);
+	if (status == 0)
+		status = new_exec(and_cmd->right, AND, last_status);
+	return (status);
+}
+
+int	exec_or(t_cmd *cmd, int *last_status)
+{
+	t_or	*or_cmd;
+	int		status;
+
+	or_cmd = (t_or *)cmd;
+	status = new_exec(or_cmd->left, OR, last_status);
+	if (status != 0)
+		status = new_exec(or_cmd->right, OR, last_status);
+	return (status);
+}
+
+// OLD EXECUTE_PIPE:
 /*************************************************************/
-//EXEC PIPE IF IT WAS PARSED WITH RECURSION :
+// EXEC PIPE IF IT WAS PARSED WITH RECURSION :
 /*************************************************************/
 // int execute_pipe(t_cmd *cmd)
 // {
-//     struct pipe *pcmd;
-//     struct pipe *pcmd_right;
-//     struct new_cmd *cmd_child;
+//     t_pipe  *pcmd;
+//     t_pipe  *pcmd_right;
+//     t_cmd_exec  *cmd_child;
 //     int p[2];
 //     int pid2, pid1, status;
 
 //     status = 0;
-//     pcmd = (struct pipe *)cmd;
+//     pcmd = (t_pipe  *)cmd;
 //     if(pipe(p) < 0)
 //         panic("pipe");
 //     //LEFT CHILD COMMAND:
 //     pid1 = fork();
 //     if(pid1 == 0)
 //     {
-//         cmd_child = (struct new_cmd *)pcmd->left;
+//         cmd_child = (t_cmd_exec  *)pcmd->left;
 //         if (pcmd->pipe_fd != -1)
 //             cmd_child->fd_in = pcmd->pipe_fd;
 //         cmd_child->fd_out = p[1];
@@ -57,7 +79,7 @@ int dstr_len(char **s)
 //     //RIGHT CHILD COMMAND:
 //     if (pcmd->right->type == PIPE)
 //     {
-//         pcmd_right = (struct pipe *)pcmd->right;
+//         pcmd_right = (t_pipe  *)pcmd->right;
 //         pcmd_right->pipe_fd = p[0];
 //         close(p[1]);
 //         status = new_exec(pcmd->right, PIPE);
@@ -69,7 +91,7 @@ int dstr_len(char **s)
 //         pid2 = fork();
 //         if(pid2 == 0)
 //         {
-//             cmd_child = (struct new_cmd *)pcmd->right;
+//             cmd_child = (t_cmd_exec  *)pcmd->right;
 //             // else
 //             // {
 //                 if (pcmd->pipe_fd != - 1)
@@ -90,45 +112,44 @@ int dstr_len(char **s)
 //     wait(0);
 //     waitpid(pid2, &status, 0);
 //     return (status);
-// } 
+// }
 
-/*******************************************************************************/
-
-
+/********************************************************/
 /***************************************************** */
 // THE RECURSIVE THAT WORKS FOR NOW !
-// THE PIPE WAS PARSED IN A WHILE LOOP (SO THE LAST PIPE IS THE ROOT) 
+// THE PIPE WAS PARSED IN A WHILE LOOP (SO THE LAST PIPE IS THE ROOT)
 /****************************************************** */
 
 // int recursion_pipe(t_cmd *cmd, int fd)
 // {
-//     struct pipe *pcmd;
-//     struct new_cmd *lchild;
-//     struct new_cmd *rchild;
-//     struct sub_sh *srchild;
-//     struct sub_sh *slchild;
+//     t_pipe  *pcmd;
+//     t_cmd_exec  *lchild;
+//     t_cmd_exec  *rchild;
+//     t_sub_sh  *srchild;
+//     t_sub_sh  *slchild;
 
 //     int p[2];
 //     int rpid, lpid, status;
-    
+
 //     pipe(p);
-//     pcmd = (struct pipe *)cmd;
+//     pcmd = (t_pipe  *)cmd;
 //     status = 0;
 
 //     (void)srchild;
 //     // LEFT CHILD
 //     if (pcmd->left->type == NEW_CMD || pcmd->left->type == SUB_SH)
 //     {
-//         lchild = (struct new_cmd *)pcmd->left;
-//         slchild = (struct sub_sh *)pcmd->left;
+//         lchild = (t_cmd_exec  *)pcmd->left;
+//         slchild = (t_sub_sh  *)pcmd->left;
 //         lpid = fork();
 //         if (lpid == -1)
-//             return -1; // Error handling
+//             return (-1); // Error handling
 //         if (lpid == 0)
 //         {
 //             // Left child process
 //             if (pcmd->left->type == SUB_SH )
-//                 slchild->fd_out = p[1];            // if (pcmd->left->type = = NEW_CMD )
+//                 slchild->fd_out = p[1];           
+	// if (pcmd->left->type = = NEW_CMD )
 //             else
 //                 lchild->fd_out = p[1];
 //             // else if (pcmd->left->type == SUB_SH )
@@ -145,11 +166,11 @@ int dstr_len(char **s)
 //     }
 //     close(p[1]);
 //     // RIGHT CHILD
-//     rchild = (struct new_cmd *)pcmd->right;
-//     srchild = (struct sub_sh *)pcmd->right;
+//     rchild = (t_cmd_exec  *)pcmd->right;
+//     srchild = (t_sub_sh  *)pcmd->right;
 //     rpid = fork();
 //     if (rpid == -1)
-//         return -1; // Error handling
+//         return (-1); // Error handling
 //     if (rpid == 0)
 //     {
 //         // Right child process
@@ -157,9 +178,9 @@ int dstr_len(char **s)
 //         {
 //             if (pcmd->right->type == SUB_SH)
 //                 srchild->fd_out = fd;
-//             else  
+//             else
 //                 rchild->fd_out = fd;
- 
+
 //         }
 //         if (pcmd->right->type == SUB_SH)
 //             srchild->fd_in = p[0];
@@ -173,42 +194,10 @@ int dstr_len(char **s)
 //     close(p[0]);
 //     close (p[1]);
 //      // Parent closes read end
-    
+
 //     // Wait for both children
 //     waitpid(lpid, &status, 0);
 //     waitpid(rpid, &status, 0);
 //     status = WEXITSTATUS(status);
 //     return (status);
 // }
-
-
-int exec_and(t_cmd *cmd , int *last_status)
-{
-    struct and *and_cmd;
-    int status;
-
-    and_cmd = (struct and*)cmd;
-    status = new_exec(and_cmd->left, AND, last_status);
-    // printf("1>STATUS: %d\n", status);
-    if (status == 0)
-    {
-        status = new_exec(and_cmd->right, AND, last_status);
-        // printf("2>STATUS: %d\n", status);
-    }
-    return (status);
-}
-
-int exec_or(t_cmd *cmd , int *last_status)
-{
-    struct or *or_cmd;
-    int status;
-
-    or_cmd = (struct or*)cmd;
-    status = new_exec(or_cmd->left, OR, last_status);
-    if (status != 0)
-        status = new_exec(or_cmd->right,OR, last_status);
-    return (status);
-}
-
-
-
