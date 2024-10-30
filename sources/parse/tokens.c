@@ -58,6 +58,50 @@ int red_or_pipe_check(char *s, t_ct_tk_pro *var)
 	return 0;
 }
 
+int las_part_pro(char *s, t_ct_tk_pro *var)
+{
+	if (s[var->i] && is_white(s[var->i]) && (0 == is_special(s[var->i])) && s[var->i] != '\''
+			&& s[var->i] != '"')
+		{
+			if (var->ref == RED)
+				var->ref = FILE_NAME;
+			else
+				var->ref = EXEC;
+			var->res++;
+			while (s[var->i] && is_white(s[var->i]) && (0 == is_special(s[var->i]))
+				&& s[var->i] != '\'' && s[var->i] != '"')
+			{
+				var->i++;
+				if (s[var->i] == '\'' || s[var->i] == '"')
+				{
+					while (s[var->i] && (s[var->i] == '\'' || s[var->i] == '"'))
+						var->i = get_next_quote(s, var->i) + 1;
+				}
+			}
+		}
+		if (0 == s[var->i] && RED == var->ref)
+			return (-2);
+		if (0 == s[var->i] && PIPE == var->ref)
+			return (-1);
+	return (0);
+
+}
+
+void middle_game(char *s, t_ct_tk_pro *var)
+{
+	if (s[var->i] == '\'' || s[var->i] == '"')
+	{
+		var->ref = STRING;
+		var->res++;
+		while (s[var->i] && (s[var->i] == '\'' || s[var->i] == '"'))
+		{
+			var->i = get_next_quote(s, var->i) + 1;
+			while (s[var->i] && is_white(s[var->i]) && (0 == is_special(s[var->i]))
+				&& s[var->i] != '\'' && s[var->i] != '"')
+				var->i++;
+		}
+	}
+}
 
 int	count_tokens_pro(char *s)
 {
@@ -71,46 +115,15 @@ int	count_tokens_pro(char *s)
 	while (s[var.i])
 	{
 		var.i = skip_spaces(s, var.i);
-		var.ref = red_or_pipe_check(s,&var);
-		if (var.ref < 0)
+		var.tmp = red_or_pipe_check(s,&var);
+		if (var.tmp < 0)
 			return (var.ref);
 		var.i = skip_spaces(s, var.i);
-		if (s[var.i] == '\'' || s[var.i] == '"')
-		{
-			var.ref = STRING;
-			var.res++;
-			while (s[var.i] && (s[var.i] == '\'' || s[var.i] == '"'))
-			{
-				var.i = get_next_quote(s, var.i) + 1;
-				while (s[var.i] && is_white(s[var.i]) && (0 == is_special(s[var.i]))
-					&& s[var.i] != '\'' && s[var.i] != '"')
-					var.i++;
-			}
-		}
+		middle_game(s, &var);
 		var.i = skip_spaces(s, var.i);
-		if (s[var.i] && is_white(s[var.i]) && (0 == is_special(s[var.i])) && s[var.i] != '\''
-			&& s[var.i] != '"')
-		{
-			if (var.ref == RED)
-				var.ref = FILE_NAME;
-			else
-				var.ref = EXEC;
-			var.res++;
-			while (s[var.i] && is_white(s[var.i]) && (0 == is_special(s[var.i]))
-				&& s[var.i] != '\'' && s[var.i] != '"')
-			{
-				var.i++;
-				if (s[var.i] == '\'' || s[var.i] == '"')
-				{
-					while (s[var.i] && (s[var.i] == '\'' || s[var.i] == '"'))
-						var.i = get_next_quote(s, var.i) + 1;
-				}
-			}
-		}
-		if (0 == s[var.i] && RED == var.ref)
-			return (-2);
-		if (0 == s[var.i] && PIPE == var.ref)
-			return (-1);
+		var.tmp = las_part_pro(s, &var);
+		if (0 != var.tmp)
+			return (var.tmp);
 	}
 	return (var.res);
 }

@@ -103,6 +103,7 @@ struct s_ct_tk_pro
 	int res;
 	int i;
 	int ref;
+	int tmp;
 };
 
 #endif
