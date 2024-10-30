@@ -58,7 +58,8 @@ static t_split_arg init_spliter(t_split_arg data, char *str)
     return data ;
 }
 
-void print_nodes(t_node *head){
+void print_nodes(t_node *head)
+{
     
     while(head)
     {
@@ -94,19 +95,31 @@ t_node *splitArg(char *str)
     return (free(dt.token), (dt.head));
 }
 
+int strlst(t_node *tmp){
+    int lst_size;
+
+    lst_size = 0;
+    while(tmp)
+    {
+        lst_size++;
+        tmp = tmp->next;
+    }
+    return lst_size;
+}
+
+
 char *joiner(char *arg, t_env* env, int *st)
 {
     char* new;
     char* tmp_new;
     t_node  *head;
     t_node  *tmp;
-
+    
     head = splitArg(arg);
-    // print_nodes(head);
     mini_expander(&head, env,st);
     tmp = head;
     new = ft_strdup("");
-    while(tmp)
+    while(tmp )
     {   
         tmp_new = new;
         new = ft_strjoin(new, tmp->str);
@@ -118,18 +131,91 @@ char *joiner(char *arg, t_env* env, int *st)
     return new;
 }
 
+
+
+void print_arg(t_argv *head)
+{
+    while(head)
+    {
+        printf("arg [%s]\n", head->str);
+        while(head->arg){
+            printf("%s \t",head->arg->str) ;
+            head->arg = head->arg->next ;
+        }
+        puts("");
+        head = head->next ;
+    }
+}
+
+// char **joiner(t_argv *args, t_env* env, int *st)
+// {
+//     t_argv* tmp;
+//     char** new;
+
+//     tmp = args ;
+//     while(tmp)
+//     {
+//         tmp->arg = splitArg(tmp->str);
+//         mini_expander(&(tmp->arg), env,st);
+//         tmp = tmp->next;
+//     }
+
+//     print_arg(args);
+   
+//     new = NULL;
+//     return new;
+// }
+
+// char **expander(char **argv, t_env *env, int *st)
+// {
+//     int i ;
+//     int old_len;
+
+//     old_len = ft_strslen(argv);
+
+//     i = -1 ;
+//     if(!argv || !(*argv))
+//         return NULL;
+//     while(argv[++i])
+//         argv[i] = joiner(argv[i], env, st);
+//     return argv;
+// }
+
+t_argv *argv_to_lst(char **argv)
+{
+    int i ;
+    t_argv *head;
+    t_argv *tail;
+    t_argv *node;
+
+    tail = NULL ;
+    head = NULL ;
+    i = -1 ;
+    while(argv[++i])
+    {
+        node = create_argv(NULL, argv[i]);
+        add_argv(&head ,&tail ,node);
+    }
+    return head ;
+}
+
+// char **lst_to_argv(){
+
+// }
+
 char **expander(char **argv, t_env *env, int *st)
 {
     int i ;
-    int old_len;
-
-    old_len = ft_strslen(argv);
+    // char **new_argv;
+    // t_argv *args;
 
     i = -1 ;
     if(!argv || !(*argv))
         return NULL;
+    // args = argv_to_lst(argv);
+    // return NULL;
+    // print_arg(args);
     while(argv[++i])
         argv[i] = joiner(argv[i], env, st);
-    (void)old_len;
     return argv;
 }

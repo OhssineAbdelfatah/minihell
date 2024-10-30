@@ -7,7 +7,7 @@
 
 // 	words = 0;
 // 	i = 0;
-// 	if (*s == '\0')
+// 	if (!s || *s == '\0')
 // 		return (0);
 // 	while (*(s + i) == c)
 // 		i++;
@@ -44,13 +44,21 @@ void add_node(t_node **head, t_node **tail, t_node *node)
 void split_inside_arg(t_node **head)
 {
     t_node *tmp;
-
-    tmp = *head;
-    while(tmp)
+    t_node *head2;
+    t_node *tail;
+    char **args;
+    int i ;
+    tail = NULL;
+    head2 = NULL;
+    args = ft_split((*head)->str ,' ' );
+    i = -1;
+    while(args[++i])
     {
-        if(tmp->type)
-        tmp = tmp->next;
+        tmp = create_node(ft_strdup(args[i]), 'w');
+        add_node(&head2 ,&tail, tmp);
     }
+    free_lst(*head);
+    *head = head2 ;
 }
 
 void mini_expander(t_node **head, t_env *env, int *st)
@@ -69,13 +77,16 @@ void mini_expander(t_node **head, t_env *env, int *st)
         }
         tmp = tmp->next;
     }
-    split_inside_arg(head);
+    // tmp = *head ;
+    // if( !tmp->next && tmp->type == 'w' && tmp->str && count_word(tmp->str, ' ') > 1){
+    //     puts("dkhel itsplita \n");
+    //     split_inside_arg(head);
+    // }
     return ;
 }
 
 //char *dt.start; // start
 //char *dt.token; // token
-
 char *splitWordVar(char *value, t_env *env ,int *st)
 {
     t_split_arg dt;

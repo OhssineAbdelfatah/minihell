@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilaasri <ilaasri@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 00:45:53 by ilaasri           #+#    #+#             */
-/*   Updated: 2024/10/29 00:45:54 by ilaasri          ###   ########.fr       */
+/*   Updated: 2024/10/30 19:11:59 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	total_sub(char *s);
 int	counts_and_or(char *s);
 int count_red (char *s, t_count_pipe_red *var);
 int	count_pipe_red(char *s);
+int	counts_and_or(char *s);
 int	count_sub_sh(char *s);
 
 

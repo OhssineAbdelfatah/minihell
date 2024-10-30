@@ -2,10 +2,19 @@
 #define EXPANDER_H
 
 typedef struct s_node {
-    char *str;
+    char *str; 
     char type;
     struct s_node *next;
 } t_node;
+
+typedef struct s_argv {
+    t_node *arg; 
+    char *str;
+    bool word;
+    struct s_argv *next;
+} t_argv;
+
+
 
 typedef struct s_split_arg 
 {
@@ -36,6 +45,7 @@ typedef struct s_tokens_exp {
 char **expander(char **argv, t_env *env, int *last_status);
 char *tokenizer(char *arg);
 t_node *splitArg(char *str);
+// char **joiner(t_argv *args, t_env* env, int*st);
 char *joiner(char *arg, t_env* env, int*st);
 
 t_node *create_node(char *value, char type);
@@ -49,5 +59,9 @@ void free_lst(t_node *head);
 char *clean_qts(char *str);
 
 int herdoc_newfd( int fd, t_env* myenv);
+
+void add_argv(t_argv **head, t_argv** tail ,t_argv* arg);
+t_argv *create_argv(t_node *head, char *str);
+void print_nodes(t_node *head);
 
 #endif
