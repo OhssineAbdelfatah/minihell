@@ -3,21 +3,6 @@
 
 //hadi ghi bach nvisualisiw chejra dyalna a batal 
 
-
-// void check_mode(struct red *s)
-// {
-//     if (s)
-//     {
-//         if (s->mode == 4)
-//             printf("<");
-//         else if (s->mode == 77 )
-//             printf(" >> ");
-//         else if (s->mode ==  7)
-//             printf(" > ");
-//     }
-// }
-
-
 void print_red(t_red *tmp)
 {
     // t_red *tmp =  p->redirect; 

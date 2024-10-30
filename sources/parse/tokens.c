@@ -34,79 +34,163 @@ int	get_starto(char *s, int x)
 	return (x);
 }
 
+int red_or_pipe_check(char *s, t_ct_tk_pro *var)
+{
+	if (s[var->i] == '|')
+	{
+		if (s[var->i + 1] == '|')
+			var->ref = AND;
+		if (var->ref == NOTHING || var->ref == PIPE || var->ref == RED)
+			return (-1);
+		var->ref = PIPE;
+		var->res++;
+		var->i++;
+	}
+	if (RED == red_or_pipe(s[var->i]))
+	{
+		if (RED == var->ref)
+			return (-2);
+		var->ref = RED;
+		var->res++;
+		while (s[var->i] && (RED == red_or_pipe(s[var->i])))
+			var->i++;
+	}
+	return 0;
+}
+
+
 int	count_tokens_pro(char *s)
 {
-	int	res;
-	int	i;
-	int	ref;
+	t_ct_tk_pro var;
 
 	if (NULL == s)
 		return (0);
-	res = 0;
-	i = 0;
-	ref = NOTHING;
-	while (s[i])
+	var.res = 0;
+	var.i = 0;
+	var.ref = NOTHING;
+	while (s[var.i])
 	{
-		i = skip_spaces(s, i);
-		if (s[i] == '|')
+		var.i = skip_spaces(s, var.i);
+		var.ref = red_or_pipe_check(s,&var);
+		if (var.ref < 0)
+			return (var.ref);
+		var.i = skip_spaces(s, var.i);
+		if (s[var.i] == '\'' || s[var.i] == '"')
 		{
-			if (s[i + 1] == '|')
-				ref = AND;
-			if (ref == NOTHING || ref == PIPE || ref == RED)
-				return (-1);
-			ref = PIPE;
-			res++;
-			i++;
-		}
-		if (RED == red_or_pipe(s[i]))
-		{
-			if (RED == ref)
-				return (-2);
-			ref = RED;
-			res++;
-			while (s[i] && (RED == red_or_pipe(s[i])))
-				i++;
-		}
-		i = skip_spaces(s, i);
-		if (s[i] == '\'' || s[i] == '"')
-		{
-			ref = STRING;
-			res++;
-			while (s[i] && (s[i] == '\'' || s[i] == '"'))
+			var.ref = STRING;
+			var.res++;
+			while (s[var.i] && (s[var.i] == '\'' || s[var.i] == '"'))
 			{
-				i = get_next_quote(s, i) + 1;
-				while (s[i] && is_white(s[i]) && (0 == is_special(s[i]))
-					&& s[i] != '\'' && s[i] != '"')
-					i++;
+				var.i = get_next_quote(s, var.i) + 1;
+				while (s[var.i] && is_white(s[var.i]) && (0 == is_special(s[var.i]))
+					&& s[var.i] != '\'' && s[var.i] != '"')
+					var.i++;
 			}
 		}
-		i = skip_spaces(s, i);
-		if (s[i] && is_white(s[i]) && (0 == is_special(s[i])) && s[i] != '\''
-			&& s[i] != '"')
+		var.i = skip_spaces(s, var.i);
+		if (s[var.i] && is_white(s[var.i]) && (0 == is_special(s[var.i])) && s[var.i] != '\''
+			&& s[var.i] != '"')
 		{
-			if (ref == RED)
-				ref = FILE_NAME;
+			if (var.ref == RED)
+				var.ref = FILE_NAME;
 			else
-				ref = EXEC;
-			res++;
-			while (s[i] && is_white(s[i]) && (0 == is_special(s[i]))
-				&& s[i] != '\'' && s[i] != '"')
+				var.ref = EXEC;
+			var.res++;
+			while (s[var.i] && is_white(s[var.i]) && (0 == is_special(s[var.i]))
+				&& s[var.i] != '\'' && s[var.i] != '"')
 			{
-				i++;
-				if (s[i] == '\'' || s[i] == '"')
+				var.i++;
+				if (s[var.i] == '\'' || s[var.i] == '"')
 				{
-					while (s[i] && (s[i] == '\'' || s[i] == '"'))
-						i = get_next_quote(s, i) + 1;
+					while (s[var.i] && (s[var.i] == '\'' || s[var.i] == '"'))
+						var.i = get_next_quote(s, var.i) + 1;
 				}
 			}
 		}
-		if (0 == s[i] && RED == ref)
+		if (0 == s[var.i] && RED == var.ref)
 			return (-2);
-		if (0 == s[i] && PIPE == ref)
+		if (0 == s[var.i] && PIPE == var.ref)
 			return (-1);
 	}
-	return (res);
+	return (var.res);
 }
+// int	count_tokens_pro(char *s)
+// {
+// 	// t_ct_tk_pro var;
+// 	int	res;
+// 	int	i;
+// 	int	ref;
+
+// 	if (NULL == s)
+// 		return (0);
+// 	res = 0;
+// 	i = 0;
+// 	ref = NOTHING;
+// 	while (s[i])
+// 	{
+// 		i = skip_spaces(s, i);
+// 		ref = red_or_pipe_check(s,&var);
+// 		if (ref < 0)
+// 			return (ref);
+// 		// if (s[i] == '|')
+// 		// {
+// 		// 	if (s[i + 1] == '|')
+// 		// 		ref = AND;
+// 		// 	if (ref == NOTHING || ref == PIPE || ref == RED)
+// 		// 		return (-1);
+// 		// 	ref = PIPE;
+// 		// 	res++;
+// 		// 	i++;
+// 		// }
+// 		// if (RED == red_or_pipe(s[i]))
+// 		// {
+// 		// 	if (RED == ref)
+// 		// 		return (-2);
+// 		// 	ref = RED;
+// 		// 	res++;
+// 		// 	while (s[i] && (RED == red_or_pipe(s[i])))
+// 		// 		i++;
+// 		// }
+// 		i = skip_spaces(s, i);
+// 		if (s[i] == '\'' || s[i] == '"')
+// 		{
+// 			ref = STRING;
+// 			res++;
+// 			while (s[i] && (s[i] == '\'' || s[i] == '"'))
+// 			{
+// 				i = get_next_quote(s, i) + 1;
+// 				while (s[i] && is_white(s[i]) && (0 == is_special(s[i]))
+// 					&& s[i] != '\'' && s[i] != '"')
+// 					i++;
+// 			}
+// 		}
+// 		i = skip_spaces(s, i);
+// 		if (s[i] && is_white(s[i]) && (0 == is_special(s[i])) && s[i] != '\''
+// 			&& s[i] != '"')
+// 		{
+// 			if (ref == RED)
+// 				ref = FILE_NAME;
+// 			else
+// 				ref = EXEC;
+// 			res++;
+// 			while (s[i] && is_white(s[i]) && (0 == is_special(s[i]))
+// 				&& s[i] != '\'' && s[i] != '"')
+// 			{
+// 				i++;
+// 				if (s[i] == '\'' || s[i] == '"')
+// 				{
+// 					while (s[i] && (s[i] == '\'' || s[i] == '"'))
+// 						i = get_next_quote(s, i) + 1;
+// 				}
+// 			}
+// 		}
+// 		if (0 == s[i] && RED == ref)
+// 			return (-2);
+// 		if (0 == s[i] && PIPE == ref)
+// 			return (-1);
+// 	}
+// 	return (res);
+// }
 
 int	count_words(char *s)
 {
@@ -176,14 +260,8 @@ int	get_tok_len(char *s)
 	if (!s)
 		return (0);
 	and_or = counts_and_or(s);
-	// if (and_or < 0)
-	//     return (AND_ER);
 	pipe_red = count_pipe_red(s);
-	// if (pipe_red < 0)
-	//     return (PIPE_ER);
 	words = count_words(s);
-	// if (words < 0)
-	//     return (SYNTAX);
 	sub_sh = count_sub_sh(s);
 	if (sub_sh < 0)
 		return (-1);

@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef NORM_STRUCT_H
-# define NORM_STRUCT_H
+#ifndef NORM_STRUCTS_H
+# define NORM_STRUCTS_H
 
 typedef struct s_without_quotes t_without_quotes;
 typedef struct s_parse_sub t_parse_sub;
@@ -97,7 +97,6 @@ struct s_count_sub_sh
 	int res;
 	int next_par;
 };
-
 
 struct s_ct_tk_pro
 {
