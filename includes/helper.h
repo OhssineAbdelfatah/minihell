@@ -26,9 +26,16 @@ int		dstr_len(char **s);
 int		_check_tokens(char **tokens);
 
 /****************************************** */
+// COUNTING THINGS :
+/********************************************/
 
+// int	counts_and_or(char *s);
+int count_red (char *s, t_count_pipe_red *var);
+int	count_pipe_red(char *s);
+
+
+/****************************************** */
 // PARSING SUB SHELL:
-
 /********************************************/
 
 int		check_tok_sub(char **tokens);
@@ -50,6 +57,8 @@ int		is_full_white_str(char *s);
 // CONSTRACTORS :
 /***************************************************/
 
+t_cmd	*init_new_cmd(char **argv, t_env **myenv, t_red *redirect,
+			t_herdoc *herdoc);
 t_cmd	*init_sub(t_cmd *root_sub, t_env **myenv, t_red *redirect,
 			t_herdoc *herdoc);
 t_cmd	*init_or(t_cmd *left, t_cmd *right);
@@ -64,6 +73,7 @@ t_cmd	*init_pipe(t_cmd *left, t_cmd *right);
 // CONSTRACTORS TOOLS:
 /***********************************************/
 // void herdoc_content(t_cmd *herd);
+
 t_cmd	*init_redire(t_cmd *cmd, char *file, int mode, int fd);
 t_cmd	*init_herdoc(t_cmd *cmd, char *deliminater);
 t_red	*get_red(char **tokens, int i, t_herdoc *herdoc);
@@ -74,11 +84,9 @@ t_red	*creat_red_lst(char **tokens, int i);
 
 int		get_next_parenties_d(char **s, int i);
 
-char	**tokens(char *str);
+// char	**tokens(char *str);
 int		_check_str(char *s);
 int		check_qoutes(char *s);
-// t_cmd *root(char **tokens, t_env **env);
-
 void	print_tree(t_cmd *res);
 // void print_tree(t_cmd *res, int level);
 int		which_one(char *s);
@@ -94,8 +102,6 @@ char	*cmd_line(char **tokens, int *x);
 // t_cmd *init_new_cmd(char *argv, char **env, t_red *redirect);
 // t_cmd *init_new_cmd(char **argv, t_env *myenv,t_red *redirect,
 	//int herdoc_pipe);
-t_cmd	*init_new_cmd(char **argv, t_env **myenv, t_red *redirect,
-			t_herdoc *herdoc);
 void	add_to_lst(t_red *red_lst, char **tokens, int i);
 t_red	*creat_red_lst(char **tokens, int i);
 // t_cmd *parse_new_exec(char **tokens, int *i, t_env **myenv);

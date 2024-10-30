@@ -19,6 +19,8 @@ typedef struct s_parse_new_exec t_parse_new_exec;
 typedef struct s_cmd_line t_cmd_line;
 typedef struct s_get_herdoc t_get_herdoc;
 typedef struct s_herdoc_treat t_herdoc_treat;
+typedef struct s_check_tok_sub t_check_sub_tok;
+typedef struct s_count_pipe_red t_count_pipe_red;
 
 
 struct s_without_quotes
@@ -72,6 +74,21 @@ struct s_herdoc_treat
 	char	*str;
 	int		pid;
 	int		status;
+};
+
+struct s_check_tok_sub
+{
+	int	ref;
+	int	i;
+	int	which;
+	int ret;
+};
+
+struct s_count_pipe_red
+{
+	int i;
+	int res;
+	int ref;
 };
 
 #endif
