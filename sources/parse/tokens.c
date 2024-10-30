@@ -34,27 +34,6 @@ int	get_starto(char *s, int x)
 	return (x);
 }
 
-void	error(char *s, int er_num)
-{
-	if (er_num == 40)
-		ft_putstr_fd("minishell: syntax error near unexpected token '('\n", 2);
-	else if (er_num == 41)
-		ft_putstr_fd("minishell: syntax error near unexpected token ')'\n", 2);
-	else if (10 == er_num)
-		ft_putstr_fd("Quotes !\n", 2);
-	else if (er_num == OR)
-		ft_putstr_fd("minishell: syntax error near unexpected token '||'\n", 2);
-	else if (er_num == AND)
-		ft_putstr_fd("minishell: syntax error near unexpected token `&&'\n", 2);
-	else if (-1 == er_num || er_num == PIPE)
-		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
-	else if (-2 == er_num || er_num == RED || er_num == HERDOC)
-		ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n",
-			2);
-	else if (s)
-		ft_putstr_fd(s, 2);
-}
-
 int	count_tokens_pro(char *s)
 {
 	int	res;
@@ -69,17 +48,16 @@ int	count_tokens_pro(char *s)
 	while (s[i])
 	{
 		i = skip_spaces(s, i);
-		if (s[i])
-			if (s[i] == '|')
-			{
-				if (s[i + 1] == '|')
-					ref = AND;
-				if (ref == NOTHING || ref == PIPE || ref == RED)
-					return (-1);
-				ref = PIPE;
-				res++;
-				i++;
-			}
+		if (s[i] == '|')
+		{
+			if (s[i + 1] == '|')
+				ref = AND;
+			if (ref == NOTHING || ref == PIPE || ref == RED)
+				return (-1);
+			ref = PIPE;
+			res++;
+			i++;
+		}
 		if (RED == red_or_pipe(s[i]))
 		{
 			if (RED == ref)
@@ -168,48 +146,6 @@ int	count_words(char *s)
 	return (res);
 }
 
-int	total_sub(char *s)
-{
-	int	res;
-	int	i;
-
-	res = 0;
-	i = 0;
-	if (!s)
-		return (0);
-	while (s[i])
-	{
-		if (s[i] == '"' || s[i] == '\'')
-			i = get_next_quote(s, i);
-		if (s[i] == 40 || s[i] == 41)
-			res++;
-		i++;
-	}
-	return (res);
-}
-
-int	get_next_parenties(char *s, int i)
-{
-	int	ref;
-
-	ref = 0;
-	while (s[i])
-	{
-		if (s[i] == '"' || s[i] == '\'')
-			i = get_next_quote(s, i);
-		if (s[i] == ')' && ref == 0)
-			return (i);
-		else if (s[i] == ')' && ref != 0)
-			ref--;
-		// printf(">>>ref:%d,  s[i]:%d\n",ref, i );
-		i++;
-		if (s[i] == '(')
-			ref++;
-	}
-	error(NULL, 40);
-	return (-1);
-}
-
 int	get_next_parenties_d(char **s, int i)
 {
 	int	ref;
@@ -227,36 +163,6 @@ int	get_next_parenties_d(char **s, int i)
 	}
 	error(NULL, 40);
 	return (-1);
-}
-
-int	count_sub_sh(char *s)
-{
-	int	i;
-
-	int res, next_par;
-	res = 0;
-	i = 0;
-	next_par = 0;
-	while (s[i])
-	{
-		if (s[i] == '"' || s[i] == '\'')
-			i = get_next_quote(s, i);
-		if (s[i] == ')' && res == 0)
-			return (error(NULL, 41), -1);
-		if (s[i] == '(')
-		{
-			next_par = get_next_parenties(s, i);
-			// printf("res:%d, s[i]:%d,nxt_P:%d\n",res, i, next_par);
-			if (next_par < 0)
-				return (-1);
-			else
-				res += 2;
-		}
-		i++;
-	}
-	if (res != total_sub(s))
-		return (error(NULL, 41), -1);
-	return (res);
 }
 
 int	get_tok_len(char *s)
@@ -304,7 +210,6 @@ int	get_endo(char *s, int x)
 	{
 		if (s[x] == '\'' || s[x] == '"')
 		{
-			//  return(get_next_quote(s, x) + 1);
 			while (-1 == is_special(s[x]) && is_white(s[x]) && (s[x] == '\''
 					|| s[x] == '"'))
 				x = get_next_quote(s, x) + 1;
@@ -350,11 +255,40 @@ char	**fr9_trb7(char *s)
 	return (var.res);
 }
 
+int check_ref(int i, char **tokens)
+{
+	int ref;
+	int next_ref;
+
+	ref = which_one(tokens[i]);
+	next_ref = which_one(tokens[i + 1]);
+	if (ref != EXEC && ref == next_ref)
+	{
+		if (ref != S_SUB && ref != END_SUB)
+			return (ref);
+	}
+	if (ref == RED || ref == HERDOC)
+	{
+		if (next_ref != EXEC)
+			return (ref);
+	}
+	if (ref == PIPE || ref == AND || ref == OR)
+	{
+		if (next_ref != EXEC && next_ref != RED && next_ref != HERDOC)
+		{
+			if (next_ref != S_SUB && next_ref != END_SUB)
+				return (ref);
+		}
+	}
+	return (-1);
+}
+
 int	_check_tokens(char **tokens)
 {
 	int	i;
+	int ref;
+	int next_ref;
 
-	int ref, next_ref;
 	i = 0;
 	ref = EXEC;
 	if (!tokens)
@@ -362,9 +296,8 @@ int	_check_tokens(char **tokens)
 	ref = which_one(tokens[i]);
 	if (ref == AND || ref == PIPE || ref == OR)
 		return (ref);
-	ref = check_tok_sub(tokens);
-	if (ref != 0)
-		return (ref);
+	if (check_tok_sub(tokens))
+		return (1008);
 	while (tokens[i])
 	{
 		ref = which_one(tokens[i]);

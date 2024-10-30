@@ -6,7 +6,7 @@
 /*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 00:45:53 by ilaasri           #+#    #+#             */
-/*   Updated: 2024/10/30 19:07:08 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/10/30 19:11:59 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,22 @@ char	**fr9_trb7(char *s);
 int		dstr_len(char **s);
 int		_check_tokens(char **tokens);
 
+/********************************************** */
+// 	COUNTING TOOLS
+/********************************************** */
+int	get_next_parenties(char *s, int i);
+int	total_sub(char *s);
+
 /****************************************** */
 // COUNTING THINGS :
 /********************************************/
 
-// int	counts_and_or(char *s);
+int	counts_and_or(char *s);
 int count_red (char *s, t_count_pipe_red *var);
 int	count_pipe_red(char *s);
 int	counts_and_or(char *s);
+int	count_sub_sh(char *s);
+
 
 /****************************************** */
 // PARSING SUB SHELL:
