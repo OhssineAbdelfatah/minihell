@@ -1,26 +1,26 @@
 #include"../../includes/minishell.h"
 
-static int	count_word(char const *s, char c)
-{
-	size_t	i;
-	size_t	words;
+// static int	count_word(char const *s, char c)
+// {
+// 	size_t	i;
+// 	size_t	words;
 
-	words = 0;
-	i = 0;
-	if (!s || *s == '\0')
-		return (0);
-	while (*(s + i) == c)
-		i++;
-	while (*(s + i))
-	{
-		if (*(s + i) == c && *(s + i + 1) != c)
-			words++;
-		i++;
-	}
-	if (*(s + i - 1) != c)
-		words++;
-	return (words);
-}
+// 	words = 0;
+// 	i = 0;
+// 	if (!s || *s == '\0')
+// 		return (0);
+// 	while (*(s + i) == c)
+// 		i++;
+// 	while (*(s + i))
+// 	{
+// 		if (*(s + i) == c && *(s + i + 1) != c)
+// 			words++;
+// 		i++;
+// 	}
+// 	if (*(s + i - 1) != c)
+// 		words++;
+// 	return (words);
+// }
 
 t_node *create_node(char *value, char type)
 {
@@ -77,11 +77,11 @@ void mini_expander(t_node **head, t_env *env, int *st)
         }
         tmp = tmp->next;
     }
-    tmp = *head ;
-    if( !tmp->next && tmp->type == 'w' && tmp->str && count_word(tmp->str, ' ') > 1){
-        puts("dkhel itsplita \n");
-        split_inside_arg(head);
-    }
+    // tmp = *head ;
+    // if( !tmp->next && tmp->type == 'w' && tmp->str && count_word(tmp->str, ' ') > 1){
+    //     puts("dkhel itsplita \n");
+    //     split_inside_arg(head);
+    // }
     return ;
 }
 

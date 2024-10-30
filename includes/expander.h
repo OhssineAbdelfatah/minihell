@@ -45,7 +45,8 @@ typedef struct s_tokens_exp {
 char **expander(char **argv, t_env *env, int *last_status);
 char *tokenizer(char *arg);
 t_node *splitArg(char *str);
-char **joiner(t_argv *args, t_env* env, int*st);
+// char **joiner(t_argv *args, t_env* env, int*st);
+char *joiner(char *arg, t_env* env, int*st);
 
 t_node *create_node(char *value, char type);
 void add_node(t_node **head, t_node **tail, t_node *node);
