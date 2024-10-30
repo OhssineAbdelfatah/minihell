@@ -2,7 +2,9 @@ GNL = lib/gnl/get_next_line.c lib/gnl/get_next_line_utils.c
 
 PARSE = sources/parse/parse_tools.c sources/parse/parse.c
 
-REDIRECTION = sources/redirection_things/del.c sources/redirection_things/ordering.c
+REDIRECTION = sources/redirection_things/del.c sources/redirection_things/ordering.c\
+				sources/redirection_things/redirection_tools.c sources/redirection_things/herdoc.c
+
 
 WILDCARD_FILES = sources/wildcard/globing.c sources/wildcard/wildcard.c \
 				sources/wildcard/tools.c    sources/wildcard/sorted_res.c \

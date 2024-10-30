@@ -142,6 +142,7 @@ void	signal_handler(int signal);
 int		get_herdoc(char **tokens, int i, t_herdoc *herdoc);
 t_del	*first_del(t_del *node, char *value);
 t_del	*add(t_del *node, char *value);
+void	assign_her_exp(t_del *lst, t_herdoc *herdoc);
 void	print_del(t_del *head);
 /****************************************************** */
 

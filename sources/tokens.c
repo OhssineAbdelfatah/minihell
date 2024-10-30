@@ -307,10 +307,8 @@ int  count_sub_sh(char *s)
         i++;
     }
     if (res != total_sub(s))
-    {
-        // printf("rturning from here 2!\n");
+
         return (error(NULL, 41),-1);
-    }
     return (res);
 }
 
@@ -321,6 +319,7 @@ int get_tok_len(char *s)
     int words;
     int sub_sh;
     int res;
+
     if (!s)
         return (0);
     and_or = counts_and_or(s);
@@ -336,8 +335,6 @@ int get_tok_len(char *s)
     if (sub_sh < 0)
         return(-1);
     res =  words + and_or + pipe_red + sub_sh;
-    // res = sub_sh;
-    // printf("get_token_len:%d\n", res);
     return (res);
 }
 
@@ -387,18 +384,9 @@ char **fr9_trb7(char *s)
 
     if (NULL == s)
         return NULL;
-    // var.reslen = count_tokens_new(s);
     var.reslen = get_tok_len(s);
-    // printf("reslen >%d\n", var.reslen);
-    // return (NULL);
-
     if (var.reslen <= 0)
-    {
-        // error(s, var.reslen);
         return(NULL);
-    }
-    // if (0 == var.reslen)
-    //     return(NULL);
     var.res = (char **)malloc(sizeof(char *) *( var.reslen + 1));
     if (NULL == var.res)
         return(NULL);
@@ -416,10 +404,6 @@ char **fr9_trb7(char *s)
     var.res[var.i] = NULL;
     return (var.res);
 }
-
-
-
-
 
 int _check_tokens(char **tokens)
 {
@@ -463,6 +447,5 @@ int _check_tokens(char **tokens)
     }
     if (ref == END_SUB)
         ref = SUB_SH;
-    //  printf("return here 78\n");
     return (ref);
 }
