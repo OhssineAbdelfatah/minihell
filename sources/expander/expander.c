@@ -108,28 +108,28 @@ int strlst(t_node *tmp){
 }
 
 
-char *joiner(char *arg, t_env* env, int *st)
-{
-    char* new;
-    char* tmp_new;
-    t_node  *head;
-    t_node  *tmp;
+// char *joiner(char *arg, t_env* env, int *st)
+// {
+//     char* new;
+//     char* tmp_new;
+//     t_node  *head;
+//     t_node  *tmp;
     
-    head = splitArg(arg);
-    mini_expander(&head, env,st);
-    tmp = head;
-    new = ft_strdup("");
-    while(tmp )
-    {   
-        tmp_new = new;
-        new = ft_strjoin(new, tmp->str);
-        free(tmp_new);
-        tmp = tmp->next ;
-    }
-    free_lst(head);
-    free(arg);
-    return new;
-}
+//     head = splitArg(arg);
+//     mini_expander(&head, env,st);
+//     tmp = head;
+//     new = ft_strdup("");
+//     while(tmp )
+//     {   
+//         tmp_new = new;
+//         new = ft_strjoin(new, tmp->str);
+//         free(tmp_new);
+//         tmp = tmp->next ;
+//     }
+//     free_lst(head);
+//     free(arg);
+//     return new;
+// }
 
 
 
@@ -147,24 +147,152 @@ void print_arg(t_argv *head)
     }
 }
 
-// char **joiner(t_argv *args, t_env* env, int *st)
-// {
-//     t_argv* tmp;
-//     char** new;
+char *mini_joiner(t_node *head){
+    t_node *tmp;
+    char *new;
+    char *tmp_new;
 
-//     tmp = args ;
-//     while(tmp)
-//     {
-//         tmp->arg = splitArg(tmp->str);
-//         mini_expander(&(tmp->arg), env,st);
-//         tmp = tmp->next;
-//     }
+    tmp = head;
+    new = ft_strdup("");
+    while(tmp )
+    {   
+        tmp_new = new;
+        new = ft_strjoin(new, tmp->str);
+        free(tmp_new);
+        tmp = tmp->next ;
+    }
+    free_lst(head);
+    return new;
+}
 
-//     print_arg(args);
-   
-//     new = NULL;
-//     return new;
-// }
+int count_arg(char *arg)
+{
+    char *token;
+    size_t	i;
+    char c ;
+	size_t	words;
+
+    token = tokenizer(arg);
+    c = ' ';
+	words = 0;
+	i = 0;
+	if (*arg == '\0')
+		return (0);
+	while (arg[i] == c && token[i] == 'w' )
+		i++;
+	while (arg[i])
+	{
+		if (arg[i] == c && arg[i+1] != c && token[i] == 'w')
+			words++;
+		i++;
+	}
+	if (arg[i-1] != c && token[i] == 'w')
+		words++;
+    free(token);
+	return (words);
+}
+
+int skip_space_in_word(char *arg, int start)
+{
+    int i;
+    char *token;
+
+    token = tokenizer(arg);
+    i = 0;
+    while(arg[i+start]){
+        if(arg[++i+start] == ' ' && arg[++i+start] == 'w')
+            i++;
+        else{
+            free(token);
+            return i+start;
+        }
+    }
+    free(token);
+    return i+start;
+}
+
+int skip_char(char *arg, int start)
+{
+    int i;
+    char *token;
+
+    token = tokenizer(arg);
+    i = 0;
+    while(arg[i+start]){
+        if( (arg[i+start] != ' ' && token[i+start]) || token[i+start] == 's' || token[i+start]  == 'd')
+            i++;
+        else{
+            free(token);
+            return i+start;
+        }
+    }
+    free(token);
+    return i+start;
+}
+
+char **split_arg(char *arg)
+{
+    char **new_arg;
+    int i ;
+    int j ;
+    int looper;
+
+    looper = skip_space_in_word(arg, 0);
+    i = count_arg(arg)+1;
+    new_arg = malloc(i * sizeof(char *));
+    j = -1;
+    while(++j < i){
+        new_arg[j] = ft_strndup(arg +looper, skip_char(arg, looper+1) -1 - looper);
+        looper = skip_char(arg, looper + 1);
+    }
+    new_arg[j] = NULL;
+    return new_arg;
+}
+
+void spliter_args(t_argv *args)
+{
+    while(args)
+    {
+        if(count_arg(args->str) > 1)
+        {
+            args->str_splited = split_arg(args->str);
+            args->len = ft_strslen(args->str_splited);
+        }
+        args = args->next;
+    }
+}
+
+
+char **join_args(args)
+{
+    int i ;
+    t_argv* tmp;
+
+    while(){
+
+    }
+}
+
+
+char **joiner(t_argv *args, t_env* env, int *st)
+{
+    t_argv* tmp;
+    char** new;
+    // char *tmp_str;
+
+    tmp = args ;
+    while(tmp)
+    {
+        tmp->arg = splitArg(tmp->str);
+        mini_expander(&(tmp->arg), env, st);
+        tmp->str =  mini_joiner(tmp->arg);
+        tmp = tmp->next;
+    }
+    spliter_args(args);
+    new = join_args(args);
+
+    return new;
+}
 
 // char **expander(char **argv, t_env *env, int *st)
 // {
@@ -206,16 +334,13 @@ t_argv *argv_to_lst(char **argv)
 char **expander(char **argv, t_env *env, int *st)
 {
     int i ;
-    // char **new_argv;
-    // t_argv *args;
+    char **new_argv;
+    t_argv *args;
 
     i = -1 ;
     if(!argv || !(*argv))
         return NULL;
-    // args = argv_to_lst(argv);
-    // return NULL;
-    // print_arg(args);
-    while(argv[++i])
-        argv[i] = joiner(argv[i], env, st);
-    return argv;
+    args = argv_to_lst(argv);
+    new_argv = joiner(args, env, st);
+    return new_argv;
 }

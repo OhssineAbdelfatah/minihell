@@ -14,6 +14,7 @@
 		"history.h": "c",
 		"fcntl.h": "c",
 		"helper2.h": "c",
-		"struct.h": "c"
+		"struct.h": "c",
+		"expander.h": "c"
 	}
 }

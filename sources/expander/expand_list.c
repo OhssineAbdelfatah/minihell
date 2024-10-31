@@ -77,6 +77,7 @@ void mini_expander(t_node **head, t_env *env, int *st)
         }
         tmp = tmp->next;
     }
+    print_nodes(*head);
     // tmp = *head ;
     // if( !tmp->next && tmp->type == 'w' && tmp->str && count_word(tmp->str, ' ') > 1){
     //     puts("dkhel itsplita \n");

@@ -8,13 +8,12 @@ typedef struct s_node {
 } t_node;
 
 typedef struct s_argv {
-    t_node *arg; 
+    t_node *arg;
     char *str;
-    bool word;
+    char **str_splited;
+    int len;
     struct s_argv *next;
 } t_argv;
-
-
 
 typedef struct s_split_arg 
 {
@@ -45,8 +44,8 @@ typedef struct s_tokens_exp {
 char **expander(char **argv, t_env *env, int *last_status);
 char *tokenizer(char *arg);
 t_node *splitArg(char *str);
-// char **joiner(t_argv *args, t_env* env, int*st);
-char *joiner(char *arg, t_env* env, int*st);
+char **joiner(t_argv *args, t_env* env, int*st);
+// char *joiner(char *arg, t_env* env, int*st);
 
 t_node *create_node(char *value, char type);
 void add_node(t_node **head, t_node **tail, t_node *node);
