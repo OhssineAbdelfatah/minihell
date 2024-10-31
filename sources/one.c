@@ -1,4 +1,7 @@
 #include "../includes/minishell.h"
+
+int g_sig;
+
 void debug_free(void *ptr)
 {   
     // printf(G"freed addrs[%p]\n"CRESET,ptr);
@@ -16,7 +19,6 @@ void *debug_malloc(size_t size)
     return ptr;
 }
 
-int g_sig;
 
 int check_qoutes(char *s)
 {

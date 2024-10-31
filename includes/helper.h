@@ -26,6 +26,14 @@ char	**fr9_trb7(char *s);
 int		dstr_len(char **s);
 int		_check_tokens(char **tokens);
 
+/*********************************** */
+// TOKENS PART 2
+/***************************** */
+
+int	get_endo(char *s, int x);
+int	get_starto(char *s, int x);
+int	red_or_pipe(char c);
+
 /********************************************** */
 // 	COUNTING TOOLS
 /********************************************** */
@@ -50,8 +58,7 @@ int	count_sub_sh(char *s);
 int		check_tok_sub(char **tokens);
 int	get_end_sub(char **tokens, int i);
 
-/****************************************** */
-
+/*********************************** */
 // TOOLS ABT WHITE SPACES
 /***************************** */
 
@@ -60,11 +67,8 @@ int		is_white_str(char *s);
 int		is_full_white_str(char *s);
 
 /****************************** */
-
-// char *cmd_line(char **tokens);
-
 // CONSTRACTORS :
-/***************************************************/
+/**************************************/
 
 t_cmd	*init_new_cmd(char **argv, t_env **myenv, t_red *redirect,
 			t_herdoc *herdoc);
