@@ -1,9 +1,11 @@
 GNL = lib/gnl/get_next_line.c lib/gnl/get_next_line_utils.c
 
 PARSE = sources/parse/parse_tools.c sources/parse/parse.c sources/parse/counting_tools.c\
-		sources/parse/sub_check.c sources/parse/counting_things.c sources/parse/tokens.c
+		sources/parse/sub_check.c sources/parse/counting_things.c sources/parse/tokens_part2.c sources/parse/tokens.c\
+		
 
 REDIRECTION = sources/redirection_things/del.c sources/redirection_things/ordering.c\
+				sources/parse/checking_in.c\
 				sources/redirection_things/redirection_tools.c sources/redirection_things/herdoc.c
 
 ERRORS  = sources/errors/error.c

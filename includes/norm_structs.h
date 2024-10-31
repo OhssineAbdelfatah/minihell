@@ -23,6 +23,8 @@ typedef struct s_check_tok_sub t_check_sub_tok;
 typedef struct s_count_pipe_red t_count_pipe_red;
 typedef struct s_count_sub_sh t_count_sub_sh;
 typedef struct s_ct_tk_pro t_ct_tk_pro;
+typedef struct s_count_words t_count_words;
+typedef struct s_check_tokens t_check_tokens;
 
 struct s_without_quotes
 {
@@ -103,6 +105,21 @@ struct s_ct_tk_pro
 	int res;
 	int i;
 	int ref;
+	int tmp;
+};
+
+struct s_count_words
+{
+	int	i;
+	int	res;
+	int	ref;
+};
+
+struct s_check_tokens
+{
+	int	i;
+	int ref;
+	int next_ref;
 	int tmp;
 };
 
