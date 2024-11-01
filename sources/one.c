@@ -120,9 +120,9 @@ void history(char *str)
 
 }
 
-// void ff(){
-//     system("leaks minishell");
-// }
+void ff(){
+    system("leaks minishell");
+}
 
 int main(  int ac, char **av, char **env)
 {
@@ -132,7 +132,7 @@ int main(  int ac, char **av, char **env)
     t_env *dup_env;
     int checker ;   
 
-    // atexit(ff);
+    atexit(ff);
     status = 0;
     dup_env = init_env(env);
     while(1)

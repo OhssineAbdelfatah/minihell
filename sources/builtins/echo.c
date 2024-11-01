@@ -29,7 +29,6 @@ int echo(t_new_cmd *p)
     int new_line;
     int new_line_1;
 
-    // p->argv = expander( p->argv, *(p->myenv));
     new_line = 0;
     if(ft_strslen(p->argv) > 1 && isvalid_echo(&(p->argv[1])) > 0)
         new_line += isvalid_echo(&(p->argv[1]));
@@ -39,9 +38,9 @@ int echo(t_new_cmd *p)
         ft_putstr_fd(p->argv[new_line], 1);
         if(p->argv[new_line])
         if(p->argv[new_line+1] != NULL)
-            printf(" ");
+            ft_putstr_fd(" ", 1);
     }
     if(new_line_1 == 0)
-        printf("\n");
+        ft_putstr_fd("\n", 1);
     return 0;
 }

@@ -36,7 +36,6 @@ void process_tokens(char *arg, char *tokens, t_tokens tok)
         tok.i++;
     }
     tokens[tok.i] = '\0';
-    puts(tokens);
 }
 
 char *tokenizer(char *arg)

@@ -186,7 +186,7 @@ int count_arg(char *arg)
 			words++;
 		i++;
 	}
-	if (arg[i-1] != c && token[i] == 'w')
+	if (arg[i-1] != c && token[i] != 'w')
 		words++;
     free(token);
 	return (words);
@@ -198,9 +198,12 @@ int skip_space_in_word(char *arg, int start)
     char *token;
 
     token = tokenizer(arg);
+    if( (size_t)start > ft_strlen(arg))
+        return (int)ft_strlen(arg);
     i = 0;
-    while(arg[i+start]){
-        if(arg[++i+start] == ' ' && arg[++i+start] == 'w')
+    while(arg[i+start])
+    {
+        if(arg[i+start] == ' ' && token[i+start] == 'w')
             i++;
         else{
             free(token);
@@ -218,13 +221,13 @@ int skip_char(char *arg, int start)
 
     token = tokenizer(arg);
     i = 0;
-    while(arg[i+start]){
-        if( (arg[i+start] != ' ' && token[i+start]) || token[i+start] == 's' || token[i+start]  == 'd')
-            i++;
-        else{
+    while(arg[i+start])
+    {
+        if((arg[i+start] == ' ' && token[i+start] == 'w')){
             free(token);
             return i+start;
         }
+        i++;
     }
     free(token);
     return i+start;
@@ -236,26 +239,43 @@ char **split_arg(char *arg)
     int i ;
     int j ;
     int looper;
+    int end;
 
+    if(!arg)
+        return NULL;
     looper = skip_space_in_word(arg, 0);
-    i = count_arg(arg)+1;
-    new_arg = malloc(i * sizeof(char *));
+    i = count_arg(arg);
+    new_arg = malloc((i+1) * sizeof(char *));
     j = -1;
+    end = 0;
     while(++j < i){
-        new_arg[j] = ft_strndup(arg +looper, skip_char(arg, looper+1) -1 - looper);
-        looper = skip_char(arg, looper + 1);
+        end = skip_char(arg, looper +1) +1;
+        new_arg[j] = ft_strndup(arg +looper, end -1 - looper);
+        looper = skip_space_in_word(arg,end );
     }
     new_arg[j] = NULL;
     return new_arg;
+}
+
+void print_argv(char **av)
+{
+    if( !av || !(*av))
+    {
+        printf("NULL\n");
+        return ;
+    }
+    while(*av++)
+        puts(*av);
+    
 }
 
 void spliter_args(t_argv *args)
 {
     while(args)
     {
-        if(count_arg(args->str) > 1)
+        if(args->str && count_arg(args->str) > 1)
         {
-            args->str_splited = split_arg(args->str);
+            args->str_splited = split_arg(args->str); 
             args->len = ft_strslen(args->str_splited);
         }
         args = args->next;
@@ -263,22 +283,49 @@ void spliter_args(t_argv *args)
 }
 
 
-char **join_args(args)
+int count_newArgv(t_argv *tmp)
 {
-    int i ;
-    t_argv* tmp;
-
-    while(){
-
+    int  i;
+    i = 0;
+    while (tmp)
+    {
+        if(tmp->len != 0)
+            i += tmp->len ;
+        else 
+            i++;
+        tmp = tmp->next;
     }
+    return i;
 }
 
+char **join_args(t_argv *args)
+{
+    int i ;
+    int i_subarg ;
+    int i_newargv ;
+    char **new_argv;
+
+    i = count_newArgv(args);
+    new_argv = malloc( (i + 1) * sizeof(char *));
+    i_newargv = -1;
+    while(args){
+        i_subarg = -1;
+        if(args->str_splited){
+            while(args->str_splited[++i_subarg])
+                new_argv[++i_newargv] = ft_strdup(args->str_splited[i_subarg]);
+        }
+        else 
+            new_argv[++i_newargv] = ft_strdup(args->str);
+        args = args->next ;
+    }
+    new_argv[++i_newargv] = NULL;
+    return new_argv;
+}
 
 char **joiner(t_argv *args, t_env* env, int *st)
 {
     t_argv* tmp;
     char** new;
-    // char *tmp_str;
 
     tmp = args ;
     while(tmp)
@@ -290,24 +337,8 @@ char **joiner(t_argv *args, t_env* env, int *st)
     }
     spliter_args(args);
     new = join_args(args);
-
     return new;
 }
-
-// char **expander(char **argv, t_env *env, int *st)
-// {
-//     int i ;
-//     int old_len;
-
-//     old_len = ft_strslen(argv);
-
-//     i = -1 ;
-//     if(!argv || !(*argv))
-//         return NULL;
-//     while(argv[++i])
-//         argv[i] = joiner(argv[i], env, st);
-//     return argv;
-// }
 
 t_argv *argv_to_lst(char **argv)
 {
@@ -327,10 +358,18 @@ t_argv *argv_to_lst(char **argv)
     return head ;
 }
 
-// char **lst_to_argv(){
+void free_argv_lst(t_argv *head)
+{
+    t_argv * tmp;
 
-// }
-
+    while(head){
+        tmp = head->next;
+        free(head->str);
+        free_split(head->str_splited);
+        free(head);
+        head = tmp;
+    }
+}
 char **expander(char **argv, t_env *env, int *st)
 {
     int i ;
@@ -342,5 +381,6 @@ char **expander(char **argv, t_env *env, int *st)
         return NULL;
     args = argv_to_lst(argv);
     new_argv = joiner(args, env, st);
+    free_argv_lst(args);
     return new_argv;
 }
