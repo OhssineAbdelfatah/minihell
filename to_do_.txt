@@ -15,11 +15,11 @@ DONE
 
         }
     [*] fix leaks in expander
+    [*] split args with spasecs inside expander //keep space in double split in Word
 
 NOL_YEl TASKS {
     IN PROCCESS
 
-    [] split args with spasecs inside expander //keep space in double split in Word
     
     [] fix leaks in builts ins
 

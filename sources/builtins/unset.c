@@ -2,8 +2,10 @@
 
 void destroy_single_env(t_env *node)
 {
-    free(node->key);
-    free(node->value);
+    if(node->key)
+        free(node->key);
+    if(node->value)
+        free(node->value);
     free(node);
 }
 
