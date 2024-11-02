@@ -358,6 +358,7 @@ t_argv *argv_to_lst(char **argv)
         node = create_argv(NULL, argv[i]);
         add_argv(&head ,&tail ,node);
     }
+    free_mynigga(argv);
     return head ;
 }
 
@@ -373,6 +374,21 @@ void free_argv_lst(t_argv *head)
         head = tmp;
     }
 }
+
+
+int should_expand(char **argv)
+{
+    int i;
+
+    i = 0;
+    while (argv[i])
+    {
+        if (ft_strchr(argv[i], '$'))
+            return 1;
+        i++;
+    }
+    return 0;
+}
 char **expander(char **argv, t_env *env, int *st)
 {
     char **new_argv;
@@ -380,8 +396,14 @@ char **expander(char **argv, t_env *env, int *st)
 
     if(!argv || !(*argv))
         return NULL;
+    if (0 == should_expand(argv))
+    {
+        // printf("No expand needed !\n");
+        return argv;
+    }    
     args = argv_to_lst(argv);
     new_argv = joiner(args, env, st);
     free_argv_lst(args);
+    // free_mynigga(argv);
     return new_argv;
 }

@@ -42,7 +42,7 @@ t_argv *create_argv(t_node *head, char *str)
     
     arg = malloc(sizeof(t_argv));
     arg->arg = head;
-    arg->str = str;
+    arg->str = ft_strdup(str);
     arg->len = 0;
     arg->str_splited = NULL;
     arg->next = NULL;

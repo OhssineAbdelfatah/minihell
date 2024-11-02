@@ -232,7 +232,8 @@ int exec_new_cmd(t_cmd *cmd , int *last_status)
             }
         }
     }
-    // free_mynigga(p->argv);
+    // printf();
+    free_mynigga(p->argv);
     p->argv = NULL;
     free(abs_path);
     abs_path = NULL;
