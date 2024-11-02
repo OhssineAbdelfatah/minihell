@@ -150,15 +150,12 @@ void print_arg(t_argv *head)
 char *mini_joiner(t_node *head){
     t_node *tmp;
     char *new;
-    char *tmp_new;
 
     tmp = head;
     new = ft_strdup("");
     while(tmp )
     {   
-        tmp_new = new;
-        new = ft_strjoin(new, tmp->str);
-        free(tmp_new);
+        new = ft_strjoin(new, tmp->str);    
         tmp = tmp->next ;
     }
     free_lst(head);
@@ -326,13 +323,16 @@ char **joiner(t_argv *args, t_env* env, int *st)
 {
     t_argv* tmp;
     char** new;
+    char *tmp_str;
 
     tmp = args ;
     while(tmp)
     {
         tmp->arg = splitArg(tmp->str);
         mini_expander(&(tmp->arg), env, st);
+        tmp_str =  tmp->str ;
         tmp->str =  mini_joiner(tmp->arg);
+        free(tmp_str);
         tmp = tmp->next;
     }
     spliter_args(args);
