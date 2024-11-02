@@ -150,12 +150,15 @@ void print_arg(t_argv *head)
 char *mini_joiner(t_node *head){
     t_node *tmp;
     char *new;
+    char *tmp_new;
 
     tmp = head;
     new = ft_strdup("");
     while(tmp )
     {   
-        new = ft_strjoin(new, tmp->str);    
+        tmp_new =new;
+        new = ft_strjoin(new, tmp->str);
+        free(tmp_new);    
         tmp = tmp->next ;
     }
     free_lst(head);
@@ -372,11 +375,9 @@ void free_argv_lst(t_argv *head)
 }
 char **expander(char **argv, t_env *env, int *st)
 {
-    int i ;
     char **new_argv;
     t_argv *args;
 
-    i = -1 ;
     if(!argv || !(*argv))
         return NULL;
     args = argv_to_lst(argv);
