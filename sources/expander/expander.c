@@ -322,12 +322,31 @@ char **join_args(t_argv *args)
     return new_argv;
 }
 
-char **joiner(t_argv *args, t_env* env, int *st)
+char **join_no_split(t_argv *args)
+{
+    int i;
+    char **org_av;
+    char *tmp_av;
+
+    org_av = args->orginal;
+    i = -1;
+    while(args){
+        tmp_av =org_av[++i]; 
+        org_av[i] = ft_strdup(args->str);
+        free(tmp_av);
+        args = args->next ;
+    }
+    org_av[++i] = NULL;
+    return org_av;
+}
+
+char **joiner(t_argv *args, t_env* env, int *st,int type)
 {
     t_argv* tmp;
     char** new;
     char *tmp_str;
 
+    new = NULL;
     tmp = args ;
     while(tmp)
     {
@@ -338,8 +357,12 @@ char **joiner(t_argv *args, t_env* env, int *st)
         free(tmp_str);
         tmp = tmp->next;
     }
-    spliter_args(args);
-    new = join_args(args);
+    if(type == HERDOC)
+        new = join_no_split(args);
+    else if(type == CMD_EXPN | type == RED_EXPN){
+        spliter_args(args);
+        new = join_args(args);
+    }
     return new;
 }
 
@@ -355,25 +378,26 @@ t_argv *argv_to_lst(char **argv)
     i = -1 ;
     while(argv[++i])
     {
-        node = create_argv(NULL, argv[i]);
+        node = create_argv(NULL, argv[i], argv);
         add_argv(&head ,&tail ,node);
     }
     return head ;
 }
 
-void free_argv_lst(t_argv *head)
+void free_argv_lst(t_argv *head, int type)
 {
     t_argv * tmp;
 
     while(head){
         tmp = head->next;
-        free(head->str);
+        if(type == CMD_EXPN || type == RED_EXPN)
+            free(head->str);
         free_split(head->str_splited);
         free(head);
         head = tmp;
     }
 }
-char **expander(char **argv, t_env *env, int *st)
+char **expander(char **argv, t_env *env, int *st,int type)
 {
     char **new_argv;
     t_argv *args;
@@ -381,7 +405,9 @@ char **expander(char **argv, t_env *env, int *st)
     if(!argv || !(*argv))
         return NULL;
     args = argv_to_lst(argv);
-    new_argv = joiner(args, env, st);
-    free_argv_lst(args);
+    new_argv = joiner(args, env, st,type);
+    free_argv_lst(args, type);
+    if(type == CMD_EXPN )
+        free(argv);
     return new_argv;
 }

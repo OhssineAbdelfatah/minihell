@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	check_cmd_type(t_cmd *cmd)
 {

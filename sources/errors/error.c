@@ -20,3 +20,10 @@ void	error(char *s, int er_num)
 	else if (s)
 		ft_putstr_fd(s, 2);
 }
+
+void error_exit(char* str)
+{
+	ft_putstr_fd( "bash: exit: ",2);
+	ft_putstr_fd( str,2);
+	ft_putstr_fd( ": numeric argument required\n",2);
+}

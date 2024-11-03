@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilaasri <ilaasri@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 19:06:10 by ilaasri           #+#    #+#             */
-/*   Updated: 2024/10/29 19:06:14 by ilaasri          ###   ########.fr       */
+/*   Updated: 2024/11/02 06:39:13 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 /******************************************************/
 // THE MIGHTY PERFECT EXEC PIPE FUNCTION !!

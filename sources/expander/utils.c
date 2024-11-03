@@ -36,7 +36,7 @@ char *clean_qts(char *str)
     return new;
 }
 
-t_argv *create_argv(t_node *head, char *str)
+t_argv *create_argv(t_node *head, char *str, char **argv)
 {
     t_argv *arg;
     
@@ -44,6 +44,7 @@ t_argv *create_argv(t_node *head, char *str)
     arg->arg = head;
     arg->str = str;
     arg->len = 0;
+    arg->orginal = argv;
     arg->str_splited = NULL;
     arg->next = NULL;
     return arg ;

@@ -1,6 +1,12 @@
 #ifndef EXPANDER_H
 #define EXPANDER_H
 
+typedef enum s_expan {
+    CMD_EXPN ,
+    HERDOC_EXPN ,
+    RED_EXPN 
+} t_expan;
+
 typedef struct s_node {
     char *str; 
     char type;
@@ -12,6 +18,7 @@ typedef struct s_argv {
     char *str;
     char **str_splited;
     int len;
+    char **orginal;
     struct s_argv *next;
 } t_argv;
 
@@ -41,10 +48,10 @@ typedef struct s_tokens_exp {
     int i;
 } t_tokens;
 
-char **expander(char **argv, t_env *env, int *last_status);
+char **expander(char **argv, t_env *env, int *last_status, int type);
 char *tokenizer(char *arg);
 t_node *splitArg(char *str);
-char **joiner(t_argv *args, t_env* env, int*st);
+char **joiner(t_argv *args, t_env* env, int*st, int type);
 // char *joiner(char *arg, t_env* env, int*st);
 
 t_node *create_node(char *value, char type);
@@ -60,7 +67,7 @@ char *clean_qts(char *str);
 int herdoc_newfd( int fd, t_env* myenv);
 
 void add_argv(t_argv **head, t_argv** tail ,t_argv* arg);
-t_argv *create_argv(t_node *head, char *str);
+t_argv *create_argv(t_node *head, char *str, char **argv);
 void print_nodes(t_node *head);
 
 #endif

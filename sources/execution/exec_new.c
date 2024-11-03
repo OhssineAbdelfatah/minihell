@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+    #include "../../includes/minishell.h"
 
 int last_herdoc(t_red *lst)
 {
@@ -32,14 +32,13 @@ int open_file(t_red *redirect,int *std[2], t_herdoc *herdoc, t_env *env)
 {
     int status;
     status = 0;
-    // (void)env;
     if (HERDOC==redirect->type)
     {
         if (*std[0] != -1 && last_herdoc(redirect))
             close(*std[0]);
         if (last_herdoc(redirect))
         {
-            *std[0] = herdoc->herdoc_pipe; // assign new pipe[0]
+            *std[0] = herdoc->herdoc_pipe;
             if(!herdoc->to_exp)
                 *std[0] = herdoc_newfd( herdoc->herdoc_pipe, env);
         }
@@ -55,16 +54,20 @@ int open_file(t_red *redirect,int *std[2], t_herdoc *herdoc, t_env *env)
         if (*std[0] != -1 && 4 == redirect->mode)
             close(*std[0]);
         if (77 == redirect->mode){
-            // redirect->file = *expander(&(redirect->file), env,0);
+            redirect->file = *expander(&(redirect->file), env,127, RED_EXPN);
+            redirect->file = whithout_quotes(redirect->file);
+
             *std[1] = open(redirect->file, O_RDWR | O_CREAT | O_APPEND, 0644);
         }
         else if (7== redirect->mode){
-            // redirect->file = *expander(&(redirect->file), env,0);
+            redirect->file = *expander(&(redirect->file), env,127 ,RED_EXPN);
+            redirect->file = whithout_quotes(redirect->file);
             *std[1] = open(redirect->file, O_RDWR | O_CREAT | O_TRUNC, 0644);
         }
         else if (4== redirect->mode)
         {
-            // redirect->file = *expander(&(redirect->file), env, 0);
+            redirect->file = *expander(&(redirect->file), env, 127, RED_EXPN);
+            redirect->file = whithout_quotes(redirect->file);
             *std[0] = open(redirect->file, O_RDONLY);
             if (*std[0] < 0)
             {
@@ -176,7 +179,6 @@ int check_red(t_cmd_exec  *p)
 
 int exec_new_cmd(t_cmd *cmd , int *last_status)
 {
-    // (void)last_status;
     t_cmd_exec  *p;
     int status;
     char *abs_path;
@@ -184,21 +186,12 @@ int exec_new_cmd(t_cmd *cmd , int *last_status)
 
     signal (SIGINT, NULL);
     p = (t_cmd_exec  *)cmd;
-    p->argv = expander( p->argv, *(p->myenv), last_status);
-    // p->argv = wild_expand(p->argv);
-    /********************************************** */
-    // THIS ONE JUST TO KNOW IF THE STATUS IS WORKING PROPERLY
-    /********************************************** */
-    if ( p->argv && ft_strcmp("echo", p->argv[0]) &&  ft_strcmp("$?", p->argv[1]))
-    {
-        printf("STATUS : %d\n", *last_status);
-        exit (0);
-    }
-    /********************************************************** */
+    p->argv = expander( p->argv, *(p->myenv), last_status, CMD_EXPN);
+    p->argv = wild_expand(p->argv);
     status = check_red(p);
     if(is_builtin(cmd))
     {
-        status = exec_builtin(cmd);
+        status = exec_builtin(cmd, last_status);
         exit(status);
     }
     cur_env = lstoarry(*(p->myenv));
@@ -211,24 +204,21 @@ int exec_new_cmd(t_cmd *cmd , int *last_status)
         abs_path = getEnvValue(*(p->myenv), "PATH");
         if(!abs_path)
         {
-            // dprintf(2,"minishell: %s:command not found\n", p->argv[0]);
             printf("bash: %s: No such file or directory\n",p->argv[0]);
             exit(-1);
         }
         abs_path = cmd_abs_path(abs_path, p->argv[0]);
         if(!abs_path)
         {
-            dprintf(2,"minishell: %s:command not found\n", p->argv[0]);
+            dprintf(2,"minishell: %s: command not found\n", p->argv[0]);
             exit(127);
         }
         if(dstr_len(p->argv))
         {
-            // dprintf(2,"executing..\n");
             if (-1 == execve(abs_path, p->argv, cur_env))
             {
-                dprintf(2,"minishell: %s:command not found\n", p->argv[0]);
+                dprintf(2,"minishell: %s: command not found\n", p->argv[0]);
                 exit(127);
-                // panic("");
             }
         }
     }
@@ -291,19 +281,10 @@ int new_exec(t_cmd *cmd, int ref, int *last_status)
         p = (t_cmd_exec  *)cmd;
         if (p)
         {   
-            /********************************************** */
-            // THIS ONE JUST TO KNOW IF THE STATUS IS WORKING PROPERLY
-            /********************************************** */
-            if ( p->argv && ft_strcmp("echo", p->argv[0]) &&  ft_strcmp("$?", p->argv[1]))
-            {
-                printf("STATUS : %d\n", *last_status);
-                return 0;
-            }
-            /********************************************** */
             if (ref == PIPE)
                 status = exec_new_cmd(cmd, last_status);
             else if(is_builtin(cmd)){
-                status = exec_builtin(cmd);
+                status = exec_builtin(cmd, last_status);
                 reset_fds(cmd);
             }   
             else {
@@ -333,9 +314,5 @@ int new_exec(t_cmd *cmd, int ref, int *last_status)
         status = exec_pipe(cmd, last_status);
         status = WEXITSTATUS(status);
     }
-    // else if (PIPE == cmd->type)
-    //     status = execute_pipe(cmd);
-    // else if (PIPE == cmd->type)
-    //     status = recursion_pipe(cmd, 0);
     return (status);
 }

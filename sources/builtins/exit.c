@@ -73,18 +73,18 @@ int exit_blt(t_new_cmd *cmd)
             free_mynigga(cmd->argv);
             exit( (unsigned char )status);
         }else{
-            printf("1bash: exit: %s: numeric argument required\n", cmd->argv[1]);
+            error_exit(cmd->argv[1]);
             free_mynigga(cmd->argv);
             exit(255) ;
         }
     }else if( args_len > 2)
     {
         if(ft_isnumber(cmd->argv[1])){
-            printf("%d\n",ft_isnumber(cmd->argv[1]));
-            printf("3bash: exit: too many arguments\n");
+            ft_putstr_fd("bash: exit: too many arguments\n", 2);
             return 1;
-        }else{
-            printf("bash: exit: %s: numeric argument required\n",cmd->argv[1]);
+        }else
+        {
+            error_exit(cmd->argv[1]);
             free_mynigga(cmd->argv);
             exit(255);
         }

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   new_tools.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilaasri <ilaasri@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:25:00 by ilaasri           #+#    #+#             */
-/*   Updated: 2024/10/29 14:25:01 by ilaasri          ###   ########.fr       */
+/*   Updated: 2024/11/02 06:40:46 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	is_quoted(char *s)
 {

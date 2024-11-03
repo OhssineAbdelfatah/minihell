@@ -2,13 +2,14 @@ GNL = lib/gnl/get_next_line.c lib/gnl/get_next_line_utils.c
 
 PARSE = sources/parse/parse_tools.c sources/parse/parse.c sources/parse/counting_tools.c\
 		sources/parse/sub_check.c sources/parse/counting_things.c sources/parse/tokens_part2.c sources/parse/tokens.c\
+		sources/parse/new_tools.c \
 		
 
 REDIRECTION = sources/redirection_things/del.c sources/redirection_things/ordering.c\
 				sources/parse/checking_in.c\
 				sources/redirection_things/redirection_tools.c sources/redirection_things/herdoc.c
 
-ERRORS  = sources/errors/error.c
+ERRORS  = sources/errors/error.c 
 
 WILDCARD_FILES = sources/wildcard/globing.c sources/wildcard/wildcard.c \
 				sources/wildcard/tools.c    sources/wildcard/sorted_res.c \
@@ -21,20 +22,27 @@ FREEDOM = sources/freedom/freedom.c sources/freedom/freedom2.c
 BUILT_TREE = sources/built_tree/builting_tools.c sources/built_tree/tree.c \
 			sources/built_tree/constractors.c sources/built_tree/constractors2.c
 
-CFILES =	${PARSE}\
-			${BUILT_TREE} ${FREEDOM} ${ERRORS}\
-			sources/one.c sources/two.c\
-			sources/new_tools.c \
-            sources/print.c sources/exec.c sources/exec_pipe.c\
-			${REDIRECTION}\
-			${WILDCARD_FILES}\
-            sources/exec_new.c  sources/builtins/env.c sources/builtins/lstoarry.c \
+EXECUTION = sources/execution/exec.c sources/execution/exec_pipe.c\
+			sources/execution/exec_new.c sources/execution/signals.c\
+
+EXPANDER = sources/expander/expander.c sources/expander/expand_list.c \
+			sources/expander/utils.c sources/expander/expand_heredoc.c \
+			sources/expander/tokenizer.c \
+
+BUILTINS = 	sources/builtins/env.c sources/builtins/lstoarry.c \
             sources/builtins/builtin.c sources/builtins/dir.c \
             sources/builtins/unset.c sources/builtins/export.c \
-			sources/signals.c sources/builtins/exit.c \
-			sources/expander/expander.c sources/expander/expand_list.c \
-			sources/expander/utils.c sources/expander/expand_heredoc.c \
-			sources/builtins/echo.c ${GNL} sources/expander/tokenizer.c \
+			sources/builtins/exit.c \
+			sources/builtins/echo.c  \
+
+CFILES =	${PARSE} \
+			${BUILT_TREE} ${FREEDOM} ${ERRORS} \
+			${EXPANDER} ${BUILTINS} ${EXECUTION} \
+			${REDIRECTION}\
+			${WILDCARD_FILES}\
+			${GNL} \
+			sources/one.c sources/two.c  sources/print.c \
+
 
 MINISHELL_ART = \
 "\033[32m\n"\

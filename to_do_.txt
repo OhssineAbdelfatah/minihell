@@ -16,19 +16,23 @@ DONE
         }
     [*] fix leaks in expander
     [*] split args with spasecs inside expander //keep space in double split in Word
+    [*] fix leaks in builts ins
+    [*] access $? // asc ur peer hoe he passes last modified where
 
 NOL_YEl TASKS {
     IN PROCCESS
 
     
-    [] fix leaks in builts ins
-
-    [] access $? // asc ur peer hoe he passes last modified where
+    [] expander : redirection , herdoc and simple command .
 
     [] expand redirection filename //
 
     [] print error to fd 1
 
+
+    [] usnet update exist value with null sould be fixed
+
+    [] ambgouis
 
 }
 

@@ -14,26 +14,12 @@ void reset_fds(t_cmd *p)
     return ;
 }
 
-int blt_echo(t_env *env, char **argv)
-{
-    argv = expander(argv, env, 0);
-    argv++;
-    while(*argv){
-        printf("%s ",*argv);
-        argv++;
-    }
-    printf("\n");
-    return 0;
-}
-
-
 bool is_builtin(t_cmd *cmd)
 {
     t_cmd_exec  *p ;
     p = (t_cmd_exec  *)cmd;
     if (p->argv == NULL)
         return false;
-    // char **bcmds = ft_split("cd pwd export unset env exit echo", ' ');
     char **bcmds = ft_split("cd pwd export unset env exit echo", ' ');
     int i = -1;
     while(++i < 7)
@@ -48,13 +34,13 @@ bool is_builtin(t_cmd *cmd)
     return false;
 }
 
-int exec_builtin(t_cmd *cmd)
+int exec_builtin(t_cmd *cmd ,int *last_status)
 {
     int status ;
     t_cmd_exec *p ;
 
     p = (t_cmd_exec *)cmd;
-    p->argv = expander(p->argv, *(p->myenv), 0);
+    p->argv = expander(p->argv, *(p->myenv), last_status, CMD_EXPN);
     p->argv = wild_expand(p->argv);
     status = check_red(p);
     if(!p->argv || !(p->argv[0]))

@@ -58,33 +58,33 @@ int check_qoutes(char *s)
 void panic(char *str)
 {
     (void)str;
-    if (str)
-        ft_putstr_fd(str, 2);
+    // if (str)
+    //     ft_putstr_fd(str, 2);
     exit(1);
 }
 
 
-void execute(t_cmd *cmd)
-{
-    int status;
-    status = 0;
-    if (cmd->type == NEW_CMD && is_builtin(cmd))
-        status = exec_builtin(cmd);
-    else if (cmd->type == NEW_CMD )
-    {
-        status = fork();
-        if (status == 0)
-        {
-            // signal (SIGINT, NULL); 
-            exec_new_cmd(cmd ,&status);
-        }
-        wait(&status);
-        // printf("status d'exit:%d\n", status);
-    }
-    else
-        status = new_exec(cmd , NOTHING, &status);
+// void execute(t_cmd *cmd)
+// {
+//     int status;
+//     status = 0;
+//     if (cmd->type == NEW_CMD && is_builtin(cmd))
+//         status = exec_builtin(cmd);
+//     else if (cmd->type == NEW_CMD )
+//     {
+//         status = fork();
+//         if (status == 0)
+//         {
+//             // signal (SIGINT, NULL); 
+//             exec_new_cmd(cmd ,&status);
+//         }
+//         wait(&status);
+//         // printf("status d'exit:%d\n", status);
+//     }
+//     else
+//         status = new_exec(cmd , NOTHING, &status);
 
-}
+// }
 
 void parse_nd_exec(char **my_tokens,t_env **dup_env, int *status)
 {
@@ -120,9 +120,9 @@ void history(char *str)
 
 }
 
-void ff(){
-    system("leaks minishell");
-}
+// void ff(){
+//     system("leaks minishell");
+// }
 
 int main(  int ac, char **av, char **env)
 {
@@ -132,7 +132,7 @@ int main(  int ac, char **av, char **env)
     t_env *dup_env;
     int checker ;   
 
-    atexit(ff);
+    // atexit(ff);
     status = 0;
     dup_env = init_env(env);
     while(1)

@@ -7,7 +7,7 @@ int check_red(t_cmd_exec  *p);
 void reset_fds(t_cmd *cmd);
 
 // void execute_cmd(t_cmd *cmd);
-int exec_builtin(t_cmd *cmd);
+int exec_builtin(t_cmd *cmd, int *last_status);
 bool is_builtin(t_cmd *cmd);
 
 /*   ECHO   */
@@ -40,7 +40,7 @@ bool is_valid(char *key);
 
 /*   EXIT   */
 int exit_blt(t_new_cmd *arg);
-
+void error_exit(char* str);
 /*  UTILS   */
 
 char **lstoarry(t_env *root);
