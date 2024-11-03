@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilaasri <ilaasri@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 00:43:17 by ilaasri           #+#    #+#             */
-/*   Updated: 2024/10/29 00:43:19 by ilaasri          ###   ########.fr       */
+/*   Updated: 2024/11/03 13:50:50 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ extern int	g_sig;
 ///////////      DEBUG       //
 ///////////////////////////////
 
-void		debug_free(void *ptr);
-void		*debug_malloc(size_t size);
+// void		debug_free(void *ptr);
+// void		*debug_malloc(size_t size);
 
 ///////////////////////////////
 ///////////      DEBUG       //

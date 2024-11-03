@@ -12,6 +12,45 @@
 
 #include "../../includes/minishell.h"
 
+void	check_qoutes_core(t_check_quotes *var, char *s)
+{
+	if (s[var->i] == '"')
+	{
+		if (var->j == SINGLE)
+			var->j = SINGLE;
+		else if (var->j == DOUBLE)
+			var->j = NONE;
+		else
+			var->j = DOUBLE;
+	}
+	if (s[var->i] == '\'')
+	{
+		if (var->j == DOUBLE)
+			var->j = DOUBLE;
+		else if (var->j == SINGLE)
+			var->j = NONE;
+		else
+			var->j = SINGLE;
+	}
+}
+
+int	check_qoutes(char *s)
+{
+	t_check_quotes	var;
+
+	var.i = 0;
+	var.j = NONE;
+	if (s)
+	{
+		while (s[var.i])
+		{
+			check_qoutes_core(&var, s);
+			var.i++;
+		}
+	}
+	return (var.j);
+}
+
 int	check_ref(int i, char **tokens)
 {
 	int	ref;

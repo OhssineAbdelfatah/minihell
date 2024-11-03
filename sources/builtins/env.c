@@ -34,7 +34,7 @@ void add_back_env(t_env **head, t_env*node)
 t_env *creat_env(char *env_main)
 {
     t_env *node;
-    node = debug_malloc(sizeof(t_env));
+    node = malloc(sizeof(t_env));
     if(!node)
         return NULL;
 

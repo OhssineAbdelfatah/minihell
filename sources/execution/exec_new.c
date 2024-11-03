@@ -54,19 +54,19 @@ int open_file(t_red *redirect,int *std[2], t_herdoc *herdoc, t_env *env)
         if (*std[0] != -1 && 4 == redirect->mode)
             close(*std[0]);
         if (77 == redirect->mode){
-            redirect->file = *expander(&(redirect->file), env,127, RED_EXPN);
+            redirect->file = *expander(&(redirect->file), env,0, RED_EXPN);
             redirect->file = whithout_quotes(redirect->file);
 
             *std[1] = open(redirect->file, O_RDWR | O_CREAT | O_APPEND, 0644);
         }
         else if (7== redirect->mode){
-            redirect->file = *expander(&(redirect->file), env,127 ,RED_EXPN);
+            redirect->file = *expander(&(redirect->file), env,0 ,RED_EXPN);
             redirect->file = whithout_quotes(redirect->file);
             *std[1] = open(redirect->file, O_RDWR | O_CREAT | O_TRUNC, 0644);
         }
         else if (4== redirect->mode)
         {
-            redirect->file = *expander(&(redirect->file), env, 127, RED_EXPN);
+            redirect->file = *expander(&(redirect->file), env, 0, RED_EXPN);
             redirect->file = whithout_quotes(redirect->file);
             *std[0] = open(redirect->file, O_RDONLY);
             if (*std[0] < 0)
@@ -222,7 +222,8 @@ int exec_new_cmd(t_cmd *cmd , int *last_status)
             }
         }
     }
-    // free_mynigga(p->argv);
+    // printf();
+    free_mynigga(p->argv);
     p->argv = NULL;
     free(abs_path);
     abs_path = NULL;

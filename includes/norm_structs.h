@@ -25,6 +25,7 @@ typedef struct s_count_sub_sh t_count_sub_sh;
 typedef struct s_ct_tk_pro t_ct_tk_pro;
 typedef struct s_count_words t_count_words;
 typedef struct s_check_tokens t_check_tokens;
+typedef struct s_check_quotes t_check_quotes;
 
 struct s_without_quotes
 {
@@ -122,5 +123,12 @@ struct s_check_tokens
 	int next_ref;
 	int tmp;
 };
+
+struct s_check_quotes
+{
+	int i;
+	int j;
+};
+
 
 #endif

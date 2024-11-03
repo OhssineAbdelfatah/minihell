@@ -24,7 +24,7 @@
 
 t_node *create_node(char *value, char type)
 {
-    t_node *node = debug_malloc(sizeof(t_node));
+    t_node *node = malloc(sizeof(t_node));
     node->str = value;
     node->type = type;
     node->next = NULL;

@@ -19,7 +19,7 @@ char **lstoarry(t_env *root)
     int i = -1;
     if(env_len == 0)
         return NULL;
-    env_arr = debug_malloc(sizeof(char *) * (env_len + 1) );
+    env_arr = malloc(sizeof(char *) * (env_len + 1) );
     if (!env_arr)
         return (NULL);
     while(++i < env_len)

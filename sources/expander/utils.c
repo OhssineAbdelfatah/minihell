@@ -19,8 +19,8 @@ void free_lst(t_node *head)
 
     while(head){
         tmp = head->next;
-        debug_free(head->str);
-        debug_free(head);
+        free(head->str);
+        free(head);
         head = tmp;
     }
 }
@@ -32,7 +32,7 @@ char *clean_qts(char *str)
         new = ft_strdup("");
     else
         new = ft_strndup(str+1,ft_strlen(str+1)-1);
-    debug_free(str);
+    free(str);
     return new;
 }
 
@@ -60,21 +60,3 @@ void add_argv(t_argv **head, t_argv** tail ,t_argv* arg)
 }
 
 
-// t_node *create_node(char *value, char type)
-// {
-//     t_node *node = debug_malloc(sizeof(t_node));
-//     node->str = value;
-//     node->type = type;
-//     node->next = NULL;
-//     return node;
-// }
-
-// void add_node(t_node **head, t_node **tail, t_node *node)
-// {
-//     if (*head == NULL) {
-//         *head = node;
-//     } else {
-//         (*tail)->next = node;
-//     }
-//     *tail = node;
-// }
