@@ -359,7 +359,7 @@ char **joiner(t_argv *args, t_env* env, int *st,int type)
     }
     if(type == HERDOC)
         new = join_no_split(args);
-    else if(type == CMD_EXPN | type == RED_EXPN){
+    else if((type == CMD_EXPN )| (type == RED_EXPN)){
         spliter_args(args);
         new = join_args(args);
     }
@@ -381,7 +381,6 @@ t_argv *argv_to_lst(char **argv)
         node = create_argv(NULL, argv[i], argv);
         add_argv(&head ,&tail ,node);
     }
-    free_mynigga(argv);
     return head ;
 }
 
@@ -421,10 +420,7 @@ char **expander(char **argv, t_env *env, int *st,int type)
     if(!argv || !(*argv))
         return NULL;
     if (0 == should_expand(argv))
-    {
-        // printf("No expand needed !\n");
         return argv;
-    }    
     args = argv_to_lst(argv);
     new_argv = joiner(args, env, st,type);
     free_argv_lst(args, type);
