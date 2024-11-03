@@ -47,10 +47,7 @@ int open_file(t_red *redirect,int *std[2], t_herdoc *herdoc, t_env *env)
     {
         //her to expand name of file 
         if (*std[1] != -1 && (77 == redirect->mode || 7== redirect->mode))
-        {
-            // dprintf(2,">>>about to close %d\n", *out);
             close(*std[1]);
-        }
         if (*std[0] != -1 && 4 == redirect->mode)
             close(*std[0]);
         if (77 == redirect->mode){
@@ -189,6 +186,8 @@ int exec_new_cmd(t_cmd *cmd , int *last_status)
     p->argv = expander( p->argv, *(p->myenv), last_status, CMD_EXPN);
     p->argv = wild_expand(p->argv);
     status = check_red(p);
+    if( !(p->argv) || !(*(p->argv)) )
+        exit(0);
     if(is_builtin(cmd))
     {
         status = exec_builtin(cmd, last_status);
@@ -222,7 +221,6 @@ int exec_new_cmd(t_cmd *cmd , int *last_status)
             }
         }
     }
-    // printf();
     free_mynigga(p->argv);
     p->argv = NULL;
     free(abs_path);
@@ -302,7 +300,7 @@ int new_exec(t_cmd *cmd, int ref, int *last_status)
                         status = WEXITSTATUS(status);
                 }
             }
-        }      
+        } 
     }
     else if (AND == cmd->type)
         status = exec_and(cmd, last_status);
