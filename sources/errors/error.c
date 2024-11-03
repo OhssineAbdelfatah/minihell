@@ -27,3 +27,13 @@ void error_exit(char* str)
 	ft_putstr_fd( str,2);
 	ft_putstr_fd( ": numeric argument required\n",2);
 }
+
+//git@github.com:OhssineAbdelfatah/minihell.git
+///git@github.com:OhssineAbdelfatah/minihell.git
+void ambiguous_exit(char *str)
+{
+	ft_putstr_fd( "minishell: ",2);
+	ft_putstr_fd( str,2);
+	ft_putstr_fd( ": ambiguous redirect\n",2);
+	exit (1);
+}

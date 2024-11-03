@@ -52,19 +52,18 @@ int open_file(t_red *redirect,int *std[2], t_herdoc *herdoc, t_env *env)
             close(*std[0]);
         if (77 == redirect->mode){
             redirect->file = *expander(&(redirect->file), env,0, RED_EXPN);
-            redirect->file = whithout_quotes(redirect->file);
-
+            // redirect->file = *wild_expand(&(redirect->file), FILE_NAME);
             *std[1] = open(redirect->file, O_RDWR | O_CREAT | O_APPEND, 0644);
         }
         else if (7== redirect->mode){
             redirect->file = *expander(&(redirect->file), env,0 ,RED_EXPN);
-            redirect->file = whithout_quotes(redirect->file);
+            // redirect->file = *wild_expand(&(redirect->file), FILE_NAME);
             *std[1] = open(redirect->file, O_RDWR | O_CREAT | O_TRUNC, 0644);
         }
         else if (4== redirect->mode)
         {
             redirect->file = *expander(&(redirect->file), env, 0, RED_EXPN);
-            redirect->file = whithout_quotes(redirect->file);
+            // redirect->file = *wild_expand(&(redirect->file), FILE_NAME);
             *std[0] = open(redirect->file, O_RDONLY);
             if (*std[0] < 0)
             {
@@ -184,7 +183,7 @@ int exec_new_cmd(t_cmd *cmd , int *last_status)
     signal (SIGINT, NULL);
     p = (t_cmd_exec  *)cmd;
     p->argv = expander( p->argv, *(p->myenv), last_status, CMD_EXPN);
-    p->argv = wild_expand(p->argv);
+    p->argv = wild_expand(p->argv, NEW_CMD);
     status = check_red(p);
     if( !(p->argv) || !(*(p->argv)) )
         exit(0);

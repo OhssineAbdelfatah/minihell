@@ -102,7 +102,7 @@ char		*take_slash_of(char *arg);
 // SIMPLE WILD EXPAND :
 /*************************************************************** */
 
-char		**wild_expand(char **old);
+char		**wild_expand(char **old, int ref);
 
 /**************************************************************/
 // SEARCHING TOOLS :
