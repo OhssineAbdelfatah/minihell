@@ -43,5 +43,9 @@ what TILLAS did in lately
     but check the exepend of it cause i just made i temporary 
     solution there >exec_new.c line 279 also line 179;
     the pipe also works ;
-    (btw leaks in the expand folder and builtins are serious shit hh)
+
+
+
+
+    //   absolute path should be executed  && executable files AKA ./a.out
 }
