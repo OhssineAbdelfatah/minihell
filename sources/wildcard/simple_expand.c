@@ -99,7 +99,7 @@ char	**get_new_args(char **old, int new_len, t_dir_cont *dir_cont)
 	return (var.new);
 }
 
-char	**wild_expand(char **old)
+char	**wild_expand(char **old, int ref)
 {
 	t_wild_expand	var;
 
@@ -114,9 +114,12 @@ char	**wild_expand(char **old)
 		return (freedom(&(var.dir_cont_array), &(var.dir_cont),
 				&(var.work_dir)), unquote_old(old));
 	var.new = get_new_args(old, var.new_len, var.dir_cont);
+	if (ref == FILE_NAME && dstr_len(var.new) != 1)
+		ambiguous_exit(old[0]);
 	free_mynigga(old);
 	return (freedom(&(var.dir_cont_array), &(var.dir_cont), &(var.work_dir)),
 		var.new);
+	(void)ref;
 }
 
 // int main(int ac, char **av)
