@@ -230,6 +230,7 @@ typedef struct s_wild_expand
 	char						**new;
 	int							new_len;
 	char						*work_dir;
+	char 						*new_for_red;
 	char						**dir_cont_array;
 	t_dir_cont					*dir_cont;
 	int							i;

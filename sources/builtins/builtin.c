@@ -41,7 +41,7 @@ int exec_builtin(t_cmd *cmd ,int *last_status)
 
     p = (t_cmd_exec *)cmd;
     p->argv = expander(p->argv, *(p->myenv), last_status, CMD_EXPN);
-    p->argv = wild_expand(p->argv, NEW_CMD);
+    p->argv = wild_expand(p->argv);
     status = check_red(p);
     if(!p->argv || !(p->argv[0]))
         return 1;

@@ -72,7 +72,7 @@ char	**unquote_old(char **old)
 	}
 	res[i] = NULL;
 	free(old);
-	// free_mynigga(old);
+	old = NULL;
 	return (res);
 }
 

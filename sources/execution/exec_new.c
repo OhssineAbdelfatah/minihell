@@ -32,6 +32,10 @@ int open_file(t_red *redirect,int *std[2], t_herdoc *herdoc, t_env *env)
 {
     int status;
     status = 0;
+    char *file_name1 , *file_name;
+
+    file_name1 = ft_strdup(redirect->file);
+    file_name = whithout_quotes(file_name1);
     if (HERDOC==redirect->type)
     {
         if (*std[0] != -1 && last_herdoc(redirect))
@@ -45,25 +49,28 @@ int open_file(t_red *redirect,int *std[2], t_herdoc *herdoc, t_env *env)
     }
     else
     {
+        // printf(">%s<file name len :%ld\n",file_name,ft_strlen(redirect->file));
+        if (ft_strlen(file_name) == 0)
+            panic("minishell: no such file or directory!\n");
         //her to expand name of file 
         if (*std[1] != -1 && (77 == redirect->mode || 7== redirect->mode))
             close(*std[1]);
         if (*std[0] != -1 && 4 == redirect->mode)
             close(*std[0]);
         if (77 == redirect->mode){
-            redirect->file = *expander(&(redirect->file), env,0, RED_EXPN);
-            // redirect->file = *wild_expand(&(redirect->file), FILE_NAME);
+            // redirect->file = *expander(&(redirect->file), env,0, RED_EXPN);
+            redirect->file = wild_expand_red(redirect->file);
             *std[1] = open(redirect->file, O_RDWR | O_CREAT | O_APPEND, 0644);
         }
         else if (7== redirect->mode){
-            redirect->file = *expander(&(redirect->file), env,0 ,RED_EXPN);
-            // redirect->file = *wild_expand(&(redirect->file), FILE_NAME);
+            // redirect->file = *expander(&(redirect->file), env,0 ,RED_EXPN);
+            redirect->file = wild_expand_red(redirect->file );
             *std[1] = open(redirect->file, O_RDWR | O_CREAT | O_TRUNC, 0644);
         }
         else if (4== redirect->mode)
         {
-            redirect->file = *expander(&(redirect->file), env, 0, RED_EXPN);
-            // redirect->file = *wild_expand(&(redirect->file), FILE_NAME);
+            // redirect->file = *expander(&(redirect->file), env, 0, RED_EXPN);
+            redirect->file = wild_expand_red(redirect->file);
             *std[0] = open(redirect->file, O_RDONLY);
             if (*std[0] < 0)
             {
@@ -72,8 +79,13 @@ int open_file(t_red *redirect,int *std[2], t_herdoc *herdoc, t_env *env)
             }
         }
         if (*std[1] < 0 && 4 != redirect->mode)
-            panic("minishell: Permission denied\n");
+        {
+            dprintf(2,"minishell: %s: Permission denied\n", redirect->file);
+            free(redirect->file);
+            panic("");
+        }
     }
+    free(file_name);
     return(status);
 }
 
@@ -183,7 +195,7 @@ int exec_new_cmd(t_cmd *cmd , int *last_status)
     signal (SIGINT, NULL);
     p = (t_cmd_exec  *)cmd;
     p->argv = expander( p->argv, *(p->myenv), last_status, CMD_EXPN);
-    p->argv = wild_expand(p->argv, NEW_CMD);
+    p->argv = wild_expand(p->argv);
     status = check_red(p);
     if( !(p->argv) || !(*(p->argv)) )
         exit(0);
@@ -215,7 +227,7 @@ int exec_new_cmd(t_cmd *cmd , int *last_status)
         {
             if (-1 == execve(abs_path, p->argv, cur_env))
             {
-                dprintf(2,"minishell: %s: command not found\n", p->argv[0]);
+                dprintf(2," minishell: %s: command not found\n", p->argv[0]);
                 exit(127);
             }
         }
@@ -282,6 +294,7 @@ int new_exec(t_cmd *cmd, int ref, int *last_status)
             if (ref == PIPE)
                 status = exec_new_cmd(cmd, last_status);
             else if(is_builtin(cmd)){
+                printf("is BUILTIN : %s\n", p->argv[0]);
                 status = exec_builtin(cmd, last_status);
                 reset_fds(cmd);
             }   
