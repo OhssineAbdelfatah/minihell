@@ -197,6 +197,7 @@ int exec_new_cmd(t_cmd *cmd , int *last_status)
 
     ref = NOT_SIMPLE;
     signal (SIGINT, NULL);
+    signal(SIGQUIT, NULL);
     p = (t_cmd_exec  *)cmd;
     p->argv = expander( p->argv, *(p->myenv), last_status, CMD_EXPN);
     p->argv = wild_expand(p->argv);
@@ -239,6 +240,7 @@ int exec_sub_sh(t_cmd * cmd , int *last_status)
     pid = fork();
     if (pid == 0)
     {
+        signal(SIGQUIT, NULL);
         std[0] = &(p->fd_in);
         std[1] = &(p->fd_out);
         std[2] = 0;
@@ -262,6 +264,7 @@ int exec_sub_sh(t_cmd * cmd , int *last_status)
         sub_status = new_exec(p->sub_root, 0, last_status);
         exit(sub_status);
     }
+    signal(SIGQUIT, do_nothing);
     signal(SIGINT, SIG_IGN);
     waitpid(pid, &sub_status, 0);
     *last_status = WEXITSTATUS(sub_status);
@@ -288,10 +291,13 @@ int new_exec1(t_cmd *cmd, int ref, int *last_status)
                 exec_new_cmd(cmd, last_status);
             else
             {
+                signal(SIGQUIT, do_nothing);
                 signal(SIGINT, do_nothing);
                 waitpid(pid, &status, 0);
                 if (WTERMSIG(status) == SIGINT)
                     status = 130;
+                if (WTERMSIG(status) == SIGQUIT)
+                    status = 131;
                 else
                     status = WEXITSTATUS(status);
             }
@@ -314,9 +320,6 @@ int new_exec(t_cmd *cmd, int ref, int *last_status)
     else if (SUB_SH == cmd->type)
         status = exec_sub_sh(cmd , last_status);
     else if (PIPE == cmd->type)
-    {
         status = exec_pipe(cmd, last_status);
-        status = WEXITSTATUS(status);
-    }
     return (status);
 }
