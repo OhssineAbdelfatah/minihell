@@ -2,44 +2,8 @@
 
 int		g_sig;
 
-// int check_qoutes(char *s)
-// {
-//     int i;
-//     enum ss j;
-
-//     i = 0;
-//     j = NONE;
-//     if (s)
-//     {
-//         while(s[i])
-//         {
-//             if(s[i] == '"')
-//             {
-//                 if (j == SINGLE)
-//                     j = SINGLE;
-//                 else if (j == DOUBLE)
-//                     j = NONE;
-//                 else
-//                     j = DOUBLE;
-//             }
-//             if(s[i] == '\''){
-
-//                 if (j == DOUBLE)
-//                     j = DOUBLE;
-//                 else if (j == SINGLE)
-//                     j = NONE;
-//                 else
-//                     j = SINGLE;
-//             }
-//             i++;
-//         }
-//     }
-//     return(j);
-// }
-
 void	panic(char *str)
 {
-	(void)str;
 	if (str)
 		ft_putstr_fd(str, 2);
 	exit(1);
@@ -77,30 +41,6 @@ void	history(char *str)
 }
 
 
-
-
-// void execute(t_cmd *cmd)
-// {
-//     int status;
-//     status = 0;
-//     if (cmd->type == NEW_CMD && is_builtin(cmd))
-//         status = exec_builtin(cmd);
-//     else if (cmd->type == NEW_CMD )
-//     {
-//         status = fork();
-//         if (status == 0)
-//         {
-//             // signal (SIGINT, NULL); 
-//             exec_new_cmd(cmd ,&status);
-//         }
-//         wait(&status);
-//         // printf("status d'exit:%d\n", status);
-//     }
-//     else
-//         status = new_exec(cmd , NOTHING, &status);
-
-// }
-
 void ff(){
     system("leaks minishell");
 }
@@ -113,6 +53,7 @@ int main(  int ac, char **av, char **env)
     t_env *dup_env;
     int checker ;   
 
+    // atexit(ff);
     status = 0;
     dup_env = init_env(env);
     while(1)
@@ -139,8 +80,6 @@ int main(  int ac, char **av, char **env)
             }
             else if (my_tokens)
                 parse_nd_exec(my_tokens, &dup_env, &status);
-            // printf("SIG :%d\n", sig);
-            // printf("status AT the very end :%d\n", status);
         }
         free(str);
     }

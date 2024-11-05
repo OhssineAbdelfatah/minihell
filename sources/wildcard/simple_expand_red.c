@@ -23,7 +23,7 @@ int	count_new_args_red(char *old, t_dir_cont *dir_cont, int *index)
 	return (ret);
 }
 
-char	*wild_expand_red(char *old)
+char	*wild_expand_red(char *old, int ref)
 {
 	t_wild_expand	var;
 
@@ -34,7 +34,11 @@ char	*wild_expand_red(char *old)
 	var.dir_cont = array_to_lst_dir(var.dir_cont_array, var.work_dir);
 	var.new_len = count_new_args_red(old, var.dir_cont, &(var.i));
 	if (var.new_len > 1)
+	{
+		if (ref == SIMPLE)
+			return (NULL);
 		ambiguous_exit(old);
+	}
 	if (var.new_len < 0 || var.i == 0)
 		return (freedom(&(var.dir_cont_array), &(var.dir_cont),
 				&(var.work_dir)), whithout_quotes(old));

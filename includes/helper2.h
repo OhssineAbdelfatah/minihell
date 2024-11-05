@@ -105,7 +105,7 @@ char		*take_slash_of(char *arg);
 char	**get_new_args(char **old, int new_len, t_dir_cont *dir_cont);
 int	count_matches(char *old, t_dir_cont *dir_cont);
 char		**wild_expand(char **old);
-char		*wild_expand_red(char *old);
+char		*wild_expand_red(char *old, int ref);
 /**************************************************************/
 // SEARCHING TOOLS :
 /**************************************************************/
