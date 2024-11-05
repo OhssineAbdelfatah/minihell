@@ -14,19 +14,21 @@ void reset_fds(t_cmd *p)
     return ;
 }
 
-bool is_builtin(t_cmd *cmd)
+bool is_builtin(t_cmd *cmd, int *status, int *last_status, int ref)
 {
     t_cmd_exec  *p ;
     p = (t_cmd_exec  *)cmd;
     if (p->argv == NULL)
         return false;
-    char **bcmds = ft_split("cd pwd export unset env exit echo", ' ');
+    char **bcmds;
+    bcmds = ft_split("cd pwd export unset env exit echo", ' ');
     int i = -1;
     while(++i < 7)
     {
         if(ft_strcmp(p->argv[0], bcmds[i]))
         {
             free_split(bcmds);
+            *status = exec_builtin(cmd, last_status, ref);
             return true;
         }
     }
@@ -34,15 +36,15 @@ bool is_builtin(t_cmd *cmd)
     return false;
 }
 
-int exec_builtin(t_cmd *cmd ,int *last_status)
+int exec_builtin(t_cmd *cmd ,int *last_status, int ref)
 {
     int status ;
     t_cmd_exec *p ;
-
+    (void )ref;
     p = (t_cmd_exec *)cmd;
     p->argv = expander(p->argv, *(p->myenv), last_status, CMD_EXPN);
     p->argv = wild_expand(p->argv, NEW_CMD);
-    status = check_red(p);
+    status = check_red(p, SIMPLE);
     if(!p->argv || !(p->argv[0]))
         return 1;
     if(ft_strcmp(p->argv[0], "cd")) // add oldpwd and change pwd

@@ -3,12 +3,12 @@
 
 #include "minishell.h"
 
-int check_red(t_cmd_exec  *p);
+int check_red(t_cmd_exec  *p, int ref);
 void reset_fds(t_cmd *cmd);
 
 // void execute_cmd(t_cmd *cmd);
-int exec_builtin(t_cmd *cmd, int *last_status);
-bool is_builtin(t_cmd *cmd);
+int exec_builtin(t_cmd *cmd, int *last_status, int ref);
+bool is_builtin(t_cmd *cmd,int *status ,int* last_status, int ref);
 
 /*   ECHO   */
 int echo(t_new_cmd*cmd);

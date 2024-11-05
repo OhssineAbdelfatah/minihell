@@ -1,8 +1,10 @@
 Makefile
+a
+f
 includes
 lib
-ls
 minishell
 saad.txt
 sources
+test.c
 to_do_.txt

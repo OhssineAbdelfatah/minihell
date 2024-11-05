@@ -27,7 +27,8 @@ EXECUTION = sources/execution/exec.c sources/execution/exec_pipe.c\
 
 EXPANDER = sources/expander/expander.c sources/expander/expand_list.c \
 			sources/expander/utils.c sources/expander/expand_heredoc.c \
-			sources/expander/tokenizer.c \
+			sources/expander/tokenizer.c sources/expander/spliter.c \
+			sources/expander/spliter1.c
 
 BUILTINS = 	sources/builtins/env.c sources/builtins/lstoarry.c \
             sources/builtins/builtin.c sources/builtins/dir.c \

@@ -20,8 +20,6 @@ int herdoc_newfd( int fd, t_env* myenv)
     {
         line = splitWordVar(line, myenv, 0);
         ft_putstr_fd(line, fd_pipe[1]);
-        // node = create_node(line,' ');
-        // add_node(&head, &tail, node);
         line = get_next_line(fd);
     }   
     line = get_next_line(-1);

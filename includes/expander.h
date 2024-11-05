@@ -7,6 +7,11 @@ typedef enum s_expan {
     RED_EXPN 
 } t_expan;
 
+typedef enum s_exec_bltn{
+    SIMPLE,
+    NOT_SIMPLE
+}   t_exec_bltn;
+
 typedef struct s_node {
     char *str; 
     char type;
@@ -68,6 +73,19 @@ int herdoc_newfd( int fd, t_env* myenv);
 
 void add_argv(t_argv **head, t_argv** tail ,t_argv* arg);
 t_argv *create_argv(t_node *head, char *str, char **argv);
-void print_nodes(t_node *head);
+
+void free_argv_lst(t_argv *head, int type);
+t_argv *argv_to_lst(char **argv);
+int count_newArgv(t_argv *tmp);
+void spliter_args(t_argv *args);
+char **split_arg(char *arg);
+
+int count_arg(char *arg);
+char **join_no_split(t_argv *args);
+char **join_args(t_argv *args);
+int skip_space_in_word(char *arg, int start);
+int skip_char(char *arg, int start);
+
+char *mini_joiner(t_node *head);
 
 #endif

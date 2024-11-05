@@ -1,4 +1,4 @@
-    #include "../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int last_herdoc(t_red *lst)
 {
@@ -77,7 +77,7 @@ int open_file(t_red *redirect,int *std[2], t_herdoc *herdoc, t_env *env)
     return(status);
 }
 
-int exec_red(t_red *redirect, int *std[2], t_herdoc *herdoc, t_env *env)
+int     exec_red(t_red *redirect, int *std[2], t_herdoc *herdoc, t_env *env)
 {
     int status;
     t_red *tmp;
@@ -103,24 +103,31 @@ int check_is_abs(char *cmd)
     return 1;
 }
 
-char *cmd_abs_path(char *path,char *cmd)
+void append_slash(char **path_2d)
 {
-    char **path_2d;
-    char *tmp;
-    char *cmd_abs_path;
-    int i = -1;
     int j = -1 ;
+    char *tmp;
 
-    path_2d = ft_split(path, ':');
-    cmd_abs_path = cmd;
-
-	while(path_2d[++j])
+    while(path_2d[++j])
     {
         tmp = path_2d[j];
 		path_2d[j] = ft_strjoin(tmp, "/");
         free(tmp);
         tmp = NULL;
     }
+    return ;
+}
+
+char *cmd_abs_path(char *path,char *cmd)
+{
+    char **path_2d;
+    char *tmp;
+    char *cmd_abs_path;
+    int i = -1;
+
+    path_2d = ft_split(path, ':');
+    cmd_abs_path = cmd;
+    append_slash(path_2d);
     while(path_2d[++i])
     {
         tmp = ft_strjoin(path_2d[i], cmd_abs_path);
@@ -137,24 +144,17 @@ char *cmd_abs_path(char *path,char *cmd)
     return NULL;
 }
 
-void pexit(char *s)
+int check_red(t_cmd_exec  *p , int ref)
 {
-    printf("debug %s\n",s);
-    exit(0);
-}
-
-int check_red(t_cmd_exec  *p)
-{
+    (void)ref;
     int status;
     int *std[2];
-
 
     status = 0;
     std[1] = &(p->fd_out);
     std[0] = &(p->fd_in);
-    if (NULL != p->redirect){
+    if (NULL != p->redirect)
         status = exec_red(p->redirect, std, p->herdoc ,*(p->myenv));
-    }
     if (p->fd_in != -1 || p->fd_out != -1)
     {
         if (p->fd_out != -1)
@@ -184,49 +184,32 @@ int exec_new_cmd(t_cmd *cmd , int *last_status)
     p = (t_cmd_exec  *)cmd;
     p->argv = expander( p->argv, *(p->myenv), last_status, CMD_EXPN);
     p->argv = wild_expand(p->argv, NEW_CMD);
-    status = check_red(p);
+    status = check_red(p, NOT_SIMPLE);
     if( !(p->argv) || !(*(p->argv)) )
         exit(0);
-    if(is_builtin(cmd))
-    {
-        status = exec_builtin(cmd, last_status);
+    if(is_builtin(cmd, &status,last_status, NOT_SIMPLE))
         exit(status);
-    }
-    cur_env = lstoarry(*(p->myenv));
-    if (p->argv == NULL)
-        exit(status);
-    if(check_is_abs(p->argv[0]) == 0)
-        abs_path = p->argv[0];
     else
     {
-        abs_path = getEnvValue(*(p->myenv), "PATH");
-        if(!abs_path)
-        {
-            printf("bash: %s: No such file or directory\n",p->argv[0]);
-            exit(-1);
-        }
-        abs_path = cmd_abs_path(abs_path, p->argv[0]);
-        if(!abs_path)
-        {
-            dprintf(2,"minishell: %s: command not found\n", p->argv[0]);
-            exit(127);
+        cur_env = lstoarry(*(p->myenv));
+        if(check_is_abs(p->argv[0]) == 0)
+            abs_path = p->argv[0];
+        else{
+            abs_path = getEnvValue(*(p->myenv), "PATH");
+            if(!abs_path)
+                error_exec_new(p->argv[0], -1);
+            abs_path = cmd_abs_path(abs_path, p->argv[0]);
+            if(!abs_path )
+                error_exec_new(p->argv[0], 127);
         }
         if(dstr_len(p->argv))
-        {
             if (-1 == execve(abs_path, p->argv, cur_env))
-            {
-                dprintf(2,"minishell: %s: command not found\n", p->argv[0]);
-                exit(127);
-            }
-        }
+                error_exec_new(p->argv[0], 127);
     }
     free_mynigga(p->argv);
-    p->argv = NULL;
     free(abs_path);
-    abs_path = NULL;
     exit(0);
     return (status);  
-
 }
 
 int exec_sub_sh(t_cmd * cmd , int *last_status)
@@ -268,39 +251,45 @@ int exec_sub_sh(t_cmd * cmd , int *last_status)
     return (*last_status);
 }
 
-int new_exec(t_cmd *cmd, int ref, int *last_status)
+int new_exec1(t_cmd *cmd, int ref, int *last_status)
 {
-    int status, pid;
+    int status;
+    int pid;
     t_cmd_exec  * p;
 
     status = 0;
-    if (NEW_CMD == cmd->type)
-    {
-        p = (t_cmd_exec  *)cmd;
-        if (p)
-        {   
-            if (ref == PIPE)
-                status = exec_new_cmd(cmd, last_status);
-            else if(is_builtin(cmd)){
-                status = exec_builtin(cmd, last_status);
-                reset_fds(cmd);
-            }   
-            else {
-                pid = fork();
-                if (pid == 0)
-                    exec_new_cmd(cmd, last_status);
+    p = (t_cmd_exec  *)cmd;
+    if (p)
+    {   
+        if (ref == PIPE)
+            status = exec_new_cmd(cmd, last_status);
+        else if(is_builtin(cmd, &status ,last_status, SINGLE))
+            reset_fds(cmd);   
+        else {
+            pid = fork();
+            if (pid == 0)
+                exec_new_cmd(cmd, last_status);
+            else
+            {
+                signal(SIGINT, do_nothing);
+                waitpid(pid, &status, 0);
+                if (WTERMSIG(status) == SIGINT)
+                    status = 130;
                 else
-                {
-                    signal(SIGINT, do_nothing);
-                    waitpid(pid, &status, 0);
-                    if (WTERMSIG(status) == SIGINT)
-                        status = 130;
-                    else
-                        status = WEXITSTATUS(status);
-                }
+                    status = WEXITSTATUS(status);
             }
-        } 
-    }
+        }
+    } 
+    return status ;
+}
+
+int new_exec(t_cmd *cmd, int ref, int *last_status)
+{
+    int status;
+
+    status = 0;
+    if (NEW_CMD == cmd->type)
+        status = new_exec1(cmd ,ref,last_status);
     else if (AND == cmd->type)
         status = exec_and(cmd, last_status);
     else if (OR == cmd->type)

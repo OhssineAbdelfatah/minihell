@@ -6,7 +6,7 @@
 /*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 00:45:53 by ilaasri           #+#    #+#             */
-/*   Updated: 2024/10/30 19:11:59 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/04 08:14:24 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,5 +184,6 @@ void	free_mynigga(char **str);
 /****************** */
 void	error(char *s, int er_num);
 void	ambiguous_exit(char *str);
+void error_exec_new(char *str, int exit_status);
 /************************ */
 #endif

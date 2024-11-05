@@ -48,4 +48,6 @@ what TILLAS did in lately
 
 
     //   absolute path should be executed  && executable files AKA ./a.out
+    // exit builtin in single cmd sould not exit at all
+    
 }

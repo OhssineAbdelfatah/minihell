@@ -37,3 +37,11 @@ void ambiguous_exit(char *str)
 	ft_putstr_fd( ": ambiguous redirect\n",2);
 	exit (1);
 }
+
+void error_exec_new(char *str, int exit_status)
+{
+	ft_putstr_fd( "minishell: ",2);
+	ft_putstr_fd( str,2);
+	ft_putstr_fd( ": command not found\n",2);
+	exit (exit_status);
+}
