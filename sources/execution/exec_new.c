@@ -28,7 +28,67 @@ char *getEnvValue(t_env *env, char *key)
     return NULL;
 }
 
-int open_file(t_red *redirect,int *std[2], t_herdoc *herdoc, t_env *env)
+// int open_file(t_red *redirect,int *std[2], t_herdoc *herdoc, t_env *env)
+// {
+//     int status;
+//     status = 0;
+//     char *file_name1 , *file_name;
+
+//     file_name1 = ft_strdup(redirect->file);
+//     file_name = whithout_quotes(file_name1);
+//     if (HERDOC==redirect->type)
+//     {
+//         if (*std[0] != -1 && last_herdoc(redirect))
+//             close(*std[0]);
+//         if (last_herdoc(redirect))
+//         {
+//             *std[0] = herdoc->herdoc_pipe;
+//             if(!herdoc->to_exp)
+//                 *std[0] = herdoc_newfd( herdoc->herdoc_pipe, env);
+//         }
+//     }
+//     else
+//     {
+//         // printf(">%s<file name len :%ld\n",file_name,ft_strlen(redirect->file));
+//         if (ft_strlen(file_name) == 0)
+//             panic("minishell: no such file or directory!\n");
+//         //her to expand name of file 
+//         if (*std[1] != -1 && (77 == redirect->mode || 7== redirect->mode))
+//             close(*std[1]);
+//         if (*std[0] != -1 && 4 == redirect->mode)
+//             close(*std[0]);
+//         if (77 == redirect->mode){
+//             // redirect->file = *expander(&(redirect->file), env,0, RED_EXPN);
+//             redirect->file = wild_expand_red(redirect->file);
+//             *std[1] = open(redirect->file, O_RDWR | O_CREAT | O_APPEND, 0644);
+//         }
+//         else if (7== redirect->mode){
+//             // redirect->file = *expander(&(redirect->file), env,0 ,RED_EXPN);
+//             redirect->file = wild_expand_red(redirect->file );
+//             *std[1] = open(redirect->file, O_RDWR | O_CREAT | O_TRUNC, 0644);
+//         }
+//         else if (4== redirect->mode)
+//         {
+//             // redirect->file = *expander(&(redirect->file), env, 0, RED_EXPN);
+//             redirect->file = wild_expand_red(redirect->file);
+//             *std[0] = open(redirect->file, O_RDONLY);
+//             if (*std[0] < 0)
+//             {
+//                 dprintf(2,"minishell: %s:No such file or directory!\n", redirect->file);
+//                 panic("");
+//             }
+//         }
+//         if (*std[1] < 0 && 4 != redirect->mode)
+//         {
+//             dprintf(2,"minishell: %s: Permission denied\n", redirect->file);
+//             free(redirect->file);
+//             panic("");
+//         }
+//     }
+//     free(file_name);
+//     return(status);
+// }
+int open_file(t_red *redirect,int *std[3], t_herdoc *herdoc, t_env *env)
 {
     int status;
     status = 0;
@@ -59,18 +119,18 @@ int open_file(t_red *redirect,int *std[2], t_herdoc *herdoc, t_env *env)
             close(*std[0]);
         if (77 == redirect->mode){
             // redirect->file = *expander(&(redirect->file), env,0, RED_EXPN);
-            redirect->file = wild_expand_red(redirect->file);
+            redirect->file = wild_expand_red(redirect->file, *std[2]);
             *std[1] = open(redirect->file, O_RDWR | O_CREAT | O_APPEND, 0644);
         }
         else if (7== redirect->mode){
             // redirect->file = *expander(&(redirect->file), env,0 ,RED_EXPN);
-            redirect->file = wild_expand_red(redirect->file );
+            redirect->file = wild_expand_red(redirect->file, *std[2]);
             *std[1] = open(redirect->file, O_RDWR | O_CREAT | O_TRUNC, 0644);
         }
         else if (4== redirect->mode)
         {
             // redirect->file = *expander(&(redirect->file), env, 0, RED_EXPN);
-            redirect->file = wild_expand_red(redirect->file);
+            redirect->file = wild_expand_red(redirect->file, *std[2]);
             *std[0] = open(redirect->file, O_RDONLY);
             if (*std[0] < 0)
             {
@@ -89,7 +149,37 @@ int open_file(t_red *redirect,int *std[2], t_herdoc *herdoc, t_env *env)
     return(status);
 }
 
-int     exec_red(t_red *redirect, int *std[2], t_herdoc *herdoc, t_env *env)
+
+// int     exec_red(t_cmd *cmd, int type)
+// {
+//     int status;
+//     t_new_cmd *new_cmd;
+//     t_sub_sh *sub;
+//     t_red *tmp;
+
+//     if (EXEC == type || BUILTIN == type)
+//     {
+//         (void)sub;
+//         new_cmd = (t_new_cmd *)cmd;
+//     }
+//     else if (SUB_SH == type)
+//     {
+//         (void)new_cmd;
+//         sub = (t_sub_sh *)cmd;
+//     }
+
+//     status = 0;
+//     tmp = redirect->next;
+//     while(redirect)
+//     {
+//         tmp = redirect->next;
+//         status = open_file(redirect, std, herdoc, env);
+//         redirect = tmp;
+//     }
+//     return(status);
+// }
+
+int     exec_red(t_red *redirect, int *std[3], t_herdoc *herdoc, t_env *env)
 {
     int status;
     t_red *tmp;
@@ -156,15 +246,16 @@ char *cmd_abs_path(char *path,char *cmd)
     return NULL;
 }
 
-int check_red(t_cmd_exec  *p , int ref)
+int check_red(t_cmd_exec  *p , int *ref)
 {
     (void)ref;
     int status;
-    int *std[2];
+    int *std[3];
 
     status = 0;
     std[1] = &(p->fd_out);
     std[0] = &(p->fd_in);
+    std[2] = ref;
     if (NULL != p->redirect)
         status = exec_red(p->redirect, std, p->herdoc ,*(p->myenv));
     if (p->fd_in != -1 || p->fd_out != -1)
@@ -191,12 +282,14 @@ int exec_new_cmd(t_cmd *cmd , int *last_status)
     int status;
     char *abs_path;
     char **cur_env;
+    int ref;
 
+    ref = NOT_SIMPLE;
     signal (SIGINT, NULL);
     p = (t_cmd_exec  *)cmd;
     p->argv = expander( p->argv, *(p->myenv), last_status, CMD_EXPN);
     p->argv = wild_expand(p->argv);
-    status = check_red(p, NOT_SIMPLE);
+    status = check_red(p, &ref);
     if( !(p->argv) || !(*(p->argv)) )
         exit(0);
     if(is_builtin(cmd, &status,last_status, NOT_SIMPLE))
@@ -228,7 +321,7 @@ int exec_sub_sh(t_cmd * cmd , int *last_status)
 {
     t_sub_sh * p;
     int pid;
-    int *std[2];
+    int *std[3];
     int sub_status;
 
     p = (t_sub_sh  *)cmd;
@@ -237,6 +330,7 @@ int exec_sub_sh(t_cmd * cmd , int *last_status)
     {
         std[0] = &(p->fd_in);
         std[1] = &(p->fd_out);
+        std[2] = 0;
         if (p->redirect){
         
             exec_red(p->redirect, std,p->herdoc,*(p->myenv));

@@ -121,11 +121,12 @@ char *expand(t_node **head, t_env *env, int *st)
             dt.value = getEnvValue(env, dt.tmp->str + 1);
             if(ft_strcmp(dt.tmp->str + 1, "?")){
                 free( dt.value);
-                dt.value = ft_itoa(*st); // 
+                dt.value = ft_itoa(*st);
             }
             dt.tmpstr = dt.tmp->str;
             dt.tmp->str = ft_strdup(dt.value);
             free(dt.tmpstr);
+            free(dt.value);
         }
         dt.tmp = dt.tmp->next;
     }
