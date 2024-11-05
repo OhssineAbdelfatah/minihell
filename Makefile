@@ -14,6 +14,7 @@ ERRORS  = sources/errors/error.c
 WILDCARD_FILES = sources/wildcard/globing.c sources/wildcard/wildcard.c \
 				sources/wildcard/tools.c    sources/wildcard/sorted_res.c \
 				sources/wildcard/array_to_lst.c   sources/wildcard/search_for_names.c\
+				sources/wildcard/simple_expand_red.c\
 				sources/wildcard/simple_expand.c sources/wildcard/simple_expand_tools.c\
 				sources/wildcard/tool_box.c sources/wildcard/searching_tools.c
 
@@ -43,6 +44,7 @@ CFILES =	${PARSE} \
 			${WILDCARD_FILES}\
 			${GNL} \
 			sources/one.c sources/two.c  sources/print.c \
+			#test.c
 
 
 MINISHELL_ART = \

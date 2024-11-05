@@ -60,9 +60,9 @@ void	parse_nd_exec(char **my_tokens, t_env **dup_env, int *status)
 		*status = 130;
 		g_sig = -1;
 	}
-	// printf(GRN"D exit STATUS :%d\n"CRESET, *status);
 	free_mynigga(my_tokens);
 	free_tree2(res);
+	// printf(GRN"D exit STATUS :%d\n"CRESET, *status);
 }
 
 void	history(char *str)
