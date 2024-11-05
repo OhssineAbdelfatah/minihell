@@ -67,8 +67,9 @@ char **joiner(t_argv *args, t_env* env, int *st,int type)
     else if( type == CMD_EXPN || type == RED_EXPN){
         spliter_args(args);
         new = join_args(args);
-        if(ft_strslen(new) > 1 && RED_EXPN == type)
-            ambiguous_exit(args->str);
+        // if(ft_strslen(new) > 1 && RED_EXPN == type)
+        //     ambiguous_exit(args->str);
+        //CHECK THE SECOND AMBIGUOS EXIT ARGUMENT
     }
     return new;
 }

@@ -183,7 +183,7 @@ void	free_mynigga(char **str);
 // ERROR
 /****************** */
 void	error(char *s, int er_num);
-void	ambiguous_exit(char *str);
+void	ambiguous_exit(char *str, int ref);
 void error_exec_new(char *str, int exit_status);
 /************************ */
 #endif

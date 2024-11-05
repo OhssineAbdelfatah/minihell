@@ -28,66 +28,6 @@ char *getEnvValue(t_env *env, char *key)
     return NULL;
 }
 
-// int open_file(t_red *redirect,int *std[2], t_herdoc *herdoc, t_env *env)
-// {
-//     int status;
-//     status = 0;
-//     char *file_name1 , *file_name;
-
-//     file_name1 = ft_strdup(redirect->file);
-//     file_name = whithout_quotes(file_name1);
-//     if (HERDOC==redirect->type)
-//     {
-//         if (*std[0] != -1 && last_herdoc(redirect))
-//             close(*std[0]);
-//         if (last_herdoc(redirect))
-//         {
-//             *std[0] = herdoc->herdoc_pipe;
-//             if(!herdoc->to_exp)
-//                 *std[0] = herdoc_newfd( herdoc->herdoc_pipe, env);
-//         }
-//     }
-//     else
-//     {
-//         // printf(">%s<file name len :%ld\n",file_name,ft_strlen(redirect->file));
-//         if (ft_strlen(file_name) == 0)
-//             panic("minishell: no such file or directory!\n");
-//         //her to expand name of file 
-//         if (*std[1] != -1 && (77 == redirect->mode || 7== redirect->mode))
-//             close(*std[1]);
-//         if (*std[0] != -1 && 4 == redirect->mode)
-//             close(*std[0]);
-//         if (77 == redirect->mode){
-//             // redirect->file = *expander(&(redirect->file), env,0, RED_EXPN);
-//             redirect->file = wild_expand_red(redirect->file);
-//             *std[1] = open(redirect->file, O_RDWR | O_CREAT | O_APPEND, 0644);
-//         }
-//         else if (7== redirect->mode){
-//             // redirect->file = *expander(&(redirect->file), env,0 ,RED_EXPN);
-//             redirect->file = wild_expand_red(redirect->file );
-//             *std[1] = open(redirect->file, O_RDWR | O_CREAT | O_TRUNC, 0644);
-//         }
-//         else if (4== redirect->mode)
-//         {
-//             // redirect->file = *expander(&(redirect->file), env, 0, RED_EXPN);
-//             redirect->file = wild_expand_red(redirect->file);
-//             *std[0] = open(redirect->file, O_RDONLY);
-//             if (*std[0] < 0)
-//             {
-//                 dprintf(2,"minishell: %s:No such file or directory!\n", redirect->file);
-//                 panic("");
-//             }
-//         }
-//         if (*std[1] < 0 && 4 != redirect->mode)
-//         {
-//             dprintf(2,"minishell: %s: Permission denied\n", redirect->file);
-//             free(redirect->file);
-//             panic("");
-//         }
-//     }
-//     free(file_name);
-//     return(status);
-// }
 int open_file(t_red *redirect,int *std[3], t_herdoc *herdoc, t_env *env)
 {
     int status;
@@ -125,6 +65,8 @@ int open_file(t_red *redirect,int *std[3], t_herdoc *herdoc, t_env *env)
         else if (7== redirect->mode){
             // redirect->file = *expander(&(redirect->file), env,0 ,RED_EXPN);
             redirect->file = wild_expand_red(redirect->file, *std[2]);
+            if (!redirect->file)
+                return (free(file_name), 1);
             *std[1] = open(redirect->file, O_RDWR | O_CREAT | O_TRUNC, 0644);
         }
         else if (4== redirect->mode)
@@ -148,36 +90,6 @@ int open_file(t_red *redirect,int *std[3], t_herdoc *herdoc, t_env *env)
     free(file_name);
     return(status);
 }
-
-
-// int     exec_red(t_cmd *cmd, int type)
-// {
-//     int status;
-//     t_new_cmd *new_cmd;
-//     t_sub_sh *sub;
-//     t_red *tmp;
-
-//     if (EXEC == type || BUILTIN == type)
-//     {
-//         (void)sub;
-//         new_cmd = (t_new_cmd *)cmd;
-//     }
-//     else if (SUB_SH == type)
-//     {
-//         (void)new_cmd;
-//         sub = (t_sub_sh *)cmd;
-//     }
-
-//     status = 0;
-//     tmp = redirect->next;
-//     while(redirect)
-//     {
-//         tmp = redirect->next;
-//         status = open_file(redirect, std, herdoc, env);
-//         redirect = tmp;
-//     }
-//     return(status);
-// }
 
 int     exec_red(t_red *redirect, int *std[3], t_herdoc *herdoc, t_env *env)
 {
@@ -248,7 +160,6 @@ char *cmd_abs_path(char *path,char *cmd)
 
 int check_red(t_cmd_exec  *p , int *ref)
 {
-    (void)ref;
     int status;
     int *std[3];
 
@@ -369,7 +280,7 @@ int new_exec1(t_cmd *cmd, int ref, int *last_status)
     {   
         if (ref == PIPE)
             status = exec_new_cmd(cmd, last_status);
-        else if(is_builtin(cmd, &status ,last_status, SINGLE))
+        else if(is_builtin(cmd, &status ,last_status, SIMPLE))
             reset_fds(cmd);   
         else {
             pid = fork();

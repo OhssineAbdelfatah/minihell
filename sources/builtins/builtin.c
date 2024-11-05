@@ -45,6 +45,8 @@ int exec_builtin(t_cmd *cmd ,int *last_status, int ref)
     p->argv = expander(p->argv, *(p->myenv), last_status, CMD_EXPN);
     p->argv = wild_expand(p->argv);
     status = check_red(p, &ref);
+    if (status == 1)
+        return (status);
     if(!p->argv || !(p->argv[0]))
         return 1;
     if(ft_strcmp(p->argv[0], "cd")) // add oldpwd and change pwd

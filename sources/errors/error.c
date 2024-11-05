@@ -30,12 +30,13 @@ void error_exit(char* str)
 
 //git@github.com:OhssineAbdelfatah/minihell.git
 ///git@github.com:OhssineAbdelfatah/minihell.git
-void ambiguous_exit(char *str)
+void ambiguous_exit(char *str, int ref)
 {
 	ft_putstr_fd( "minishell: ",2);
 	ft_putstr_fd( str,2);
 	ft_putstr_fd( ": ambiguous redirect\n",2);
-	exit (1);
+	if (ref)
+		exit (1);
 }
 
 void error_exec_new(char *str, int exit_status)

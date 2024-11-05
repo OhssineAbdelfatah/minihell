@@ -69,9 +69,6 @@ char	*whithout_quotes(char *value)
 		}
 	}
 	var.res[var.i] = 0;
-	// free(value);
-	// value  =NULL;
-	// return (var.res);
 	return (free(value), var.res);
 }
 

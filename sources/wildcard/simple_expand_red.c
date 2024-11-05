@@ -27,6 +27,7 @@ char	*wild_expand_red(char *old, int ref)
 {
 	t_wild_expand	var;
 
+	// printf("REF: %d\n", ref);
 	if (is_it_wild(old) == 0)
 		return (whithout_quotes(old));
 	var.work_dir = get_work_direc();
@@ -35,9 +36,10 @@ char	*wild_expand_red(char *old, int ref)
 	var.new_len = count_new_args_red(old, var.dir_cont, &(var.i));
 	if (var.new_len > 1)
 	{
+		ambiguous_exit(old, ref);
 		if (ref == SIMPLE)
-			return (NULL);
-		ambiguous_exit(old);
+			return (free(old),freedom(&(var.dir_cont_array), &(var.dir_cont),
+					&(var.work_dir)), NULL);
 	}
 	if (var.new_len < 0 || var.i == 0)
 		return (freedom(&(var.dir_cont_array), &(var.dir_cont),
