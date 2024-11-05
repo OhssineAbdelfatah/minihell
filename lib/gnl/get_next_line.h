@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aohssine <aohssine@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 17:11:43 by aohssine          #+#    #+#             */
-/*   Updated: 2024/02/20 17:11:44 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/05 13:46:06 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 2
+#  define BUFFER_SIZE 10000000
 # endif
 # include <fcntl.h>
 # include <stdio.h>

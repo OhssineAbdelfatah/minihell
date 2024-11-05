@@ -1,5 +1,3 @@
-
-
 DONE
     [*] clean qoutes
     [*] echo
@@ -18,16 +16,30 @@ DONE
     [*] split args with spasecs inside expander //keep space in double split in Word
     [*] fix leaks in builts ins
     [*] access $? // asc ur peer hoe he passes last modified where
+    [*] print error to fd 1
 
 NOL_YEl TASKS {
     IN PROCCESS
 
     
-    [] expander : redirection , herdoc and simple command .
+    [] expander : 
+        [] redirection 
+        [] herdoc , some magic hapen here if you try 
+        {
+            [<< eof cat ] 
+            [>>$a]
+            [>>$PWD" amlou"]
+            [>>eof]
+            Expected
+                $>
+            but 
+                $>
+                $>PWD" amlou"
+        }
+        [*] simple command .
 
     [] expand redirection filename //
 
-    [] print error to fd 1
 
 
     [] usnet update exist value with null sould be fixed

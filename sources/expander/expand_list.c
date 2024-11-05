@@ -116,15 +116,17 @@ char *expand(t_node **head, t_env *env, int *st)
     dt.tmp = *head;
     while (dt.tmp)
     {
+
         if (dt.tmp->type == '1')
         {
             dt.value = getEnvValue(env, dt.tmp->str + 1);
             if(ft_strcmp(dt.tmp->str + 1, "?")){
-                free( dt.value);
-                dt.value = ft_itoa(*st); // 
+                free( dt.value );
+                dt.value = ft_itoa(*st);
             }
             dt.tmpstr = dt.tmp->str;
             dt.tmp->str = ft_strdup(dt.value);
+            // free( dt.value );
             free(dt.tmpstr);
         }
         dt.tmp = dt.tmp->next;

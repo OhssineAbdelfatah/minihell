@@ -45,7 +45,7 @@ void	panic(char *str)
 	exit(1);
 }
 
-void	parse_nd_exec(char **my_    tokens, t_env **dup_env, int *status)
+void	parse_nd_exec(char **my_tokens, t_env **dup_env, int *status)
 {
 	t_cmd	*res;
 
@@ -113,7 +113,6 @@ int main(  int ac, char **av, char **env)
     t_env *dup_env;
     int checker ;   
 
-    atexit(ff);
     status = 0;
     dup_env = init_env(env);
     while(1)

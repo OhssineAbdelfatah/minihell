@@ -19,7 +19,10 @@ int herdoc_newfd( int fd, t_env* myenv)
     while(line)
     {
         line = splitWordVar(line, myenv, 0);
-        ft_putstr_fd(line, fd_pipe[1]);
+        if(line != NULL)
+            ft_putstr_fd(line, fd_pipe[1]);
+        else
+            ft_putstr_fd("\n", fd_pipe[1]);
         line = get_next_line(fd);
     }   
     line = get_next_line(-1);
