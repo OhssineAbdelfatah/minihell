@@ -77,7 +77,7 @@ My_lib = lib/libft/libft.a
 all : ascii_art $(My_lib) $(NAME)
 
 %.o : %.c  Makefile
-	@$(CC)  $(CFLAGS) $(FFLAG)  $(RLINCLUDE) -c  $< -o $@
+	$(CC)  $(CFLAGS) $(FFLAG)  $(RLINCLUDE) -c  $< -o $@
 
 $(My_lib) : 
 	make -C lib/libft
