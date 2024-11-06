@@ -19,14 +19,15 @@ void	parse_nd_exec(char **my_tokens, t_env **dup_env, int *status)
 		return ;
 	if (g_sig == -1)
 		*status = new_exec(res, NOTHING, status);
-	if (g_sig == 130)
+	if (g_sig == 130 || g_sig == 131)
 	{
 		*status = 130;
+        if (g_sig == 131)
+            *status = 1;
 		g_sig = -1;
 	}
 	free_mynigga(my_tokens);
 	free_tree2(res);
-	// printf(GRN"D exit STATUS :%d\n"CRESET, *status);
 }
 
 void	history(char *str)

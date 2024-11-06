@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   simple_expand_red.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilaasri <ilaasri@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/05 22:55:33 by ilaasri           #+#    #+#             */
+/*   Updated: 2024/11/05 22:55:34 by ilaasri          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 int	count_new_args_red(char *old, t_dir_cont *dir_cont, int *index)
@@ -27,7 +39,6 @@ char	*wild_expand_red(char *old, int ref)
 {
 	t_wild_expand	var;
 
-	// printf("REF: %d\n", ref);
 	if (is_it_wild(old) == 0)
 		return (whithout_quotes(old));
 	var.work_dir = get_work_direc();

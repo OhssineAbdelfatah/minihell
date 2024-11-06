@@ -59,11 +59,16 @@ MINISHELL_ART = \
 "╚═╝     ╚═╝ ╚═╝ ╚═╝  ╚═══╝ ╚═╝ ╚══════ ╝╚═╝  ╚═╝ ╚══════╝ ╚══════╝ ╚══════╝\n"\
 "						      By: TILLAS & NolYel  \033[0m"
 
+<<<<<<< HEAD
 RLFLAGS 	=	-L/Users/aohssine/goinfre/homebrew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
 RLINCLUDE	=	-I/Users/aohssine/goinfre/homebrew/opt/readline/include  # tell compiler where to find headers
+=======
+# RLFLAGS =	-L/Users/aohssine/goinfre/homebrew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
+# RLINCLUDE	=	-I/Users/aohssine/goinfre/homebrew/opt/readline/include  # tell compiler where to find headers
+>>>>>>> 11c65536cd44048f7d47b741e03e358130f672f9
 
-# RLFLAGS =	-L/Users/ilaasri/.brew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
-# RLINCLUDE	=	-I/Users/ilaasri/.brew/opt/readline/include  #
+RLFLAGS =	-L/Users/ilaasri/.brew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
+RLINCLUDE	=	-I/Users/ilaasri/.brew/opt/readline/include  #
 
 
 CFLAGS = -Wall -Wextra -Werror# -fsanitize=address -g

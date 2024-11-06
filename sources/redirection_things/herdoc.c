@@ -47,9 +47,8 @@ void	parent_work(t_herdoc_treat *var, t_herdoc *herdoc)
 	waitpid(var->pid, &var->status, 0);
 	if (WTERMSIG(var->status) == SIGINT)
 	{
-		g_sig = 130;
+		g_sig = 131;
 		var->status = 1;
-		printf("CHANGING the status \n");
 	}
 	else
 		var->status = 0;

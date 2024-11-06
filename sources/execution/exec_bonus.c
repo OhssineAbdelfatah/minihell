@@ -11,6 +11,7 @@ int exec_sub_sh(t_cmd * cmd , int *last_status)
     pid = fork();
     if (pid == 0)
     {
+        signal(SIGQUIT, NULL);
         std[0] = &(p->fd_in);
         std[1] = &(p->fd_out);
         std[2] = 0;
@@ -34,6 +35,7 @@ int exec_sub_sh(t_cmd * cmd , int *last_status)
         sub_status = new_exec(p->sub_root, 0, last_status);
         exit(sub_status);
     }
+    signal(SIGQUIT, do_nothing);
     signal(SIGINT, SIG_IGN);
     waitpid(pid, &sub_status, 0);
     *last_status = WEXITSTATUS(sub_status);
