@@ -66,7 +66,7 @@ int open_file(t_red *redirect,int *std[3], t_herdoc *herdoc, t_env *env)
             status = open_outfile_trunc(redirect, std, env, file_name);
         else if (4== redirect->mode)
             open_input_file(redirect, std, env);
-        if (*std[1] < 0 && 4 != redirect->mode)
+        if (*std[1] < 0 && 4 != redirect->mode && !(redirect->file) )// 
         {
             dprintf(2,"minishell: %s: Permission denied\n", redirect->file);
             free(redirect->file);
