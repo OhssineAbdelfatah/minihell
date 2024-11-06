@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-int check_err_red(t_red *redirect ,char *file_name, int *std[3])
+int check_err_red(t_red *redirect ,char *file_name, int *std[4])
 {
     if (ft_strlen(file_name) == 0)
     {
@@ -18,9 +18,9 @@ int check_err_red(t_red *redirect ,char *file_name, int *std[3])
     // free(file_name);
 }
 
-int open_input_file(t_red *redirect, int *std[3], t_env *env)
+int open_input_file(t_red *redirect, int *std[4], t_env *env)
 {
-    redirect->file = expand_filename(redirect->file, env, 0, RED_EXPN);
+    redirect->file = expand_filename(redirect->file, env, std[3], *std[2]);
     if (!redirect->file)
         return (1);
     redirect->file = wild_expand_red(redirect->file, *std[2]);
@@ -38,11 +38,11 @@ int open_input_file(t_red *redirect, int *std[3], t_env *env)
     return  0;
 }
 
-int open_outfile_trunc(t_red *redirect, int *std[3], t_env *env)
+int open_outfile_trunc(t_red *redirect, int *std[4], t_env *env)
 {
     // (void)env;
     // check filename isNotEmpty
-    redirect->file = expand_filename(redirect->file, env,0 ,RED_EXPN);
+    redirect->file = expand_filename(redirect->file, env,std[3] ,*std[2]);
     if (!redirect->file)
         return (1);
     redirect->file = wild_expand_red(redirect->file, *std[2]);
@@ -53,19 +53,21 @@ int open_outfile_trunc(t_red *redirect, int *std[3], t_env *env)
     return 0;
 }
 
-int open_file_append(t_red *redirect, int *std[3], t_env *env)
+int open_file_append(t_red *redirect, int *std[4], t_env *env)
 {
     // (void)env;
-    redirect->file = expand_filename(redirect->file, env,0, RED_EXPN);
-     if (!redirect->file)
+    redirect->file = expand_filename(redirect->file, env,std[3], *std[2]);
+    if (!redirect->file)
         return (1);
     redirect->file = wild_expand_red(redirect->file, *std[2]);
+    if (!redirect->file)
+        return (1);
     // check fil"ename isNotEmpty
     *std[1] = open(redirect->file, O_RDWR | O_CREAT | O_APPEND, 0644);
     return (0);
 }
 
-int open_file(t_red *redirect,int *std[3], t_herdoc *herdoc, t_env *env)
+int open_file(t_red *redirect,int *std[4], t_herdoc *herdoc, t_env *env)
 {
     int status;
     status = 0;

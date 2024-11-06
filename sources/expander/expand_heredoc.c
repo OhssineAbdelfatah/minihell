@@ -28,16 +28,16 @@ int herdoc_newfd( int fd, t_env* myenv)
     return fd_pipe[0];
 }
 
-char *expand_filename(char *filename, t_env *env,int *last_status ,int source)
+char *expand_filename(char *filename, t_env *env,int *last_status ,int ref)
 {   
     if(!filename || (filename && filename[0] == '\0'))
-        ambiguous_exit(filename, source);
+        ambiguous_exit(filename, ref);
     if(ft_strchr(filename, '$') == NULL)
         return filename;
 
     char *new = splitWordVar(filename, env, last_status);
     if(!new || count_arg(new) != 1){
-        ambiguous_exit(filename, 0);
+        ambiguous_exit(filename, ref);
         free(new);
         free(filename);
         return NULL;

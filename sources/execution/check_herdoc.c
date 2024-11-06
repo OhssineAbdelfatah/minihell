@@ -33,7 +33,7 @@ void open_herdoc(t_red *redirect, int *std[3],t_herdoc *herdoc, t_env *env)
 }
 
 
-int     exec_red(t_red *redirect, int *std[3], t_herdoc *herdoc, t_env *env)
+int     exec_red(t_red *redirect, int *std[4], t_herdoc *herdoc, t_env *env)
 {
     int status;
     t_red *tmp;
@@ -55,24 +55,21 @@ int     exec_red(t_red *redirect, int *std[3], t_herdoc *herdoc, t_env *env)
 
 
 
-
-
-
-
-int check_red(t_cmd_exec  *p , int *ref)
+int check_red(t_cmd_exec  *p , int *ref, int *last_status)
 {
     int status;
-    int *std[3];
+    int *std[4];
 
     status = 0;
     std[1] = &(p->fd_out);
     std[0] = &(p->fd_in);
     std[2] = ref;
+    std[3] = last_status;
 
-    
     if (NULL != p->redirect)
         status = exec_red(p->redirect, std, p->herdoc ,*(p->myenv));
-
+    if (status)
+        return(status);
     if (p->fd_in != -1 || p->fd_out != -1)
     {
         if (p->fd_out != -1)
