@@ -4,7 +4,7 @@ int check_err_red(t_red *redirect ,char *file_name, int *std[4])
 {
     if (ft_strlen(file_name) == 0)
     {
-        ft_putstr_fd("minishell: no such file or directory!\n",2);
+        ft_putstr_fd("minishell: no such file or directory\n",2);
         if (*std[2])
             exit (1);
         return (free(file_name), 1);
@@ -30,7 +30,7 @@ int open_input_file(t_red *redirect, int *std[4], t_env *env)
     *std[0] = open(redirect->file, O_RDONLY);
     if (*std[0] < 0)
     {
-        dprintf(2,"minishell: %s:No such file or directory!\n", redirect->file);
+        dprintf(2,"minishell: %s:No such file or directory\n", redirect->file);
         if (*std[2])
             panic("");
         return 1;

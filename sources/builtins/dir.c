@@ -60,7 +60,7 @@ int cd(t_cmd *cmd)
     p = (t_cmd_exec *)cmd;
     if(ft_strslen(p->argv) == 1){ 
         if( !(arg = getEnvValue(*(p->myenv) ,"HOME")) ){
-            ft_putstr_fd("bash: cd: HOME not set\n", 2);
+            ft_putstr_fd("minishell: cd: HOME not set\n", 2);
             return -1;
         }
         chdir(arg);

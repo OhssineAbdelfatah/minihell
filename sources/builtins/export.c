@@ -91,7 +91,7 @@ int export(t_env **ennv,char **cmd)
             }
         }else if(!is_valid(key)){
             status  = 1;
-            printf("bash: export: `%s': not a valid identifier\n" ,cmd[i]);
+            printf("minishell: export: `%s': not a valid identifier\n" ,cmd[i]);
             free(key);
         }
     }
