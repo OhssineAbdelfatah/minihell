@@ -66,7 +66,7 @@ RLINCLUDE	=	-I/Users/aohssine/goinfre/homebrew/opt/readline/include  # tell comp
 # RLINCLUDE	=	-I/Users/ilaasri/.brew/opt/readline/include  #
 
 
-CFLAGS = -Wall -Wextra -Werror # -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror  -fsanitize=address -g
 # FFLAG = -fsanitize=address -g
 
 CC = cc
@@ -77,7 +77,7 @@ My_lib = lib/libft/libft.a
 all : ascii_art $(My_lib) $(NAME)
 
 %.o : %.c  Makefile
-	@$(CC)  $(CFLAGS) $(FFLAG)  $(RLINCLUDE) -c  $< -o $@
+	$(CC)  $(CFLAGS) $(FFLAG)  $(RLINCLUDE) -c  $< -o $@
 
 $(My_lib) : 
 	make -C lib/libft

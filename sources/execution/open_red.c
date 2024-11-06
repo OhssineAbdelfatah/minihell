@@ -1,50 +1,68 @@
 #include "../../includes/minishell.h"
 
-void check_err_red(t_red *redirect ,char *file_name, int *std[2])
+int check_err_red(t_red *redirect ,char *file_name, int *std[3])
 {
     if (ft_strlen(file_name) == 0)
-            panic("minishell: no such file or directory!\n");
+    {
+        ft_putstr_fd("minishell: no such file or directory!\n",2);
+        if (*std[2])
+            exit (1);
+        return (free(file_name), 1);
+    }
         //her to expand name of file 
-        if (*std[1] != -1 && (77 == redirect->mode || 7== redirect->mode))
-            close(*std[1]);
-        if (*std[0] != -1 && 4 == redirect->mode)
-            close(*std[0]);
+    if (*std[1] != -1 && (77 == redirect->mode || 7== redirect->mode))
+        close(*std[1]);
+    if (*std[0] != -1 && 4 == redirect->mode)
+        close(*std[0]);
+    return 0;
+    // free(file_name);
 }
 
-void open_input_file(t_red *redirect, int *std[3], t_env *env)
+int open_input_file(t_red *redirect, int *std[3], t_env *env)
 {
-    // (void)env;
     redirect->file = expand_filename(redirect->file, env, 0, RED_EXPN);
+    if (!redirect->file)
+        return (1);
     redirect->file = wild_expand_red(redirect->file, *std[2]);
+    if (!redirect->file)
+        return (1);
     // check filename isNotEmpty
     *std[0] = open(redirect->file, O_RDONLY);
     if (*std[0] < 0)
     {
         dprintf(2,"minishell: %s:No such file or directory!\n", redirect->file);
-        panic("");
+        if (*std[2])
+            panic("");
+        return 1;
     }
-    return ;
+    return  0;
 }
 
-int open_outfile_trunc(t_red *redirect, int *std[3], t_env *env, char *file_name)
+int open_outfile_trunc(t_red *redirect, int *std[3], t_env *env)
 {
     // (void)env;
-    redirect->file = expand_filename(redirect->file, env,0 ,RED_EXPN);
-    redirect->file = wild_expand_red(redirect->file, *std[2]);
     // check filename isNotEmpty
+    redirect->file = expand_filename(redirect->file, env,0 ,RED_EXPN);
     if (!redirect->file)
-        return (free(file_name), 1);
+        return (1);
+    redirect->file = wild_expand_red(redirect->file, *std[2]);
+    if (!redirect->file)
+        return (1);
     *std[1] = open(redirect->file, O_RDWR | O_CREAT | O_TRUNC, 0644);
+    // printf("FD>>%d\n", *std[1]);
     return 0;
 }
 
-void open_file_append(t_red *redirect, int *std[3], t_env *env)
+int open_file_append(t_red *redirect, int *std[3], t_env *env)
 {
     // (void)env;
     redirect->file = expand_filename(redirect->file, env,0, RED_EXPN);
+     if (!redirect->file)
+        return (1);
     redirect->file = wild_expand_red(redirect->file, *std[2]);
-    // check filename isNotEmpty
+    // check fil"ename isNotEmpty
     *std[1] = open(redirect->file, O_RDWR | O_CREAT | O_APPEND, 0644);
+    return (0);
 }
 
 int open_file(t_red *redirect,int *std[3], t_herdoc *herdoc, t_env *env)
@@ -59,18 +77,37 @@ int open_file(t_red *redirect,int *std[3], t_herdoc *herdoc, t_env *env)
         open_herdoc(redirect, std, herdoc, env);
     else
     {
-        check_err_red(redirect, file_name,  std);
+        if (check_err_red(redirect, file_name,  std))
+            return (1);
         if (77 == redirect->mode)
-            open_file_append(redirect, std, env);
-        else if (7== redirect->mode)
-            status = open_outfile_trunc(redirect, std, env, file_name);
-        else if (4== redirect->mode)
-            open_input_file(redirect, std, env);
-        if (*std[1] < 0 && 4 != redirect->mode && !(redirect->file) )// 
         {
+           status =  open_file_append(redirect, std, env);
+            if (status == 1)
+                return (free(file_name), status);
+       }
+        else if (7== redirect->mode)
+        {
+            status = open_outfile_trunc(redirect, std, env);
+            // printf("<FD :>>%d\n", *std[1]);
+            if (status == 1)
+                return (free(file_name), status);
+        }
+        else if (4== redirect->mode)
+        {
+            status = open_input_file(redirect, std, env);
+            if (status == 1)
+                return (free(file_name), status);
+        }
+        if (*std[1] < 0 && 4 != redirect->mode)// 
+        {
+
             dprintf(2,"minishell: %s: Permission denied\n", redirect->file);
-            free(redirect->file);
-            panic("");
+            // free(redirect->file);
+            // ft_putstr_fd("ATAY\n", 2);
+            if (*std[2] != SIMPLE)
+                panic("");
+            else 
+                return (free(file_name),1);
         }
     }
     free(file_name);
