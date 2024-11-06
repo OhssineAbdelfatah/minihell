@@ -131,10 +131,10 @@ char *expand(t_node **head, t_env *env, int *st)
                 dt.value = ft_itoa(*st);
             }
             dt.tmpstr = dt.tmp->str;
-            // if(dt.value)
+            if(dt.value)
                 dt.tmp->str = ft_strdup(dt.value);
-            // else 
-            //     dt.tmp->str = ft_strdup("");
+            else 
+                dt.tmp->str = ft_strdup("");
             // free( dt.value );
             free(dt.tmpstr);
             free(dt.value);

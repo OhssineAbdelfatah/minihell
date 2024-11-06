@@ -1,6 +1,6 @@
 #include"../../includes/minishell.h"
 
-int herdoc_newfd( int fd,__unused t_env* myenv)
+int herdoc_newfd( int fd, t_env* myenv)
 { 
     char *line ;
     char *tmp ;
@@ -36,5 +36,11 @@ char *expand_filename(char *filename, t_env *env,int *last_status ,int source)
         return filename;
 
     char *new = splitWordVar(filename, env, last_status);
+    if(!new || count_arg(new) != 1){
+        ambiguous_exit(filename, 0);
+        free(new);
+        free(filename);
+        return NULL;
+    }
     return new;
 }

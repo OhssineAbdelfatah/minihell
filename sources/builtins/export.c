@@ -3,7 +3,6 @@
 
 void update_env(t_env *node, char *value)
 {
-    free(node->value);
     node->value = value;
     return ;
 }
@@ -83,7 +82,7 @@ int export(t_env **ennv,char **cmd)
             tmp = env_exist(key, *ennv);
             value = getValue(cmd[i]);
             if(tmp){
-                update_env(tmp, value);
+                tmp->value = value;
                 free(key);
             }else
             {

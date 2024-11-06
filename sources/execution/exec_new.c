@@ -35,11 +35,14 @@ int exec_new_cmd(t_cmd *cmd , int *last_status)
     signal (SIGINT, NULL);
     signal(SIGQUIT, NULL);
     p = (t_cmd_exec  *)cmd;
+    status = 0;
     p->argv = expander( p->argv, *(p->myenv), last_status, CMD_EXPN);
     p->argv = wild_expand(p->argv);
     status = check_red(p, &ref);
-    if( !(p->argv) || !(*(p->argv)) )
-        exit(0);
+    if (status == 1)
+        return(status);
+    if( !(p->argv) || !(*(p->argv)))
+        exit(status);
     if(is_builtin(cmd, &status,last_status, NOT_SIMPLE))
         exit(status);
     else
