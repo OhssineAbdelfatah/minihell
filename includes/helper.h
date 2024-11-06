@@ -6,7 +6,7 @@
 /*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 00:45:53 by ilaasri           #+#    #+#             */
-/*   Updated: 2024/11/04 08:14:24 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/06 09:52:42 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,10 +144,16 @@ int		exec_or(t_cmd *cmd, int *last_status);
 int		exec_and(t_cmd *cmd, int *last_status);
 int		new_exec(t_cmd *cmd, int ref, int *last_status);
 // int new_exec(t_cmd *cmd);
+int open_file(t_red *redirect,int *std[3], t_herdoc *herdoc, t_env *env);
+void open_herdoc(t_red *redirect, int *std[3],t_herdoc *herdoc, t_env *env);
 int		exec_pipe(t_cmd *cmd, int *last_status);
 int		execute_pipe(t_cmd *cmd, int *last_status);
 int		recursion_pipe(t_cmd *cmd, int *last_status);
 int		exec_new_cmd(t_cmd *cmd, int *last_status);
+
+int     exec_red(t_red *redirect, int *std[3], t_herdoc *herdoc, t_env *env);
+int check_is_abs(char *cmd);
+char *cmd_abs_path(char *path,char *cmd);
 /************************************ */
 
 // SIGNALS
