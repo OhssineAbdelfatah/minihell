@@ -14,10 +14,7 @@ char *getEnvValue(t_env *env, char *key)
 int check_is_abs(char *cmd)
 {
     if(access(cmd, X_OK) == 0)
-    {
-        printf("%s is executable\n",cmd);
         return 0;
-    }
     return 1;
 }
 

@@ -50,28 +50,23 @@ CFILES =	${PARSE} \
 
 
 MINISHELL_ART = \
-"\033[32m\n"\
-"███╗   ███╗ ██╗ ███╗   ██╗ ██╗ ███████ ╗██╗  ██╗ ███████╗ ██╗      ██╗     \n"\
-"████╗ ████║ ██║ ████╗  ██║ ██║ ██╔════ ╝██║  ██║ ██╔════╝ ██║      ██║     \n"\
-"██╔████╔██║ ██║ ██╔██╗ ██║ ██║ ███████ ╗███████║ █████╗   ██║      ██║     \n"\
-"██║╚██╔╝██║ ██║ ██║╚██╗██║ ██║ ╚════██ ║██╔══██║ ██╔══╝   ██║      ██║     \n"\
-"██║ ╚═╝ ██║ ██║ ██║ ╚████║ ██║ ███████ ║██║  ██║ ███████╗ ███████╗ ███████╗\n"\
-"╚═╝     ╚═╝ ╚═╝ ╚═╝  ╚═══╝ ╚═╝ ╚══════ ╝╚═╝  ╚═╝ ╚══════╝ ╚══════╝ ╚══════╝\n"\
+"\033[31m\n"\
+"███╗   ███╗ ██╗ ███╗   ██╗ ██╗ ██╗  ██╗ ███████╗ ██╗      ██╗     \n"\
+"████╗ ████║ ██║ ████╗  ██║ ██║ ██║  ██║ ██╔════╝ ██║      ██║     \n"\
+"██╔████╔██║ ██║ ██╔██╗ ██║ ██║ ███████║ █████╗   ██║      ██║     \n"\
+"██║╚██╔╝██║ ██║ ██║╚██╗██║ ██║ ██╔══██║ ██╔══╝   ██║      ██║     \n"\
+"██║ ╚═╝ ██║ ██║ ██║ ╚████║ ██║ ██║  ██║ ███████╗ ███████╗ ███████╗\n"\
+"╚═╝     ╚═╝ ╚═╝ ╚═╝  ╚═══╝ ╚═╝ ╚═╝  ╚═╝ ╚══════╝ ╚══════╝ ╚══════╝\n"\
 "						      By: TILLAS & NolYel  \033[0m"
 
-<<<<<<< HEAD
 RLFLAGS 	=	-L/Users/aohssine/goinfre/homebrew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
 RLINCLUDE	=	-I/Users/aohssine/goinfre/homebrew/opt/readline/include  # tell compiler where to find headers
-=======
-# RLFLAGS =	-L/Users/aohssine/goinfre/homebrew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
-# RLINCLUDE	=	-I/Users/aohssine/goinfre/homebrew/opt/readline/include  # tell compiler where to find headers
->>>>>>> 11c65536cd44048f7d47b741e03e358130f672f9
 
-RLFLAGS =	-L/Users/ilaasri/.brew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
-RLINCLUDE	=	-I/Users/ilaasri/.brew/opt/readline/include  #
+# RLFLAGS =	-L/Users/ilaasri/.brew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
+# RLINCLUDE	=	-I/Users/ilaasri/.brew/opt/readline/include  #
 
 
-CFLAGS = -Wall -Wextra -Werror# -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
 # FFLAG = -fsanitize=address -g
 
 CC = cc
@@ -82,14 +77,14 @@ My_lib = lib/libft/libft.a
 all : ascii_art $(My_lib) $(NAME)
 
 %.o : %.c  Makefile
-	$(CC)  $(CFLAGS) $(FFLAG)  $(RLINCLUDE) -c  $< -o $@
+	@$(CC)  $(CFLAGS) $(FFLAG)  $(RLINCLUDE) -c  $< -o $@
 
 $(My_lib) : 
 	make -C lib/libft
 
 $(NAME) : $(OBJ) $(My_lib)
 	@printf "\033[0;33mGenerating minishell objects... %-33.33s\r \033[0m" $@
-	$(CC) $^ $(CFLAGS) $(My_lib) $(RLFLAGS)  -o $@
+	@$(CC) $^ $(CFLAGS) $(My_lib) $(RLFLAGS)  -o $@
 
 clean :
 	@make clean -C lib/libft

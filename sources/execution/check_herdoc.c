@@ -40,6 +40,10 @@ int     exec_red(t_red *redirect, int *std[3], t_herdoc *herdoc, t_env *env)
 
     status = 0;
     tmp = redirect->next;
+    //     /*test segv 102*/
+    // printf("here");
+    // exit(0);
+    // /*test segv 102*/
     while(redirect)
     {
         tmp = redirect->next;
@@ -64,8 +68,11 @@ int check_red(t_cmd_exec  *p , int *ref)
     std[1] = &(p->fd_out);
     std[0] = &(p->fd_in);
     std[2] = ref;
+
+    
     if (NULL != p->redirect)
         status = exec_red(p->redirect, std, p->herdoc ,*(p->myenv));
+
     if (p->fd_in != -1 || p->fd_out != -1)
     {
         if (p->fd_out != -1)

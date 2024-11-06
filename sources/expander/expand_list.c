@@ -107,6 +107,12 @@ char *splitWordVar(char *value, t_env *env ,int *st)
             break;     
         }
     }
+    // t_node *tmp = dt.head;
+    // while(tmp)
+    // {
+    //     printf("[%s]\n", tmp->str);
+    //     tmp = tmp->next ;
+    // }
     return expand(&dt.head, env, st);
 }
 
@@ -125,13 +131,25 @@ char *expand(t_node **head, t_env *env, int *st)
                 dt.value = ft_itoa(*st);
             }
             dt.tmpstr = dt.tmp->str;
-            dt.tmp->str = ft_strdup(dt.value);
+            // if(dt.value)
+                dt.tmp->str = ft_strdup(dt.value);
+            // else 
+            //     dt.tmp->str = ft_strdup("");
             // free( dt.value );
             free(dt.tmpstr);
             free(dt.value);
         }
         dt.tmp = dt.tmp->next;
     }
+    // /*start 001 test*/
+    // t_node *tmp = *head;
+    // while(tmp)
+    // {
+    //     printf("[%s]\n", tmp->str);
+    //     tmp = tmp->next ;
+    // }
+    // /*end 001 test*/
+
     dt.tmp = *head;
     dt.new = ft_strdup("");
     while (dt.tmp)

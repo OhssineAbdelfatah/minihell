@@ -6,14 +6,14 @@
 /*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 17:11:43 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/05 13:46:06 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/06 15:32:37 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10000000
+#  define BUFFER_SIZE 1
 # endif
 # include <fcntl.h>
 # include <stdio.h>

@@ -28,8 +28,6 @@ void error_exit(char* str)
 	ft_putstr_fd( ": numeric argument required\n",2);
 }
 
-//git@github.com:OhssineAbdelfatah/minihell.git
-///git@github.com:OhssineAbdelfatah/minihell.git
 void ambiguous_exit(char *str, int ref)
 {
 	ft_putstr_fd( "minishell: ",2);

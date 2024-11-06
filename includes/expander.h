@@ -87,5 +87,6 @@ int skip_space_in_word(char *arg, int start);
 int skip_char(char *arg, int start);
 
 char *mini_joiner(t_node *head);
+char *expand_filename(char *filename, t_env *env,int *last_status ,int source);
 
 #endif

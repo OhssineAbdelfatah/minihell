@@ -35,11 +35,3 @@ char **lstoarry(t_env *root)
     env_arr[i] = NULL;  
     return env_arr;
 }
-
-// int main(int ac, char **av, char**env){
-//     t_env* myenv= init_env(env);
-//     char **env_arr = lstoarry(myenv);
-//     int i = -1;
-//     while(env_arr[++i])
-//         printf("%s\n",env_arr[i]);
-// }

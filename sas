@@ -1,0 +1,16 @@
+Makefile
+a
+b
+c
+file1
+file2
+file3
+includes
+lib
+mini-ms-tester
+minishell
+sa
+saad.txt
+sas
+sources
+todo

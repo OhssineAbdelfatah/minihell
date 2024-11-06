@@ -95,16 +95,9 @@ char **expander(char **argv, t_env *env, int *st,int type)
 
     if(!argv || !(*argv))
         return NULL;
-    if (0 == should_expand(argv))
+    if (0 == should_expand(argv) )
         return argv;
     args = argv_to_lst(argv);
-    // if(count_arg(args->str) > 1 && type == RED_EXPN)
-    // {   
-    //     puts("ambg0");
-    //     free_argv_lst(args, type);
-    //     ambiguous_exit(argv[0]);
-    //     exit(1); // add flag in case of single commnd
-    // }
     new_argv = joiner(args, env, st,type);
     free_argv_lst(args, type);
     if(type == CMD_EXPN )

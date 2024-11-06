@@ -13,7 +13,8 @@ void check_err_red(t_red *redirect ,char *file_name, int *std[2])
 
 void open_input_file(t_red *redirect, int *std[3], t_env *env)
 {
-    redirect->file = *expander(&(redirect->file), env, 0, RED_EXPN);
+    // (void)env;
+    redirect->file = expand_filename(redirect->file, env, 0, RED_EXPN);
     redirect->file = wild_expand_red(redirect->file, *std[2]);
     // check filename isNotEmpty
     *std[0] = open(redirect->file, O_RDONLY);
@@ -27,18 +28,20 @@ void open_input_file(t_red *redirect, int *std[3], t_env *env)
 
 int open_outfile_trunc(t_red *redirect, int *std[3], t_env *env, char *file_name)
 {
-        redirect->file = *expander(&(redirect->file), env,0 ,RED_EXPN);
-        redirect->file = wild_expand_red(redirect->file, *std[2]);
-        // check filename isNotEmpty
-        if (!redirect->file)
-            return (free(file_name), 1);
-        *std[1] = open(redirect->file, O_RDWR | O_CREAT | O_TRUNC, 0644);
-        return 0;
+    // (void)env;
+    redirect->file = expand_filename(redirect->file, env,0 ,RED_EXPN);
+    redirect->file = wild_expand_red(redirect->file, *std[2]);
+    // check filename isNotEmpty
+    if (!redirect->file)
+        return (free(file_name), 1);
+    *std[1] = open(redirect->file, O_RDWR | O_CREAT | O_TRUNC, 0644);
+    return 0;
 }
 
 void open_file_append(t_red *redirect, int *std[3], t_env *env)
 {
-    redirect->file = *expander(&(redirect->file), env,0, RED_EXPN);
+    // (void)env;
+    redirect->file = expand_filename(redirect->file, env,0, RED_EXPN);
     redirect->file = wild_expand_red(redirect->file, *std[2]);
     // check filename isNotEmpty
     *std[1] = open(redirect->file, O_RDWR | O_CREAT | O_APPEND, 0644);
