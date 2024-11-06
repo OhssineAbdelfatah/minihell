@@ -1,6 +1,6 @@
 #include"../../includes/minishell.h"
 
-int herdoc_newfd( int fd,__unused t_env* myenv)
+int herdoc_newfd( int fd, t_env* myenv)
 { 
     char *line ;
     char *tmp ;
