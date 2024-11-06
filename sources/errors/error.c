@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilaasri <ilaasri@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/06 10:42:21 by ilaasri           #+#    #+#             */
+/*   Updated: 2024/11/06 10:42:23 by ilaasri          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	error(char *s, int er_num)
@@ -21,28 +33,26 @@ void	error(char *s, int er_num)
 		ft_putstr_fd(s, 2);
 }
 
-void error_exit(char* str)
+void	error_exit(char *str)
 {
-	ft_putstr_fd( "minishell: exit: ",2);
-	ft_putstr_fd( str,2);
-	ft_putstr_fd( ": numeric argument required\n",2);
+	ft_putstr_fd("minishell: exit: ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": numeric argument required\n", 2);
 }
 
-//git@github.com:OhssineAbdelfatah/minihell.git
-///git@github.com:OhssineAbdelfatah/minihell.git
-void ambiguous_exit(char *str, int ref)
+void	ambiguous_exit(char *str, int ref)
 {
-	ft_putstr_fd( "minishell: ",2);
-	ft_putstr_fd( str,2);
-	ft_putstr_fd( ": ambiguous redirect\n",2);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": ambiguous redirect\n", 2);
 	if (ref)
-		exit (1);
+		exit(1);
 }
 
-void error_exec_new(char *str, int exit_status)
+void	error_exec_new(char *str, int exit_status)
 {
-	ft_putstr_fd( "minishell: ",2);
-	ft_putstr_fd( str,2);
-	ft_putstr_fd( ": command not found\n",2);
-	exit (exit_status);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": command not found\n", 2);
+	exit(exit_status);
 }
