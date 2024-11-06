@@ -46,6 +46,9 @@ NOL_YEl TASKS {
 
     [] ambgouis
 
+    [] pipe fails stays in minishell
+
+
 }
 
 

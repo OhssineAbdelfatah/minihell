@@ -64,7 +64,7 @@ char **joiner(t_argv *args, t_env* env, int *st,int type)
     }
     if(type == HERDOC)
         new = join_no_split(args);
-    else if( type == CMD_EXPN || type == RED_EXPN){
+    else if( type == CMD_EXPN ){
         spliter_args(args);
         new = join_args(args);
         if(ft_strslen(new) > 1 && RED_EXPN == type)
