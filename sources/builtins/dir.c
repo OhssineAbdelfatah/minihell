@@ -61,13 +61,17 @@ int cd(t_cmd *cmd)
     if(ft_strslen(p->argv) == 1){ 
         if( !(arg = getEnvValue(*(p->myenv) ,"HOME")) ){
             ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-            return -1;
+            return 1;
         }
         chdir(arg);
     }else
     {
-        if(access(p->argv[1], R_OK) != 0)
-            return -1;
+        if(access(p->argv[1], R_OK) != 0){
+            ft_putstr_fd("minishell: cd: ", 2);
+            ft_putstr_fd(p->argv[1], 2);
+            ft_putstr_fd(": No such file or directory\n", 2);
+            return 1;
+        }
         update_oldpwd(p);
         chdir(p->argv[1]);
         update_pwd(p);
