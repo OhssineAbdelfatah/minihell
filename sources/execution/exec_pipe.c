@@ -97,7 +97,7 @@ int	exec_pipe(t_cmd *cmd, int *last_status)
 	t_execp	sp;
 
 	if (pipe(sp.p) < 0)
-		panic("PIPE FAILED !\n");
+		return (ft_putstr_fd("minishell: pipe: Resource temporarily unavailable\n", 2),-1);
 	sp.node_p = (t_pipe *)cmd;
 	sp.lpid = fork();
 	if (sp.lpid == 0)
