@@ -42,6 +42,8 @@ NOL_YEl TASKS {
 
     [] pipe fails stays in minishell
 
+    [] leak in case of {echo adsfn > $a } $a = NULL;
+
 
 }
 
