@@ -35,6 +35,7 @@ void	treat_left_child(t_cmd *left_cmd, t_execp *sp, int *last_status)
 {
 	t_cmd_exec	*left_one;
 
+	signal(SIGINT, NULL);
 	signal(SIGQUIT, NULL);
 	if (left_cmd->type == NEW_CMD)
 	{
@@ -56,6 +57,7 @@ int	right_child_ispipe(t_cmd *right_cmd, t_execp *sp, int *last_status)
 	int		status;
 	t_pipe	*right_pipe;
 
+	signal(SIGINT , SIG_IGN);
 	right_pipe = (t_pipe *)right_cmd;
 	right_pipe->pipe_fd = sp->p[0];
 	close(sp->p[1]);
@@ -109,6 +111,7 @@ int	exec_pipe(t_cmd *cmd, int *last_status)
 		sp.rpid = fork();
 		if (sp.rpid == 0)
 		{
+			signal(SIGINT, SIG_IGN);
 			signal(SIGQUIT, NULL);
 			sp.status = treat_right_child(sp.node_p->right, &sp, last_status);
 			exit(sp.status);
@@ -119,8 +122,8 @@ int	exec_pipe(t_cmd *cmd, int *last_status)
 	signal(SIGQUIT, do_nothing);
 	signal(SIGINT, do_nothing);
 	waitpid(sp.rpid, &(sp.status), 0);
-	if (WTERMSIG(sp.status) == SIGQUIT)
-		sp.status = 131;
+	if (WTERMSIG(sp.status) == SIGQUIT || WTERMSIG(sp.status) == SIGINT)
+		sp.status = 128 + WTERMSIG(sp.status);
 	else
 		sp.status = WEXITSTATUS(sp.status);
 	wait(0);
