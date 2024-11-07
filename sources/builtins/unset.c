@@ -52,7 +52,7 @@ int unset_env(t_env **head, char **key)
                 break;
             }else if(!is_valid(key[i]))
             {
-                printf("bash: unset: `%s': not a valid identifier\n",key[i]);
+                printf("minishell: unset: `%s': not a valid identifier\n",key[i]);
                 status = 1;
                 break;
             }

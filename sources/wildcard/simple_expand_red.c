@@ -49,7 +49,7 @@ char	*wild_expand_red(char *old, int ref)
 	{
 		ambiguous_exit(old, ref);
 		if (ref == SIMPLE)
-			return (free(old),freedom(&(var.dir_cont_array), &(var.dir_cont),
+			return (free(old), freedom(&(var.dir_cont_array), &(var.dir_cont),
 					&(var.work_dir)), NULL);
 	}
 	if (var.new_len < 0 || var.i == 0)

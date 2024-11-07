@@ -52,7 +52,7 @@ size_t ft_atoi_exit(const char *str)
 		result = result * 10 + str[i] - 48;
         if( (temp != result / 10 && sign == -1) || (temp != result / 10 && sign == 1))
         {
-            printf("bash: exit: %s: numeric argument required\n",str);
+            printf("minishell: exit: %s: numeric argument required\n",str);
             exit(255);
         }
 		i++;
@@ -80,7 +80,7 @@ int exit_blt(t_new_cmd *cmd)
     }else if( args_len > 2)
     {
         if(ft_isnumber(cmd->argv[1])){
-            ft_putstr_fd("bash: exit: too many arguments\n", 2);
+            ft_putstr_fd("minishell: exit: too many arguments\n", 2);
             return 1;
         }else
         {

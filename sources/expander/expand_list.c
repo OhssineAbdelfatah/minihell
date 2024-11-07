@@ -137,7 +137,7 @@ char *expand(t_node **head, t_env *env, int *st)
                 dt.tmp->str = ft_strdup("");
             // free( dt.value );
             free(dt.tmpstr);
-            // free(dt.value);
+            free(dt.value);
         }
         dt.tmp = dt.tmp->next;
     }

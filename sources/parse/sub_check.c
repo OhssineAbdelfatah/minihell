@@ -62,7 +62,8 @@ int	handel_s_sub(char **tokens, t_check_sub_tok *var)
 	if (tokens[var->i + 1])
 	{
 		var->which = which_one(tokens[var->i + 1]);
-		if (var->which != EXEC && var->which != S_SUB && var->which != HERDOC)
+		if (var->which != EXEC && var->which != S_SUB && var->which != HERDOC
+			&& var->which != RED)
 			return (error(NULL, 41), 1008);
 	}
 	return (0);

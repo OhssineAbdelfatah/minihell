@@ -38,13 +38,7 @@ NOL_YEl TASKS {
         }
         [*] simple command .
 
-    [] expand redirection filename //
-
-
-
     [] usnet update exist value with null sould be fixed
-
-    [] ambgouis
 
     [] pipe fails stays in minishell
 
@@ -67,4 +61,4 @@ what TILLAS did in lately
     
 }
 
-<< eof ca
+<< eof cat

@@ -20,7 +20,7 @@ int last_herdoc(t_red *lst)
 
 
 
-void open_herdoc(t_red *redirect, int *std[3],t_herdoc *herdoc, t_env *env)
+void open_herdoc(t_red *redirect, int *std[4],t_herdoc *herdoc, t_env *env)
 {
     if (*std[0] != -1 && last_herdoc(redirect))
         close(*std[0]);
