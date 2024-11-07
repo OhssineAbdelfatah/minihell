@@ -5,7 +5,7 @@ char *getEnvValue(t_env *env, char *key)
     while(env != NULL)
     {
         if(ft_strcmp(env->key, key))
-            return env->value;
+            return ft_strdup(env->value);
         env = env->next;
     }
     return NULL;

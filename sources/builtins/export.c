@@ -1,8 +1,8 @@
 #include"../../includes/minishell.h"
 
-
 void update_env(t_env *node, char *value)
 {
+    free(node->value);
     node->value = value;
     return ;
 }
@@ -61,6 +61,7 @@ t_env* creat_new_env(char *key, char *value)
     node->value = value;
     return node;
 }
+
 int export(t_env **ennv,char **cmd)
 {
     int status ;
@@ -82,12 +83,13 @@ int export(t_env **ennv,char **cmd)
             tmp = env_exist(key, *ennv);
             value = getValue(cmd[i]);
             if(tmp){
-                tmp->value = value;
+                update_env(tmp, value);
                 free(key);
             }else
             {
-                tmp = creat_new_env(key, value);
+                tmp = creat_new_env(key, ft_strdup(value));
                 add_back_env(ennv, tmp);
+                free(value);
             }
         }else if(!is_valid(key)){
             status  = 1;

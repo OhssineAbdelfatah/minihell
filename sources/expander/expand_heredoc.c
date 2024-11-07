@@ -20,7 +20,7 @@ int herdoc_newfd( int fd, t_env* myenv)
         else
             ft_putstr_fd("\n", fd_pipe[1]);
         free(line);
-        free(NULL);
+        line = NULL ;
     }   
     line = get_next_line(-1);
     close(fd_pipe[1]);

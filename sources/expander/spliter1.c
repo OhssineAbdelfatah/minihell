@@ -11,8 +11,10 @@ int count_arg(char *arg)
     c = ' ';
 	words = 0;
 	i = 0;
-	if (*arg == '\0')
+	if (*arg == '\0'){
+        free(token);
 		return (0);
+    }
 	while (arg[i] == c && token[i] == 'w' )
 		i++;
 	while (arg[i])
@@ -75,8 +77,10 @@ int skip_space_in_word(char *arg, int start)
     char *token;
 
     token = tokenizer(arg);
-    if( (size_t)start > ft_strlen(arg))
+    if( (size_t)start > ft_strlen(arg)){
+        free(token);
         return (int)ft_strlen(arg);
+    }
     i = 0;
     while(arg[i+start])
     {
