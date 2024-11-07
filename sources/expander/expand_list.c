@@ -1,8 +1,30 @@
 #include"../../includes/minishell.h"
 
+// static int	count_word(char const *s, char c)
+// {
+// 	size_t	i;
+// 	size_t	words;
+
+// 	words = 0;
+// 	i = 0;
+// 	if (!s || *s == '\0')
+// 		return (0);
+// 	while (*(s + i) == c)
+// 		i++;
+// 	while (*(s + i))
+// 	{
+// 		if (*(s + i) == c && *(s + i + 1) != c)
+// 			words++;
+// 		i++;
+// 	}
+// 	if (*(s + i - 1) != c)
+// 		words++;
+// 	return (words);
+// }
+
 t_node *create_node(char *value, char type)
 {
-    t_node *node = debug_malloc(sizeof(t_node));
+    t_node *node = malloc(sizeof(t_node));
     node->str = value;
     node->type = type;
     node->next = NULL;
@@ -19,19 +41,36 @@ void add_node(t_node **head, t_node **tail, t_node *node)
     *tail = node;
 }
 
-void mini_expander(t_node **head, t_env *env)
+void split_inside_arg(t_node **head)
+{
+    t_node *tmp;
+    t_node *head2;
+    t_node *tail;
+    char **args;
+    int i ;
+    tail = NULL;
+    head2 = NULL;
+    args = ft_split((*head)->str ,' ' );
+    i = -1;
+    while(args[++i])
+    {
+        tmp = create_node(ft_strdup(args[i]), 'w');
+        add_node(&head2 ,&tail, tmp);
+    }
+    free_lst(*head);
+    *head = head2 ;
+}
+
+void mini_expander(t_node **head, t_env *env, int *st)
 {
     t_node *tmp;
     char *tmpstr;
 
     tmp = *head ;
     while(tmp){
-        // delete single or double
-        if(tmp->type == 'd' || tmp->type == 's')
-            tmp->str = clean_qts(tmp->str);
         if(tmp->type == 'w' || tmp->type == 'd'){
             tmpstr = tmp->str;   
-            tmp->str =  splitWordVar(tmp->str, env);
+            tmp->str =  splitWordVar(tmp->str, env, st);
             if(tmpstr != tmp->str)
                 free(tmpstr);
         }
@@ -40,49 +79,9 @@ void mini_expander(t_node **head, t_env *env)
     return ;
 }
 
-/*
-char *splitWordVar(char *value, t_env *env){
-    t_node *head;
-    t_node *tail;
-    t_node *node;
-    char *dollar;
-    char *bdollar;
-
-    head = NULL;
-    while(value){
-        dollar = ft_strchr(value, '$'); 
-        if(dollar && *(dollar+1)){
-
-            bdollar = ft_strndup(value, dollar - value);
-            node = create_node(bdollar, '0');
-            add_node( &head, &tail, node);
-            // free(bdollar);
-            
-            bdollar = ft_strndup(dollar  , ft_name(dollar ) - dollar );
-            if(ft_strlen(bdollar) == 1 && *bdollar == '$')
-                node = create_node(bdollar, '0');
-            else
-                node = create_node(bdollar, '1');
-            add_node( &head, &tail, node);
-            value = ft_name(dollar) ;
-            // free(bdollar);
-        }
-        else{
-            node = create_node(ft_strdup(value), '0');
-            add_node( &head, &tail, node);
-            break;     
-        }
-    }
-    dollar = expand(&head, env);
-    free_lst(head);
-    return (dollar);
-} 
-*/
-
 //char *dt.start; // start
 //char *dt.token; // token
-
-char *splitWordVar(char *value, t_env *env)
+char *splitWordVar(char *value, t_env *env ,int *st)
 {
     t_split_arg dt;
 
@@ -108,63 +107,49 @@ char *splitWordVar(char *value, t_env *env)
             break;     
         }
     }
-    return expand(&dt.head, env);
+    // t_node *tmp = dt.head;
+    // while(tmp)
+    // {
+    //     printf("[%s]\n", tmp->str);
+    //     tmp = tmp->next ;
+    // }
+    return expand(&dt.head, env, st);
 }
-/*
-char *expand(t_node **head, t_env *env)
-{
-    t_node *tmp;
-    char *new;
-    char *value;
-    char *tmpstr;
-    tmp = *head;
-    while (tmp)
-    {
 
-        if (tmp->type == '1')
-        {
-            value = getEnvValue(env, tmp->str + 1);
-            if(ft_strcmp(tmp->str + 1, "?"))
-                value = "sandwich piknik !! la mayo"; // 
-            // free(tmp->str);
-            if (value)
-                tmp->str = ft_strdup(value);
-            else
-                tmp->str = ft_strdup("");
-        }
-        tmp = tmp->next;
-    }
-    tmp = *head;
-    new = ft_strdup("");
-    while (tmp)
-    {
-        tmpstr = new ;
-        new = ft_strjoin(new, tmp->str);
-        free(tmpstr);
-        tmp = tmp->next;
-    }
-    free_lst(*head);
-    return new;
-}
-*/
-
-char *expand(t_node **head, t_env *env)
+char *expand(t_node **head, t_env *env, int *st)
 {
     t_expn dt;
     dt.tmp = *head;
     while (dt.tmp)
     {
+
         if (dt.tmp->type == '1')
         {
             dt.value = getEnvValue(env, dt.tmp->str + 1);
-            if(ft_strcmp(dt.tmp->str + 1, "?"))
-                dt.value = "sandwich piknik !! la mayo"; // 
+            if(ft_strcmp(dt.tmp->str + 1, "?")){
+                free( dt.value );
+                dt.value = ft_itoa(*st);
+            }
             dt.tmpstr = dt.tmp->str;
-            dt.tmp->str = ft_strdup(dt.value);
+            if(dt.value)
+                dt.tmp->str = ft_strdup(dt.value);
+            else 
+                dt.tmp->str = ft_strdup("");
+            // free( dt.value );
             free(dt.tmpstr);
+            free(dt.value);
         }
         dt.tmp = dt.tmp->next;
     }
+    // /*start 001 test*/
+    // t_node *tmp = *head;
+    // while(tmp)
+    // {
+    //     printf("[%s]\n", tmp->str);
+    //     tmp = tmp->next ;
+    // }
+    // /*end 001 test*/
+
     dt.tmp = *head;
     dt.new = ft_strdup("");
     while (dt.tmp)

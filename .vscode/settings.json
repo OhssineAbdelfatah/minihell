@@ -1,13 +1,7 @@
 {
-	"workbench.colorCustomizations": {
-		// "activityBar.background": "#ffffff",
-		"titleBar.activeBackground": "#fff0685d",
-		// "titleBar.activeForeground": "#ff0000"
-	},
-	"files.associations": {
-		"minishell.h": "c",
-		"get_next_line.h": "c",
-		"libft.h": "c",
-		"unistd.h": "c"
-	}
+    "files.associations": {
+        "minishell.h": "c",
+        "libft.h": "c",
+        "get_next_line.h": "c"
+    }
 }

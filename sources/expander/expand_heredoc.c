@@ -1,28 +1,26 @@
 #include"../../includes/minishell.h"
 
-// void add_back_node(char *line, t_node **head){
-//     t_node *tail;
-//     t_node *node;
-
-//     tail = NULL;
-//     node = create_node(line,' ');
-//     add_node(head, &tail, node);
-// }
-
 int herdoc_newfd( int fd, t_env* myenv)
 { 
     char *line ;
+    char *tmp ;
     int fd_pipe[2];
 
     pipe(fd_pipe);
-    line = get_next_line(fd);
-    while(line)
+    while(1)
     {
-        line = splitWordVar(line, myenv);
-        ft_putstr_fd(line, fd_pipe[1]);
-        // node = create_node(line,' ');
-        // add_node(&head, &tail, node);
         line = get_next_line(fd);
+        if(!line)
+            break;
+        tmp = line;
+        line = splitWordVar(line, myenv, 0);
+        free(tmp);
+        if(line)
+            ft_putstr_fd(line, fd_pipe[1]);
+        else
+            ft_putstr_fd("\n", fd_pipe[1]);
+        free(line);
+        free(NULL);
     }   
     line = get_next_line(-1);
     close(fd_pipe[1]);
@@ -30,19 +28,19 @@ int herdoc_newfd( int fd, t_env* myenv)
     return fd_pipe[0];
 }
 
-// int expand_herdoc(int fd_herdoc, t_env *myenv)
-// {
-//     t_node * head;
-//     t_node * tmp;
-//     int new_fd;
+char *expand_filename(char *filename, t_env *env,int *last_status ,int ref)
+{   
+    if(!filename || (filename && filename[0] == '\0'))
+        ambiguous_exit(filename, ref);
+    if(ft_strchr(filename, '$') == NULL)
+        return filename;
 
-//     head = herdoc_newfd(fd_herdoc);
-//     tmp = head;
-//     while(tmp)
-//     {
-//         tmp->str = splitWordVar(tmp->str, myenv); 
-//         tmp = tmp->next;
-//     }
-//     new_fd = 0;
-//     return new_fd;
-// }
+    char *new = splitWordVar(filename, env, last_status);
+    if(!new || count_arg(new) != 1){
+        ambiguous_exit(filename, ref);
+        free(new);
+        free(filename);
+        return NULL;
+    }
+    return new;
+}

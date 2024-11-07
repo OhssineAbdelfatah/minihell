@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aohssine <aohssine@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 10:49:11 by aohssine          #+#    #+#             */
-/*   Updated: 2024/01/03 16:30:56 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/03 13:50:55 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strjoin(char *s1, char const *s2)
 	if (!s1 || !s2)
 		return (NULL);
 	len = ft_strlen(s1) + ft_strlen(s2);
-	res = (char *)debug_malloc(len * sizeof(char) + 1);
+	res = (char *)malloc(len * sizeof(char) + 1);
 	if (!res)
 		return (NULL);
 	while (*s1)

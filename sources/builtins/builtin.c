@@ -14,33 +14,21 @@ void reset_fds(t_cmd *p)
     return ;
 }
 
-int blt_echo(t_env *env, char **argv)
+bool is_builtin(t_cmd *cmd, int *status, int *last_status, int ref)
 {
-    argv = expander(argv, env);
-    argv++;
-    while(*argv){
-        printf("%s ",*argv);
-        argv++;
-    }
-    printf("\n");
-    return 0;
-}
-
-
-bool is_builtin(t_cmd *cmd)
-{
-    struct new_cmd *p ;
-    p = (struct new_cmd *)cmd;
+    t_cmd_exec  *p ;
+    p = (t_cmd_exec  *)cmd;
     if (p->argv == NULL)
         return false;
-    // char **bcmds = ft_split("cd pwd export unset env exit echo", ' ');
-    char **bcmds = ft_split("cd pwd export unset env exit echo", ' ');
+    char **bcmds;
+    bcmds = ft_split("cd pwd export unset env exit echo", ' ');
     int i = -1;
     while(++i < 7)
     {
         if(ft_strcmp(p->argv[0], bcmds[i]))
         {
             free_split(bcmds);
+            *status = exec_builtin(cmd, last_status, ref);
             return true;
         }
     }
@@ -48,26 +36,25 @@ bool is_builtin(t_cmd *cmd)
     return false;
 }
 
-int exec_builtin(t_cmd *cmd)
+int exec_builtin(t_cmd *cmd ,int *last_status, int ref)
 {
     int status ;
-    struct new_cmd* p ;
+    t_cmd_exec *p ;
+    p = (t_cmd_exec *)cmd;
 
-    p = (struct new_cmd*)cmd;
-    p->argv = expander(p->argv, *(p->myenv));
-    status = check_red(p);
-
+    p->argv = expander(p->argv, *(p->myenv), last_status, CMD_EXPN);
+    p->argv = wild_expand(p->argv);
+    status = check_red(p, &ref, last_status);
+    if (status == 1)
+        return (status);
+    if(!p->argv || !(p->argv[0]))
+        return 1;
     if(ft_strcmp(p->argv[0], "cd")) // add oldpwd and change pwd
-    {
         status = cd(cmd);
-    }
     else if(ft_strcmp(p->argv[0], "pwd")) // 
-    {
         status = pwd(cmd);
-    }
-    else if(ft_strcmp(p->argv[0], "env")){
+    else if(ft_strcmp(p->argv[0], "env"))
         status = print_env(*(p->myenv));
-    }
     else if(ft_strcmp(p->argv[0], "unset")){
         if(ft_strslen(p->argv) > 1)
             status = unset_env(p->myenv, p->argv);
@@ -75,9 +62,8 @@ int exec_builtin(t_cmd *cmd)
     else if(ft_strcmp(p->argv[0], "export")){
         status = export(p->myenv, p->argv);
     }
-    else if(ft_strcmp(p->argv[0], "echo")){
+    else if(ft_strcmp(p->argv[0], "echo"))
         status = echo(p);
-    }
     else if(ft_strcmp(p->argv[0], "exit"))
         status = exit_blt(p);
     return status;

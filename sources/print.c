@@ -3,21 +3,6 @@
 
 //hadi ghi bach nvisualisiw chejra dyalna a batal 
 
-
-// void check_mode(struct red *s)
-// {
-//     if (s)
-//     {
-//         if (s->mode == 4)
-//             printf("<");
-//         else if (s->mode == 77 )
-//             printf(" >> ");
-//         else if (s->mode ==  7)
-//             printf(" > ");
-//     }
-// }
-
-
 void print_red(t_red *tmp)
 {
     // t_red *tmp =  p->redirect; 
@@ -38,18 +23,18 @@ void print_red(t_red *tmp)
 
 void print_tree(t_cmd *res)
 {
-    struct new_cmd *p1;
-    struct pipe *p2;
-    struct and *p3;
-    struct or *p4;
-    struct sub_sh *p5;
+    t_cmd_exec  *p1;
+    t_pipe  *p2;
+    t_and  *p3;
+    t_or *p4;
+    t_sub_sh  *p5;
     int i = 0;
 
     if (NULL == res)
         return ;
     if (res->type == NEW_CMD)
     {
-        p1 = (struct new_cmd*)res;
+        p1 = (t_cmd_exec *)res;
         if (p1->argv == NULL)
             printf("'NULL'");
         else
@@ -65,7 +50,7 @@ void print_tree(t_cmd *res)
     }
     else if (res->type == PIPE)
     {
-        p2 = (struct pipe *)res;
+        p2 = (t_pipe  *)res;
         printf("[");
         print_tree(p2->left);
         printf(" |");
@@ -74,7 +59,7 @@ void print_tree(t_cmd *res)
     }
     else if (res->type == AND)
     {
-        p3 = (struct and *)res;
+        p3 = (t_and  *)res;
         printf("[");
         print_tree(p3->left);
         printf(" &&");
@@ -83,7 +68,7 @@ void print_tree(t_cmd *res)
     }
     else if (res->type == OR)
     {
-        p4 = (struct or *)res;
+        p4 = (t_or *)res;
         printf("[");
         print_tree(p4->left);
         printf(" ||");
@@ -92,7 +77,7 @@ void print_tree(t_cmd *res)
     }
     else if (res->type == SUB_SH)
     {
-        p5 = (struct sub_sh *)res;
+        p5 = (t_sub_sh  *)res;
         printf("(");
         // print_tree(p4->left);
         // printf("SUB");

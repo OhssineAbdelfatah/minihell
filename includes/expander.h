@@ -1,11 +1,31 @@
 #ifndef EXPANDER_H
 #define EXPANDER_H
 
+typedef enum s_expan {
+    CMD_EXPN ,
+    HERDOC_EXPN ,
+    RED_EXPN 
+} t_expan;
+
+typedef enum s_exec_bltn{
+    SIMPLE,
+    NOT_SIMPLE
+}   t_exec_bltn;
+
 typedef struct s_node {
-    char *str;
+    char *str; 
     char type;
     struct s_node *next;
 } t_node;
+
+typedef struct s_argv {
+    t_node *arg;
+    char *str;
+    char **str_splited;
+    int len;
+    char **orginal;
+    struct s_argv *next;
+} t_argv;
 
 typedef struct s_split_arg 
 {
@@ -33,21 +53,40 @@ typedef struct s_tokens_exp {
     int i;
 } t_tokens;
 
-char **expander(char **argv, t_env *env);
+char **expander(char **argv, t_env *env, int *last_status, int type);
 char *tokenizer(char *arg);
 t_node *splitArg(char *str);
-char *joiner(char *arg, t_env* env);
+char **joiner(t_argv *args, t_env* env, int*st, int type);
+// char *joiner(char *arg, t_env* env, int*st);
 
 t_node *create_node(char *value, char type);
 void add_node(t_node **head, t_node **tail, t_node *node);
-char *splitWordVar(char *value, t_env *env);
-void mini_expander(t_node **head, t_env *env);
-char *expand(t_node **head, t_env *env);
+char *splitWordVar(char *value, t_env *env, int *st);
+void mini_expander(t_node **head, t_env *env, int *st);
+char *expand(t_node **head, t_env *env, int *st);
 
 char *ft_name(char *arg);
 void free_lst(t_node *head);
 char *clean_qts(char *str);
 
 int herdoc_newfd( int fd, t_env* myenv);
+
+void add_argv(t_argv **head, t_argv** tail ,t_argv* arg);
+t_argv *create_argv(t_node *head, char *str, char **argv);
+
+void free_argv_lst(t_argv *head, int type);
+t_argv *argv_to_lst(char **argv);
+int count_newArgv(t_argv *tmp);
+void spliter_args(t_argv *args);
+char **split_arg(char *arg);
+
+int count_arg(char *arg);
+char **join_no_split(t_argv *args);
+char **join_args(t_argv *args);
+int skip_space_in_word(char *arg, int start);
+int skip_char(char *arg, int start);
+
+char *mini_joiner(t_node *head);
+char *expand_filename(char *filename, t_env *env,int *last_status ,int source);
 
 #endif

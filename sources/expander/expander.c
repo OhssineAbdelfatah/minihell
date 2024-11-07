@@ -1,51 +1,11 @@
 #include"../../includes/minishell.h"
 
-/*
-    // this sould be applied to each arg char *
-    tokenizer
-    splitArg
-    expander
-        splitWordVar
-            expand
-*/
-
-// char *tokenizer(char *arg)
-// {
-//     char *tokens = ft_calloc(sizeof(char) * ft_strlen(arg) +1,1);
-// 	    bool in_double_quotes = false;
-// 	    bool in_single_quotes = false;
-// 	    char prevChar = ' ';
-	    
-// 	    int i = -1;
-// 	    while(++i < (int)ft_strlen(arg) +1)
-// 	      tokens[i] = '0';
-// 	    i = -1;
-// 	    while (arg[++i])
-// 	    {
-// 	        if (arg[i] == '\'' || arg[i] == '\"') {
-// 	            if (arg[i] == '\"' && !in_single_quotes) {
-// 	                tokens[i] = 'd';
-// 	                in_double_quotes = !in_double_quotes;
-// 	            } else if (arg[i] == '\'' && !in_double_quotes) {
-// 	                tokens[i] = 's';
-// 	                in_single_quotes = !in_single_quotes;
-// 	            }
-// 	        }
-// 	        else if(!in_single_quotes && !in_double_quotes 
-// 	                    && (prevChar == '\'' || prevChar == '\"' || i == 0)) {
-// 	                    tokens[i] = 'w';
-// 	        }
-// 	        prevChar = arg[i];
-// 	        if (in_double_quotes && tokens[i] == '0')
-// 	            tokens[i] = 'd';
-// 	        else if(in_single_quotes && tokens[i] == '0')
-// 	            tokens[i] = 's';
-// 	        else if(!in_single_quotes && !in_double_quotes  && tokens[i] == '0')
-// 	            tokens[i] = 'w';
-// 	    }
-// 	    tokens[i] = '\0';
-// 	    return tokens;
-// }
+// this sould be applied to each arg char *
+// tokenizer
+// splitArg
+// expander
+//   splitWordVar
+//      expand
 
 static t_split_arg init_spliter(t_split_arg data, char *str)
 {
@@ -85,41 +45,62 @@ t_node *splitArg(char *str)
     return (free(dt.token), (dt.head));
 }
 
-char *joiner(char *arg, t_env* env)
+char **joiner(t_argv *args, t_env* env, int *st,int type)
 {
-    char* new;
-    char* tmp_new;
-    t_node  *head;
-    t_node  *tmp;
+    t_argv* tmp;
+    char** new;
+    char *tmp_str;
 
-    if(ft_strchr(arg, '$') == NULL)
-        return arg;
-    head = splitArg(arg);
-    mini_expander(&head, env);
-    tmp = head;
-    new = ft_strdup("");
+    new = NULL;
+    tmp = args ;
     while(tmp)
-    {   
-        tmp_new = new;
-        new = ft_strjoin(new, tmp->str);
-        free(tmp_new);
-        tmp = tmp->next ;
+    {
+        tmp->arg = splitArg(tmp->str);
+        mini_expander(&(tmp->arg), env, st);
+        tmp_str =  tmp->str ;
+        tmp->str = mini_joiner(tmp->arg);
+        free(tmp_str);
+        tmp = tmp->next;
     }
-    free_lst(head);
-    free(arg);
+    if(type == HERDOC)
+        new = join_no_split(args);
+    else if( type == CMD_EXPN ){
+        spliter_args(args);
+        new = join_args(args);
+        if(ft_strslen(new) > 1 && RED_EXPN == type)
+            ambiguous_exit(args->str, 0);
+        //CHECK THE SECOND AMBIGUOS EXIT ARGUMENT
+    }
     return new;
 }
 
-char **expander(char **argv, t_env *env)
+int should_expand(char **argv)
 {
-    int i ;
+    int i;
 
-    i = -1 ;
+    i = 0;
+    while (argv[i])
+    {
+        if (ft_strchr(argv[i], '$'))
+            return 1;
+        i++;
+    }
+    return 0;
+}
+
+char **expander(char **argv, t_env *env, int *st,int type)
+{
+    char **new_argv;
+    t_argv *args;
+
     if(!argv || !(*argv))
         return NULL;
-    while(argv[++i]){
-        printf("argalloc [%p]\n",argv[i]);
-        argv[i] = joiner(argv[i], env);
-    }
-    return argv;
+    if (0 == should_expand(argv) )
+        return argv;
+    args = argv_to_lst(argv);
+    new_argv = joiner(args, env, st,type);
+    free_argv_lst(args, type);
+    if(type == CMD_EXPN )
+        free(argv);
+    return new_argv;
 }

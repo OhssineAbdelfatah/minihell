@@ -6,7 +6,7 @@
 /*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 02:40:56 by aohssine          #+#    #+#             */
-/*   Updated: 2024/09/06 02:41:09 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/02 00:49:32 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void free_split(char **str)
 {
     int i = -1;
-    while(str[++i])
+    while(str && str[++i])
         free(str[i]);
     free(str);
     return ;

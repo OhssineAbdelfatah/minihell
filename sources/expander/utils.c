@@ -19,8 +19,8 @@ void free_lst(t_node *head)
 
     while(head){
         tmp = head->next;
-        debug_free(head->str);
-        debug_free(head);
+        free(head->str);
+        free(head);
         head = tmp;
     }
 }
@@ -32,6 +32,32 @@ char *clean_qts(char *str)
         new = ft_strdup("");
     else
         new = ft_strndup(str+1,ft_strlen(str+1)-1);
-    debug_free(str);
+    free(str);
     return new;
 }
+
+t_argv *create_argv(t_node *head, char *str, char **argv)
+{
+    t_argv *arg;
+    
+    arg = malloc(sizeof(t_argv));
+    arg->arg = head;
+    arg->str = str;
+    // arg->str = ft_strdup(str);
+    arg->len = 0;
+    arg->orginal = argv;
+    arg->str_splited = NULL;
+    arg->next = NULL;
+    return arg ;
+}
+
+void add_argv(t_argv **head, t_argv** tail ,t_argv* arg)
+{
+    if(*head == NULL)
+        *head = arg;
+    else 
+        (*tail)->next = arg ;
+    *tail = arg ;
+}
+
+

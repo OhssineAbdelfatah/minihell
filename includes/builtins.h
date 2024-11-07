@@ -3,12 +3,12 @@
 
 #include "minishell.h"
 
-int check_red(struct new_cmd *p);
+int check_red(t_cmd_exec  *p, int *ref, int *last_status);
 void reset_fds(t_cmd *cmd);
 
 // void execute_cmd(t_cmd *cmd);
-int exec_builtin(t_cmd *cmd);
-bool is_builtin(t_cmd *cmd);
+int exec_builtin(t_cmd *cmd, int *last_status, int ref);
+bool is_builtin(t_cmd *cmd,int *status ,int* last_status, int ref);
 
 /*   ECHO   */
 int echo(t_new_cmd*cmd);
@@ -28,6 +28,9 @@ int print_env(t_env *env);
 /*  EXPORT  */
 int export(t_env **ennv,char **cmd_args);
 void print_export(t_env *env);
+t_env *env_exist(char *key, t_env* node);
+t_env* creat_new_env(char *key, char *value);
+void update_env(t_env *node, char *value);
 // char *clean_arg(char *arg);
 
 /*  UNSET   */
@@ -37,7 +40,7 @@ bool is_valid(char *key);
 
 /*   EXIT   */
 int exit_blt(t_new_cmd *arg);
-
+void error_exit(char* str);
 /*  UTILS   */
 
 char **lstoarry(t_env *root);

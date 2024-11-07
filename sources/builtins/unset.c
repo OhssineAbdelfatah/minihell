@@ -2,8 +2,10 @@
 
 void destroy_single_env(t_env *node)
 {
-    free(node->key);
-    free(node->value);
+    if(node->key)
+        free(node->key);
+    if(node->value)
+        free(node->value);
     free(node);
 }
 
@@ -30,7 +32,6 @@ int unset_env(t_env **head, char **key)
     int i ;
 
     status = 0;
-    key = expander(key, *head);
     if(!head || !(*head))
         return status;
     i = 0;
@@ -51,7 +52,7 @@ int unset_env(t_env **head, char **key)
                 break;
             }else if(!is_valid(key[i]))
             {
-                printf("bash: unset: `%s': not a valid identifier\n",key[i]);
+                printf("minishell: unset: `%s': not a valid identifier\n",key[i]);
                 status = 1;
                 break;
             }
@@ -61,44 +62,3 @@ int unset_env(t_env **head, char **key)
     }
     return status;
 }
-
-// valid_arg()
-// valid  _ and ft_isalpha 
-
-
-// void unset_env(t_env **head, char **key)
-// {
-//     t_env *tmp;
-//     t_env *prev;
-//     int i;
-
-//     if (!head || !(*head))
-//         return;
-
-//     i = 0;
-//     while (key[++i])
-//     {
-//         prev = NULL;
-//         tmp = *head;
-//         while (tmp != NULL)
-//         {
-
-//             if (ft_strcmp(tmp->key, key[i]) == 0 && is_valid(key[i]) )
-//             {
-//                 if(prev == NULL)
-//                     *head = tmp->next;
-//                 else
-//                     prev->next = tmp->next;
-//                 destroy_single_env(tmp);
-//                 tmp = NULL;
-//                 break;
-//             }else if(!is_valid(key[i]))
-//             {
-//                 printf("bash: unset: `%s': not a valid identifier\n",key[i]);
-//                 break;
-//             }
-//             prev = tmp;
-//             tmp = tmp->next;
-//         }
-//     }
-// }

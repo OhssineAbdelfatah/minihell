@@ -1,121 +1,47 @@
 #include "../includes/minishell.h"
-void debug_free(void *ptr)
-{   
-    // printf(G"freed addrs[%p]\n"CRESET,ptr);
-    if(ptr)
-        free(ptr);
-}
 
-void *debug_malloc(size_t size)
-{   
-    void *ptr;
-    ptr = malloc(size);
-    if(!ptr)
-        return NULL;
-    // printf(R"Allocate [%zu] addrs [%p]\n"CRESET,size,ptr);
-    return ptr;
-}
+int		g_sig;
 
-int sig;
-
-int check_qoutes(char *s)
+void	panic(char *str)
 {
-    int i;
-    enum ss j;
-
-    i = 0;
-    j = NONE;
-    if (s)
-    {
-        while(s[i])
-        {
-            if(s[i] == '"')
-            {
-                if (j == SINGLE)
-                    j = SINGLE;
-                else if (j == DOUBLE)
-                    j = NONE;
-                else
-                    j = DOUBLE;
-            }
-            if(s[i] == '\''){
-                
-                if (j == DOUBLE)
-                    j = DOUBLE;
-                else if (j == SINGLE)
-                    j = NONE;
-                else
-                    j = SINGLE;
-            }
-            i++;
-        }
-    }
-    return(j);
+	if (str)
+		ft_putstr_fd(str, 2);
+	exit(1);
 }
 
-void panic(char *str)
+void	parse_nd_exec(char **my_tokens, t_env **dup_env, int *status)
 {
-    (void)str;
-    // if (str)
-        // dprintf(2, "%s", str);
-    exit(1);
+	t_cmd	*res;
+
+	res = NULL;
+	res = root(my_tokens, dup_env);
+	if (!res)
+		return ;
+	if (g_sig == -1)
+		*status = new_exec(res, NOTHING, status);
+	if (g_sig == 130 || g_sig == 131)
+	{
+		*status = 130;
+        if (g_sig == 131)
+            *status = 1;
+		g_sig = -1;
+	}
+	free_mynigga(my_tokens);
+	free_tree2(res);
 }
 
-
-void execute(t_cmd *cmd)
+void	history(char *str)
 {
-    int status;
-    status = 0;
-    if (cmd->type == NEW_CMD && is_builtin(cmd))
-        status = exec_builtin(cmd);
-    else if (cmd->type == NEW_CMD )
-    {
-        status = fork();
-        if (status == 0)
-            exec_new_cmd(cmd ,&status);
-        wait(&status);
-        // printf("status d'exit:%d\n", status);
-    }
-    else
-        status = new_exec(cmd , NOTHING, &status);
-
+	if (!str)
+        exit(0);
+		// panic("exit\n");
+	if (!str || 0 == ft_strlen(str))
+		return ;
+	if (is_white_str(str))
+		return ;
+	add_history(str);
 }
 
-void parse_nd_exec(char **my_tokens,t_env **dup_env, int *status)
-{
-    t_cmd *res;
-    
-    res = NULL;
-
-    res = root(my_tokens,dup_env);
-    if (!res)
-        return;
-    // print_tree(res);
-    // printf("\n");
-    if (sig == -1)
-        *status = new_exec(res, NOTHING, status);
-    if (sig == 130)
-    {
-        *status = 130;
-        sig = -1;
-    }
-    printf(GRN"exit STATUS :%d\n"CRESET, *status);
-    free_mynigga(my_tokens);
-    free_tree2(res); 
-}
-
-
-void history(char *str)
-{
-    if (!str)
-        panic("BY\n");
-    if (!str || 0 == ft_strlen(str))
-        return ;
-    if (is_white_str(str))
-        return;
-    add_history(str);
-
-}
 
 void ff(){
     system("leaks minishell");
@@ -129,21 +55,23 @@ int main(  int ac, char **av, char **env)
     t_env *dup_env;
     int checker ;   
 
-    atexit(ff);
-    (void)av;
-    (void)ac;
+    // atexit(ff);
     status = 0;
     dup_env = init_env(env);
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, SIG_IGN);
     while(1)
     {
-        sig = -1;
+        signal(SIGINT, signal_handler);
+        signal(SIGQUIT, SIG_IGN);
         str = readline(GRN"depechez-vous!> "CRESET);
-            history(str);
+        history(str);
+        if (g_sig == 1300)
+        {
+            // printf("Status : %d\n", status);
+            status = 1;
+        }
+        g_sig = -1;
         if (str && ft_strlen(str) && _check_str(str) == 0)
         {
-            signal(SIGQUIT, SIG_DFL);
             my_tokens = fr9_trb7(str);
             checker = _check_tokens(my_tokens);
             if (checker != EXEC && checker != SUB_SH)
@@ -154,9 +82,9 @@ int main(  int ac, char **av, char **env)
             }
             else if (my_tokens)
                 parse_nd_exec(my_tokens, &dup_env, &status);
-            // printf("SIG :%d\n", sig);
-            // printf("status AT the very end :%d\n", status);
         }
         free(str);
     }
+    (void)ac;
+    (void)av;
 }

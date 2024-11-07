@@ -1,0 +1,64 @@
+DONE
+    [*] clean qoutes
+    [*] echo
+    [*] reset fd in out after bultins exec
+    [*] check built ins
+    [*] expand herdoc
+    [*] fix ft_atoi_exit
+    [*] exit
+    [*] update pwd in env at cd command exec 
+        {   
+            when i open bash there is no OLDPWD
+                check if there is 
+
+        }
+    [*] fix leaks in expander
+    [*] split args with spasecs inside expander //keep space in double split in Word
+    [*] fix leaks in builts ins
+    [*] access $? // asc ur peer hoe he passes last modified where
+    [*] print error to fd 1
+
+NOL_YEl TASKS {
+    IN PROCCESS
+
+    
+    [] expander : 
+        [] redirection 
+        [] herdoc , some magic hapen here if you try 
+        {
+            [<< eof cat ] 
+            [>>$a]
+            [>>$PWD" amlou"]
+            [>>eof]
+            Expected
+                $>
+            but 
+                $>
+                $>PWD" amlou"
+        }
+        [*] simple command .
+
+    [] usnet update exist value with null sould be fixed
+
+    [] pipe fails stays in minishell
+
+
+}
+
+
+what TILLAS did in lately
+{
+    the Exit status works just fine !
+    but check the exepend of it cause i just made i temporary 
+    solution there >exec_new.c line 279 also line 179;
+    the pipe also works ;
+
+
+
+
+    //   absolute path should be executed  && executable files AKA ./a.out
+    // exit builtin in single cmd sould not exit at all
+    
+}
+
+<< eof cat

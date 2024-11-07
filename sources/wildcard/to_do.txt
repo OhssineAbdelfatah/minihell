@@ -1,0 +1,17 @@
+WILD CARD TASKS :
+
+
+>> SIMPLE TASKS :
+
+>>check the working directory for what the user is looking for >
+>>check if he looking for only direc or all kind 
+
+
+
+>> HARD TASKS :
+
+
+1_check in prev dirocteries
+
+
+2_check  in Interval such as [a-b]
