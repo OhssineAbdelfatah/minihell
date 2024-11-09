@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   exec_pipe2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ilaasri <ilaasri@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/09 22:48:27 by ilaasri           #+#    #+#             */
-/*   Updated: 2024/11/09 22:48:32 by ilaasri          ###   ########.fr       */
+/*   Created: 2024/11/09 22:49:46 by ilaasri           #+#    #+#             */
+/*   Updated: 2024/11/09 22:49:47 by ilaasri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	do_nothing(int signal)
+void	left_child_is_sub(t_cmd *left_cmd, t_execp *sp, int *last_status)
 {
-	(void)signal;
-	printf("\n");
-	return ;
-}
+	t_sub_sh *left_sub;
 
-void	signal_handler(int signal)
-{
-	(void)signal;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-	g_sig = 1300;
+	left_sub = (t_sub_sh *)left_cmd;
+	if (sp->node_p->pipe_fd != -1)
+		left_sub->fd_in = sp->node_p->pipe_fd;
+	left_sub->fd_out = sp->p[1];
+	close(sp->p[0]);
+	*last_status = exec_sub_sh(left_cmd, last_status);
+	if (left_sub->herdoc->herdoc_pipe > 0)
+		close(left_sub->herdoc->herdoc_pipe);
+	exit(*last_status);
 }

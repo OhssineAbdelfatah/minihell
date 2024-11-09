@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   open_red.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ilaasri <ilaasri@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/09 17:35:36 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 21:11:48 by codespace        ###   ########.fr       */
+/*   Created: 2024/11/10 00:20:54 by ilaasri           #+#    #+#             */
+/*   Updated: 2024/11/10 00:20:55 by ilaasri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	check_err_red(t_red *redirect, char *file_name, int *std[4])
-{
-	if (ft_strlen(file_name) == 0)
-	{
-		ft_putstr_fd("minishell: no such file or directory\n", 2);
-		if (*std[2])
-			exit(1);
-		return (free(file_name), 1);
-	}
-	if (*std[1] != -1 && (77 == redirect->mode || 7 == redirect->mode))
-		close(*std[1]);
-	if (*std[0] != -1 && 4 == redirect->mode)
-		close(*std[0]);
-	return (0);
-}
 
 int	open_input_file(t_red *redirect, int *std[4], t_env *env)
 {
@@ -39,7 +23,8 @@ int	open_input_file(t_red *redirect, int *std[4], t_env *env)
 	*std[0] = open(redirect->file, O_RDONLY);
 	if (*std[0] < 0)
 	{
-		dprintf(2, "minishell: %s:No such file or directory\n", redirect->file);
+		my_dprint(2, "minishell: %s:No such file or directory\n",
+			redirect->file);
 		if (*std[2])
 			panic("");
 		return (1);
@@ -71,47 +56,43 @@ int	open_file_append(t_red *redirect, int *std[4], t_env *env)
 	return (0);
 }
 
+int	non_herdoc(t_red *redirect, int *std[4], t_env *env, t_open_file *var)
+{
+	if (check_err_red(redirect, var->file_name, std))
+		return (1);
+	if (77 == redirect->mode)
+		var->status = open_file_append(redirect, std, env);
+	else if (7 == redirect->mode)
+		var->status = open_outfile_trunc(redirect, std, env);
+	else if (4 == redirect->mode)
+		var->status = open_input_file(redirect, std, env);
+	if (var->status == 1)
+		return (free(var->file_name), var->status);
+	if (*std[1] < 0 && 4 != redirect->mode)
+	{
+		my_dprint(2, "minishell: %s: Permission denied\n", redirect->file);
+		if (*std[2] != SIMPLE)
+			panic("");
+		else
+			return (free(var->file_name), 1);
+	}
+	return (0);
+}
+
 int	open_file(t_red *redirect, int *std[4], t_herdoc *herdoc, t_env *env)
 {
-	int	status;
+	t_open_file	var;
 
-	status = 0;
-	char *file_name1, *file_name;
-	file_name1 = ft_strdup(redirect->file);
-	file_name = whithout_quotes(file_name1, 1);
+	var.status = 0;
+	var.file_name1 = ft_strdup(redirect->file);
+	var.file_name = whithout_quotes(var.file_name1, 1);
 	if (HERDOC == redirect->type)
 		open_herdoc(redirect, std, herdoc, env);
 	else
 	{
-		if (check_err_red(redirect, file_name, std))
+		if (non_herdoc(redirect, std, env, &var))
 			return (1);
-		if (77 == redirect->mode)
-		{
-			status = open_file_append(redirect, std, env);
-			if (status == 1)
-				return (free(file_name), status);
-		}
-		else if (7 == redirect->mode)
-		{
-			status = open_outfile_trunc(redirect, std, env);
-			if (status == 1)
-				return (free(file_name), status);
-		}
-		else if (4 == redirect->mode)
-		{
-			status = open_input_file(redirect, std, env);
-			if (status == 1)
-				return (free(file_name), status);
-		}
-		if (*std[1] < 0 && 4 != redirect->mode) //
-		{
-			dprintf(2, "minishell: %s: Permission denied\n", redirect->file);
-			if (*std[2] != SIMPLE)
-				panic("");
-			else
-				return (free(file_name), 1);
-		}
 	}
-	free(file_name);
-	return (status);
+	free(var.file_name);
+	return (var.status);
 }

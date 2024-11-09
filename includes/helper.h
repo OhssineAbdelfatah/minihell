@@ -22,7 +22,6 @@
 int		is_special(char s);
 int		get_next_quote(char *s, int i);
 char	**fr9_trb7(char *s);
-
 int		dstr_len(char **s);
 int		_check_tokens(char **tokens);
 
@@ -77,9 +76,7 @@ t_cmd	*init_sub(t_cmd *root_sub, t_env **myenv, t_red *redirect,
 t_cmd	*init_or(t_cmd *left, t_cmd *right);
 t_cmd	*init_and(t_cmd *left, t_cmd *right);
 t_cmd	*init_pipe(t_cmd *left, t_cmd *right);
-// t_cmd *init_exec(int tp, char *s, char **env);
-// t_cmd *init_new_cmd(char **argv, t_env *myenv,t_red *redirect,
-	//t_herdoc *herdoc);
+
 
 /****************************************************/
 
@@ -101,7 +98,6 @@ int		get_next_parenties_d(char **s, int i);
 int		_check_str(char *s);
 int		check_qoutes(char *s);
 void	print_tree(t_cmd *res);
-// void print_tree(t_cmd *res, int level);
 int		which_one(char *s);
 // int skip_nonspaces(char *str, int i);
 //  char *ft_substr(char *str, int start, int end)
@@ -144,9 +140,9 @@ int		exec_or(t_cmd *cmd, int *last_status);
 int		exec_and(t_cmd *cmd, int *last_status);
 int		new_exec(t_cmd *cmd, int ref, int *last_status);
 void 	handle_error(t_cmd_exec *p, char **abs_path);
-// int new_exec(t_cmd *cmd);
 int open_file(t_red *redirect,int *std[4], t_herdoc *herdoc, t_env *env);
 void open_herdoc(t_red *redirect, int *std[4],t_herdoc *herdoc, t_env *env);
+void	left_child_is_sub(t_cmd *left_cmd, t_execp *sp, int *last_status);
 int		exec_pipe(t_cmd *cmd, int *last_status);
 int		execute_pipe(t_cmd *cmd, int *last_status);
 int		recursion_pipe(t_cmd *cmd, int *last_status);
@@ -194,4 +190,12 @@ void	error(char *s, int er_num);
 void	ambiguous_exit(char *str, int ref);
 void error_exec_new(char *str, int exit_status);
 /************************ */
+// PRINTER
+/*************************/
+void my_dprint(int fd, char *s, ...);
+
+/************************************************/
+//   KJJK
+/**************************************************/
+int	check_err_red(t_red *redirect, char *file_name, int *std[4]);
 #endif

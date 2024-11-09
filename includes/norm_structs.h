@@ -27,6 +27,7 @@ typedef struct s_count_words t_count_words;
 typedef struct s_check_tokens t_check_tokens;
 typedef struct s_check_quotes t_check_quotes;
 typedef struct s_check_empty_ones t_check_empty_ones;
+typedef struct s_open_file t_open_file;
 
 struct s_without_quotes
 {
@@ -140,6 +141,14 @@ struct s_check_empty_ones
 	char **old_clone;
 	int i;
 	int j;
+};
+
+
+struct s_open_file
+{
+	int	status;
+	char *file_name1;
+	char *file_name;
 };
 
 #endif

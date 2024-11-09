@@ -28,16 +28,6 @@ typedef struct s_sub_sh			t_sub_sh;
 typedef struct s_dir_cont		t_dir_cont;
 typedef struct s_globing		t_globing;
 
-struct							s_my
-{
-	int							i;
-	int							j;
-	int							x;
-	int							s2len;
-	int							s1len;
-	char						*res;
-};
-
 typedef enum s_pos
 {
 	FIRST,

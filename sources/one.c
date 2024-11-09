@@ -49,7 +49,6 @@ void	history(char *str)
         ft_putstr_fd("exit\n", 2);
         exit(0);
     }
-		// panic("exit\n");
 	if (!str || 0 == ft_strlen(str))
 		return ;
 	if (is_white_str(str))
