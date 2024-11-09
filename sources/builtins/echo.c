@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:46 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 16:44:56 by blacksniper      ###   ########.fr       */
+/*   Updated: 2024/11/09 20:56:38 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ int	isvalid_echo(char **arg)
 
 int	echo(t_new_cmd *p)
 {
-	int new_line;
-	int new_line_1;
+	int	new_line;
+	int	new_line_1;
 
 	new_line = 0;
 	if (ft_strslen(p->argv) > 1 && isvalid_echo(&(p->argv[1])) > 0)

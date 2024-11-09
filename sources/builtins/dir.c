@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dir.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:42 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 19:30:24 by blacksniper      ###   ########.fr       */
+/*   Updated: 2024/11/09 20:29:00 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	pwd(t_cmd *cmd)
 	printf("%s\n", curd);
 	free(curd);
 	curd = NULL;
-	(void)p;
 	return (0);
 }
 
@@ -45,6 +44,7 @@ static void	update_oldpwd(t_new_cmd *p)
 	else
 		update_env(tmp, working_dir);
 }
+
 static void	update_pwd(t_new_cmd *p)
 {
 	t_env	*tmp;
