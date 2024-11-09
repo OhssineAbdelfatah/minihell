@@ -6,7 +6,7 @@
 /*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:56 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 16:44:46 by blacksniper      ###   ########.fr       */
+/*   Updated: 2024/11/09 19:33:37 by blacksniper      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ int	export(t_env **ennv, char **cmd)
 	i = 0;
 	while (cmd[++i])
 	{
-		// printf("cmd %s\n", cmd[i]);
 		key = getKey(cmd[i]);
 		if (key && is_valid(key))
 		{

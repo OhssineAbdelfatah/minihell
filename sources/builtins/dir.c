@@ -6,7 +6,7 @@
 /*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:42 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 16:46:13 by blacksniper      ###   ########.fr       */
+/*   Updated: 2024/11/09 19:30:24 by blacksniper      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,11 @@ static void	update_oldpwd(t_new_cmd *p)
 	working_dir = NULL;
 	working_dir = getcwd(working_dir, 0);
 	tmp = env_exist("OLDPWD", *(p->myenv));
-	// create OLDPWD
 	if (!tmp)
 	{
 		tmp = creat_new_env(ft_strdup("OLDPWD"), working_dir);
 		add_back_env(p->myenv, tmp);
 	}
-	// update OLDPWD
 	else
 		update_env(tmp, working_dir);
 }
@@ -55,13 +53,11 @@ static void	update_pwd(t_new_cmd *p)
 	working_dir = NULL;
 	working_dir = getcwd(working_dir, 0);
 	tmp = env_exist("PWD", *(p->myenv));
-	// create OLDPWD
 	if (!tmp)
 	{
 		tmp = creat_new_env(ft_strdup("PWD"), working_dir);
 		add_back_env(p->myenv, tmp);
 	}
-	// update OLDPWD
 	else
 		update_env(tmp, working_dir);
 }
