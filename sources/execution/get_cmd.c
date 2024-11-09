@@ -20,7 +20,7 @@ void handle_error(t_cmd_exec *p, char **abs_path)
 {
     struct stat file;
 
-    if(p->argv[0] && (p->argv[0][0] == '/' || (p->argv[0][0] == '.' && p->argv[0][1] == '/')))// is cmd starts with / or ./w
+    if(p->argv[0] && (p->argv[0][0] == '/' || (p->argv[0][0] == '.' && p->argv[0][1] == '/') || (p->argv[0][0] == '.' && p->argv[0][1] == '.' && p->argv[0][2] == '/')))// is cmd starts with / or ./w
     {
         if(stat(p->argv[0], &file) == -1)//
         {

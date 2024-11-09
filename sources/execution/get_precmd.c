@@ -3,12 +3,8 @@
 char *getEnvValue(t_env *env, char *key)
 {
     // printf()
-    while(env != NULL)
+    while(env )
     {
-        // printf("alo\n");
-        // // printf("env->key : %s, key : %s\n", env->key, key);
-        // if (env->next == NULL)
-        //     printf("env->key:%s, env->next == NULL\n", env->key);
         if(ft_strcmp(env->key, key))
             return ft_strdup(env->value);
         env = env->next;

@@ -56,7 +56,7 @@ t_env* creat_new_env(char *key, char *value)
     node = malloc(sizeof(t_env));
     if(!node)
         return NULL;
-
+    node->next = NULL ;
     node->key = key;
     node->value = value;
     return node;

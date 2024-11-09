@@ -1,4 +1,4 @@
-#include"../../includes/minishell.h"
+    #include"../../includes/minishell.h"
 
 // static int	count_word(char const *s, char c)
 // {
