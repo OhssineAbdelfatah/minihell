@@ -23,9 +23,11 @@ FREEDOM = sources/freedom/freedom.c sources/freedom/freedom2.c sources/freedom/f
 BUILT_TREE = sources/built_tree/builting_tools.c sources/built_tree/tree.c \
 			sources/built_tree/constractors.c sources/built_tree/constractors2.c
 
-EXECUTION = sources/execution/exec.c sources/execution/exec_pipe.c\
+EXECUTION = sources/execution/exec.c sources/execution/exec_pipe2.c\
+			sources/execution/exec_pipe.c\
 			sources/execution/exec_new.c sources/execution/signals.c\
-			sources/execution/open_red.c sources/execution/check_herdoc.c\
+			sources/execution/open_red2.c sources/execution/open_red.c \
+			sources/execution/check_herdoc.c\
 			sources/execution/exec_bonus.c sources/execution/get_precmd.c\
 			sources/execution/get_cmd.c
 
@@ -67,7 +69,7 @@ RLFLAGS =	-L/Users/ilaasri/.brew/opt/readline/lib -lreadline # tell linker where
 RLINCLUDE	=	-I/Users/ilaasri/.brew/opt/readline/include  #
 
 
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 # FFLAG = -fsanitize=address -g
 
 CC = cc

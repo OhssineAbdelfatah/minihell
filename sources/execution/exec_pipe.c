@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/29 19:06:10 by ilaasri           #+#    #+#             */
-/*   Updated: 2024/11/09 21:24:04 by codespace        ###   ########.fr       */
+/*   Created: 2024/11/09 22:49:16 by ilaasri           #+#    #+#             */
+/*   Updated: 2024/11/09 23:38:34 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,6 @@
 /******************************************************/
 // THE MIGHTY PERFECT EXEC PIPE FUNCTION !!
 /**********************************************************/
-
-void	left_child_is_sub(t_cmd *left_cmd, t_execp *sp, int *last_status)
-{
-	t_sub_sh	*left_sub;
-
-	left_sub = (t_sub_sh *)left_cmd;
-	if (sp->node_p->pipe_fd != -1)
-		left_sub->fd_in = sp->node_p->pipe_fd;
-	left_sub->fd_out = sp->p[1];
-	close(sp->p[0]);
-	*last_status = exec_sub_sh(left_cmd, last_status);
-	if (left_sub->herdoc->herdoc_pipe > 0)
-		close(left_sub->herdoc->herdoc_pipe);
-	exit(*last_status);
-}
 
 void	treat_left_child(t_cmd *left_cmd, t_execp *sp, int *last_status)
 {
@@ -94,12 +79,26 @@ int	treat_right_child(t_cmd *right_cmd, t_execp *sp, int *last_status)
 	return (0);
 }
 
+void	pipe_parent(t_execp *sp)
+{
+	close(sp->p[0]);
+	close(sp->p[1]);
+	signal(SIGQUIT, do_nothing);
+	signal(SIGINT, do_nothing);
+	waitpid(sp->rpid, &(sp->status), 0);
+	if (WTERMSIG(sp->status) == SIGQUIT || WTERMSIG(sp->status) == SIGINT)
+		sp->status = 128 + WTERMSIG(sp->status);
+	else
+		sp->status = WEXITSTATUS(sp->status);
+	wait(0);
+}
+
 int	exec_pipe(t_cmd *cmd, int *last_status)
 {
 	t_execp	sp;
 
 	if (pipe(sp.p) < 0)
-		return (ft_putstr_fd("minishell: pipe: Resource temporarily unavailable\n",
+		return (ft_putstr_fd("minishell: pipe: Resource unavailable\n",
 				2), -1);
 	sp.node_p = (t_pipe *)cmd;
 	sp.lpid = fork();
@@ -118,29 +117,6 @@ int	exec_pipe(t_cmd *cmd, int *last_status)
 			exit(sp.status);
 		}
 	}
-	close(sp.p[0]);
-	close(sp.p[1]);
-	signal(SIGQUIT, do_nothing);
-	signal(SIGINT, do_nothing);
-	waitpid(sp.rpid, &(sp.status), 0);
-	if (WTERMSIG(sp.status) == SIGQUIT || WTERMSIG(sp.status) == SIGINT)
-		sp.status = 128 + WTERMSIG(sp.status);
-	else
-		sp.status = WEXITSTATUS(sp.status);
-	wait(0);
+	pipe_parent(&sp);
 	return (sp.status);
 }
-
-// void pipe_parent(t_execp *sp)
-// {
-// 	close(sp->p[0]);
-// 	close(sp->p[1]);
-// 	signal(SIGQUIT, do_nothing);
-// 	signal(SIGINT, do_nothing);
-// 	waitpid(sp->rpid, &(sp->status), 0);
-// 	if (WTERMSIG(sp->status) == SIGQUIT || WTERMSIG(sp->status) == SIGINT)
-// 		sp->status = 128 + WTERMSIG(sp->status);
-// 	else
-// 		sp->status = WEXITSTATUS(sp->status);
-// 	wait(0);
-// }

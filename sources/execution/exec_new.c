@@ -67,31 +67,29 @@ int	new_exec1(t_cmd *cmd, int ref, int *last_status)
 
 	status = 0;
 	p = (t_cmd_exec *)cmd;
-	if (p)
+	if (!p)
+		return (0);
+	if (is_builtin(cmd, &status, last_status, SIMPLE))
+		reset_fds(cmd);
+	else
 	{
-		if (ref == PIPE)
-			status = exec_new_cmd(cmd, last_status);
-		else if (is_builtin(cmd, &status, last_status, SIMPLE))
-			reset_fds(cmd);
+		pid = fork();
+		if (pid == 0)
+			exec_new_cmd(cmd, last_status);
 		else
 		{
-			pid = fork();
-			if (pid == 0)
-				exec_new_cmd(cmd, last_status);
+			signal(SIGQUIT, do_nothing);
+			signal(SIGINT, do_nothing);
+			waitpid(pid, &status, 0);
+			if (WTERMSIG(status) == SIGINT)
+				status = 130;
+			if (WTERMSIG(status) == SIGQUIT)
+				status = 131;
 			else
-			{
-				signal(SIGQUIT, do_nothing);
-				signal(SIGINT, do_nothing);
-				waitpid(pid, &status, 0);
-				if (WTERMSIG(status) == SIGINT)
-					status = 130;
-				if (WTERMSIG(status) == SIGQUIT)
-					status = 131;
-				else
-					status = WEXITSTATUS(status);
-			}
+				status = WEXITSTATUS(status);
 		}
 	}
+	(void)ref;
 	return (status);
 }
 

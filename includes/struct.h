@@ -28,6 +28,7 @@ typedef struct s_sub_sh			t_sub_sh;
 typedef struct s_dir_cont		t_dir_cont;
 typedef struct s_globing		t_globing;
 
+<<<<<<< HEAD
 // struct							s_my
 // {
 // 	int							i;
@@ -38,6 +39,8 @@ typedef struct s_globing		t_globing;
 // 	char						*res;
 // };
 
+=======
+>>>>>>> 394107da053af7d7c459096480b172d8c5cc55a2
 typedef enum s_pos
 {
 	FIRST,
