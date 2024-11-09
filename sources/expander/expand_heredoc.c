@@ -14,6 +14,7 @@ int herdoc_newfd( int fd, t_env* myenv)
             break;
         tmp = line;
         line = splitWordVar(line, myenv, 0);
+        line = whithout_quotes(line);
         free(tmp);
         if(line)
             ft_putstr_fd(line, fd_pipe[1]);
