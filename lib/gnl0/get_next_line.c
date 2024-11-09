@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilaasri <ilaasri@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:27:59 by ilaasri           #+#    #+#             */
-/*   Updated: 2024/01/19 15:59:17 by ilaasri          ###   ########.fr       */
+/*   Updated: 2024/11/09 22:21:37 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include "../../includes/minishell.h"
 
 void	_freedom(char **zoom, char **chyata, char **res, int howmany)
 {
@@ -116,13 +117,4 @@ char	*get_next_line(int fd)
 	if (var.readed != 0)
 		return (lecture2(&var, &chyata, fd));
 	return (fabor(&var, &chyata, 2));
-}
-/*
-//alsjdljks
-alsjkdaskj*/
-#include <stdio.h>
-int test()
-{
-	printf("test\n");
-	return 8;
 }

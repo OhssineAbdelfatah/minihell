@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "libft.h"
 
 char	*ft_strchr(const char *s, int c)
 {
-	if(s == NULL)
-		return NULL;
+	if (s == NULL)
+		return (NULL);
 	if (*s == '\0' && (char)c == '\0')
 		return ((char *)s);
 	while (*s)

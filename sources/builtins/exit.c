@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:53 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 16:45:24 by blacksniper      ###   ########.fr       */
+/*   Updated: 2024/11/09 23:15:42 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,29 +73,34 @@ size_t	ft_atoi_exit(const char *str)
 	return (result * (size_t)sign);
 }
 
-int	exit_blt(t_new_cmd *cmd)
+void	handle_exit_2args(t_cmd_exec *cmd)
 {
-	int		args_len;
 	size_t	status;
 
 	status = 0;
+	if (ft_isnumber(cmd->argv[1]))
+	{
+		status = ft_atoi_exit(cmd->argv[1]);
+		free_mynigga(cmd->argv);
+		exit((unsigned char)status);
+	}
+	else
+	{
+		error_exit(cmd->argv[1]);
+		free_mynigga(cmd->argv);
+		exit(255);
+	}
+	return ;
+}
+
+int	exit_blt(t_new_cmd *cmd)
+{
+	int	args_len;
+
 	args_len = ft_strslen(cmd->argv);
 	printf("exit\n");
 	if (args_len == 2)
-	{
-		if (ft_isnumber(cmd->argv[1]))
-		{
-			status = ft_atoi_exit(cmd->argv[1]);
-			free_mynigga(cmd->argv);
-			exit((unsigned char)status);
-		}
-		else
-		{
-			error_exit(cmd->argv[1]);
-			free_mynigga(cmd->argv);
-			exit(255);
-		}
-	}
+		handle_exit_2args(cmd);
 	else if (args_len > 2)
 	{
 		if (ft_isnumber(cmd->argv[1]))

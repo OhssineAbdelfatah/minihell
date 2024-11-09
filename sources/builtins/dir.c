@@ -6,15 +6,15 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:42 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 21:17:42 by codespace        ###   ########.fr       */
+/*   Updated: 2024/11/09 23:11:07 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	pwd()
+int	pwd(void)
 {
-	char			*curd;
+	char	*curd;
 
 	curd = NULL;
 	curd = getcwd(curd, 0);
@@ -60,21 +60,26 @@ static void	update_pwd(t_new_cmd *p)
 		update_env(tmp, working_dir);
 }
 
+int	error_home(t_cmd_exec *p)
+{
+	char	*arg;
+
+	arg = get_env_value(*(p->myenv), "HOME");
+	if (!arg)
+	{
+		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+		return (1);
+	}
+	return (0);
+}
+
 int	cd(t_cmd *cmd)
 {
 	t_new_cmd	*p;
-	char		*arg;
 
 	p = (t_cmd_exec *)cmd;
 	if (ft_strslen(p->argv) == 1)
-	{
-		if (!(arg = get_env_value(*(p->myenv), "HOME")))
-		{
-			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-			return (1);
-		}
-		chdir(arg);
-	}
+		return (error_home(p));
 	else
 	{
 		if (access(p->argv[1], R_OK) != 0)

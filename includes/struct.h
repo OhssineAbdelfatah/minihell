@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilaasri <ilaasri@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 23:24:38 by ilaasri           #+#    #+#             */
-/*   Updated: 2024/10/28 23:24:40 by ilaasri          ###   ########.fr       */
+/*   Updated: 2024/11/09 22:20:49 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,15 @@ typedef struct s_sub_sh			t_sub_sh;
 typedef struct s_dir_cont		t_dir_cont;
 typedef struct s_globing		t_globing;
 
-struct							s_my
-{
-	int							i;
-	int							j;
-	int							x;
-	int							s2len;
-	int							s1len;
-	char						*res;
-};
+// struct							s_my
+// {
+// 	int							i;
+// 	int							j;
+// 	int							x;
+// 	int							s2len;
+// 	int							s1len;
+// 	char						*res;
+// };
 
 typedef enum s_pos
 {

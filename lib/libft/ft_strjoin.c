@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 10:49:11 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/03 13:50:55 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/09 21:30:10 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,5 @@ char	*ft_strjoin(char *s1, char const *s2)
 		*res++ = *s2++;
 	}
 	*(res) = '\0';
-	// free(s1);
 	return (res - len);
 }

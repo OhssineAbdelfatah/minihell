@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:39 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 21:18:02 by codespace        ###   ########.fr       */
+/*   Updated: 2024/11/09 23:05:25 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,22 +54,11 @@ bool	is_builtin(t_cmd *cmd, int *status, int *last_status, int ref)
 	return (false);
 }
 
-int	exec_builtin(t_cmd *cmd, int *last_status, int ref)
+int	exec_cmd_builtin(t_cmd_exec *p, t_cmd *cmd)
 {
-	int			status;
-	t_cmd_exec	*p;
+	int	status;
 
-	p = (t_cmd_exec *)cmd;
-	p->argv = expander(p->argv, *(p->myenv), last_status, CMD_EXPN);
-	p->argv = wild_expand(p->argv);
-	if (ref == SIMPLE)
-	{
-		status = check_red(p, &ref, last_status);
-		if (status == 1)
-			return (status);
-	}
-	if (!p->argv || !(p->argv[0]))
-		return (1);
+	status = 0;
 	if (ft_strcmp(p->argv[0], "cd"))
 		status = cd(cmd);
 	else if (ft_strcmp(p->argv[0], "pwd"))
@@ -89,5 +78,25 @@ int	exec_builtin(t_cmd *cmd, int *last_status, int ref)
 		status = echo(p);
 	else if (ft_strcmp(p->argv[0], "exit"))
 		status = exit_blt(p);
+	return (status);
+}
+
+int	exec_builtin(t_cmd *cmd, int *last_status, int ref)
+{
+	int			status;
+	t_cmd_exec	*p;
+
+	p = (t_cmd_exec *)cmd;
+	p->argv = expander(p->argv, *(p->myenv), last_status, CMD_EXPN);
+	p->argv = wild_expand(p->argv);
+	if (ref == SIMPLE)
+	{
+		status = check_red(p, &ref, last_status);
+		if (status == 1)
+			return (status);
+	}
+	if (!p->argv || !(p->argv[0]))
+		return (1);
+	status = exec_cmd_builtin(p, cmd);
 	return (status);
 }

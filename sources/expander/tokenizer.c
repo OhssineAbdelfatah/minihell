@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:36:16 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 22:30:54 by codespace        ###   ########.fr       */
+/*   Updated: 2024/11/09 22:53:27 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ void	process_tokens(char *arg, char *tokens, t_tokens tok)
 			tok.in_single_quotes = !tok.in_single_quotes;
 		}
 		else if (!tok.in_single_quotes && !tok.in_double_quotes
-			&& (tok.prevChar == '\'' || tok.prevChar == '\"' || tok.i == 0))
+			&& (tok.prev_char == '\'' || tok.prev_char == '\"' || tok.i == 0))
 		{
 			tokens[tok.i] = 'w';
 		}
-		tok.prevChar = arg[tok.i];
+		tok.prev_char = arg[tok.i];
 		if (tokens[tok.i] == '0')
 		{
 			if (tok.in_double_quotes)
@@ -70,7 +70,7 @@ char	*tokenizer(char *arg)
 	len = ft_strlen(arg);
 	tok.in_double_quotes = false;
 	tok.in_single_quotes = false;
-	tok.prevChar = ' ';
+	tok.prev_char = ' ';
 	tok.i = 0;
 	tokens = initialize_tokens(len);
 	process_tokens(arg, tokens, tok);

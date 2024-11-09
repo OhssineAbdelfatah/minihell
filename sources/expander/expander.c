@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:36:06 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 22:15:07 by codespace        ###   ########.fr       */
+/*   Updated: 2024/11/09 22:53:02 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static t_split_arg	init_spliter(t_split_arg data, char *str)
 	data.start = str;
 	data.indx = 0;
 	data.token = tokenizer(str);
-	data.prevChar = data.token[0];
+	data.prev_char = data.token[0];
 	return (data);
 }
 
@@ -33,10 +33,10 @@ t_node	*split_argv(char *str)
 	i = -1;
 	while (dt.token[++i])
 	{
-		if (dt.token[i] != dt.prevChar && i > 0)
+		if (dt.token[i] != dt.prev_char && i > 0)
 		{
 			dt.tmpdup = ft_strndup(dt.start, str + i - dt.start);
-			dt.node = create_node(dt.tmpdup, dt.prevChar);
+			dt.node = create_node(dt.tmpdup, dt.prev_char);
 			add_node(&(dt.head), &(dt.tail), dt.node);
 			dt.start = str + i;
 			dt.indx = i;
@@ -44,10 +44,10 @@ t_node	*split_argv(char *str)
 		if (dt.token[dt.indx] == dt.token[i] && dt.token[i + 1] == '\0')
 		{
 			dt.tmpdup = ft_strndup(dt.start, str + i - dt.start + 1);
-			dt.node = create_node(dt.tmpdup, dt.prevChar);
+			dt.node = create_node(dt.tmpdup, dt.prev_char);
 			add_node(&(dt.head), &(dt.tail), dt.node);
 		}
-		dt.prevChar = dt.token[i];
+		dt.prev_char = dt.token[i];
 	}
 	return (free(dt.token), (dt.head));
 }
