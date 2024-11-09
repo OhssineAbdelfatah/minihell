@@ -62,7 +62,7 @@ void ff(){
     system("leaks minishell");
 }
 
-int main(  int ac, char **av, char **env)
+int main(int ac, char **av, char **env)
 {
     char *str;
     int status;
@@ -76,7 +76,7 @@ int main(  int ac, char **av, char **env)
     {
         signal(SIGINT, signal_handler);
         signal(SIGQUIT, SIG_IGN);
-        str = readline(GRN"depechez-vous!> "CRESET);
+        str = readline(GRN"minishell> "CRESET);
         history(str);
         if (g_sig == 1300)
         {

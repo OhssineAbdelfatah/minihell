@@ -3,32 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:53 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 17:34:54 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/09 16:45:24 by blacksniper      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-int ft_isnumber(char *arg)
+int	ft_isnumber(char *arg)
 {
-    int i ;
+	int	i;
 
-    i = -1;
-    if(arg[0] == '-' || arg[0] == '+'){
-        i++;
-        if(arg[++i] == '\0')
-        return 0;
-    }
-    
-    while(arg[++i])
-    {
-        if(!ft_isdigit(arg[i]))
-            return 0;
-    }
-    return 1;
+	i = -1;
+	if (arg[0] == '-' || arg[0] == '+')
+	{
+		i++;
+		if (arg[++i] == '\0')
+			return (0);
+	}
+	while (arg[++i])
+	{
+		if (!ft_isdigit(arg[i]))
+			return (0);
+	}
+	return (1);
 }
 
 static int	space_sign(const char *s, int *sign)
@@ -47,60 +47,69 @@ static int	space_sign(const char *s, int *sign)
 	return (i);
 }
 
-size_t ft_atoi_exit(const char *str)
+size_t	ft_atoi_exit(const char *str)
 {
-	int					i;
-	int					sign;
+	int		i;
+	int		sign;
 	size_t	result;
 	size_t	temp;
 
-    (void)temp;
+	(void)temp;
 	result = 0;
 	sign = 1;
 	i = space_sign(str, &sign);
 	while (str[i] <= '9' && str[i] >= '0')
 	{
-        temp = result;
+		temp = result;
 		result = result * 10 + str[i] - 48;
-        if( (temp != result / 10 && sign == -1) || (temp != result / 10 && sign == 1))
-        {
-            printf("minishell: exit: %s: numeric argument required\n",str);
-            exit(255);
-        }
+		if ((temp != result / 10 && sign == -1) || (temp != result / 10
+				&& sign == 1))
+		{
+			printf("minishell: exit: %s: numeric argument required\n", str);
+			exit(255);
+		}
 		i++;
 	}
 	return (result * (size_t)sign);
 }
 
-int exit_blt(t_new_cmd *cmd)
+int	exit_blt(t_new_cmd *cmd)
 {
-    int args_len;
-    size_t status = 0;
-    args_len = ft_strslen(cmd->argv);
-    printf("exit\n");
-    if( args_len == 2)
-    {
-        if(ft_isnumber(cmd->argv[1])){
-            status = ft_atoi_exit(cmd->argv[1]);
-            free_mynigga(cmd->argv);
-            exit( (unsigned char )status);
-        }else{
-            error_exit(cmd->argv[1]);
-            free_mynigga(cmd->argv);
-            exit(255) ;
-        }
-    }else if( args_len > 2)
-    {
-        if(ft_isnumber(cmd->argv[1])){
-            ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-            return 1;
-        }else
-        {
-            error_exit(cmd->argv[1]);
-            free_mynigga(cmd->argv);
-            exit(255);
-        }
-    }
-    free_mynigga(cmd->argv);
-    exit(0);
+	int		args_len;
+	size_t	status;
+
+	status = 0;
+	args_len = ft_strslen(cmd->argv);
+	printf("exit\n");
+	if (args_len == 2)
+	{
+		if (ft_isnumber(cmd->argv[1]))
+		{
+			status = ft_atoi_exit(cmd->argv[1]);
+			free_mynigga(cmd->argv);
+			exit((unsigned char)status);
+		}
+		else
+		{
+			error_exit(cmd->argv[1]);
+			free_mynigga(cmd->argv);
+			exit(255);
+		}
+	}
+	else if (args_len > 2)
+	{
+		if (ft_isnumber(cmd->argv[1]))
+		{
+			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+			return (1);
+		}
+		else
+		{
+			error_exit(cmd->argv[1]);
+			free_mynigga(cmd->argv);
+			exit(255);
+		}
+	}
+	free_mynigga(cmd->argv);
+	exit(0);
 }
