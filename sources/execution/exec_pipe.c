@@ -129,3 +129,18 @@ int	exec_pipe(t_cmd *cmd, int *last_status)
 	wait(0);
 	return (sp.status);
 }
+
+
+// void pipe_parent(t_execp *sp)
+// {
+// 	close(sp->p[0]);
+// 	close(sp->p[1]);
+// 	signal(SIGQUIT, do_nothing);
+// 	signal(SIGINT, do_nothing);
+// 	waitpid(sp->rpid, &(sp->status), 0);
+// 	if (WTERMSIG(sp->status) == SIGQUIT || WTERMSIG(sp->status) == SIGINT)
+// 		sp->status = 128 + WTERMSIG(sp->status);
+// 	else
+// 		sp->status = WEXITSTATUS(sp->status);
+// 	wait(0);
+// }

@@ -58,7 +58,6 @@ int exec_new_cmd(t_cmd *cmd , int *last_status)
     tmp_clone = clone(p->argv, dstr_len(p->argv));
     p->argv = expander( p->argv, *(p->myenv), last_status, CMD_EXPN);
     p->argv = check_empty_ones(p->argv, tmp_clone);
-    // printf(">>%s<<\n", p->argv[0]);
     p->argv = wild_expand(p->argv);
     status = check_red(p, &ref, last_status);
     if (status == 1)
