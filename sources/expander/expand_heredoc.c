@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:35:56 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 17:35:57 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/09 19:02:39 by blacksniper      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int herdoc_newfd( int fd, t_env* myenv)
             break;
         tmp = line;
         line = splitWordVar(line, myenv, 0);
-        line = whithout_quotes(line, 1);
         free(tmp);
+        line = whithout_quotes(line, 1);
         if(line)
             ft_putstr_fd(line, fd_pipe[1]);
         else

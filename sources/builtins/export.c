@@ -3,111 +3,77 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:56 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 17:34:57 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/09 20:55:12 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-void update_env(t_env *node, char *value)
+t_env	*env_exist(char *key, t_env *node)
 {
-    free(node->value);
-    node->value = value;
-    return ;
+	while (node != NULL)
+	{
+		if (ft_strcmp(node->key, key))
+			return (node);
+		node = node->next;
+	}
+	return (NULL);
 }
 
-void print_export(t_env **env)
+t_env	*creat_new_env(char *key, char *value)
 {
-    while(env && (*env) != NULL)
-    {
-        printf("declare -x %s=\"",(*env)->key);
-        if((*env)->value)
-            printf("%s",(*env)->value);
-        printf("\"\n");
-        (*env) = (*env)->next;
-    }
-}
-char *getKey(char* arg)
-{
-    char *eql;
-    eql = ft_strchr(arg, '=');
-    if(!eql)
-        return ft_strdup(arg);
-    eql = ft_strndup(arg, eql - arg);
-    return eql;
+	t_env	*node;
+
+	node = malloc(sizeof(t_env));
+	if (!node)
+		return (NULL);
+	node->next = NULL;
+	node->key = key;
+	node->value = value;
+	return (node);
 }
 
-char *getValue(char* arg)
+int	export(t_env **ennv, char **cmd)
 {
-    char *eql;
+	int		status;
+	t_env	*tmp;
+	char	*key;
+	char	*value;
+	int		i;
 
-    eql = ft_strchr(arg, '=');
-    if(!eql )
-        return NULL;
-    eql = ft_strdup(eql+1);
-    return eql;
-}
-
-t_env *env_exist(char *key, t_env* node)
-{
-    while(node != NULL)
-    {
-        if(ft_strcmp(node->key, key))
-            return node;
-        node = node->next;
-    }
-    return NULL;
-}
-
-t_env* creat_new_env(char *key, char *value)
-{
-    t_env *node;
-    node = malloc(sizeof(t_env));
-    if(!node)
-        return NULL;
-    node->next = NULL ;
-    node->key = key;
-    node->value = value;
-    return node;
-}
-
-int export(t_env **ennv,char **cmd)
-{
-    int status ;
-    t_env *tmp;
-    char *key;
-    char *value;
-    int i;
-
-    tmp = NULL;
-    status = 0;
-    if(ft_strslen(cmd) == 1)
-        return (print_export(ennv), status);
-    i = 0;
-    while(cmd[++i])
-    {
-        // printf("cmd %s\n", cmd[i]);
-        key = getKey(cmd[i]);
-        if(key && is_valid(key)){
-            tmp = env_exist(key, *ennv);
-            value = getValue(cmd[i]);
-            if(tmp){
-                update_env(tmp, value);
-                free(key);
-            }else
-            {
-                tmp = creat_new_env(key, ft_strdup(value));
-                add_back_env(ennv, tmp);
-                free(value);
-            }
-        }else if(!is_valid(key)){
-            status  = 1;
-            printf("minishell: export: `%s': not a valid identifier\n" ,cmd[i]);
-            free(key);
-        }
-    }
-    return status;
+	tmp = NULL;
+	status = 0;
+	if (ft_strslen(cmd) == 1)
+		return (print_export(ennv), status);
+	i = 0;
+	while (cmd[++i])
+	{
+		key = get_key(cmd[i]);
+		if (key && is_valid(key))
+		{
+			tmp = env_exist(key, *ennv);
+			value = get_value(cmd[i]);
+			if (tmp)
+			{
+				update_env(tmp, value);
+				free(key);
+			}
+			else
+			{
+				tmp = creat_new_env(key, ft_strdup(value));
+				add_back_env(ennv, tmp);
+				free(value);
+			}
+		}
+		else if (!is_valid(key))
+		{
+			status = 1;
+			printf("minishell: export: `%s': not a valid identifier\n", cmd[i]);
+			free(key);
+		}
+	}
+	return (status);
 }
