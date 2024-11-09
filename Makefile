@@ -1,4 +1,4 @@
-GNL = lib/gnl1/get_next_line.c lib/gnl1/get_next_line_utils.c
+GNL = lib/gnl0/get_next_line.c lib/gnl0/get_next_line_utils.c
 
 PARSE = sources/parse/parse_tools.c sources/parse/parse.c sources/parse/counting_tools.c\
 		sources/parse/sub_check.c sources/parse/counting_things.c sources/parse/tokens_part2.c sources/parse/tokens.c\
