@@ -12,6 +12,34 @@
 
 #include "../../includes/minishell.h"
 
+char	**check_empty_ones(char **old, char **ancient)
+{
+	t_check_empty_ones	var;
+
+	var.i = 0;
+	var.oldlen = dstr_len(old);
+	if (var.oldlen == 0)
+		return (old);
+	var.old_clone = unquote_old(old, 0);
+	while (var.old_clone[var.i] && ft_strlen(var.old_clone[var.i]) == 0
+		&& NULL != ft_strchr(ancient[var.i], '$'))
+		var.i++;
+	if (var.i == 0)
+		return (free_dawgs(2, var.old_clone, ancient), old);
+	if (var.i == var.oldlen)
+		return (free_dawgs(3, old, var.old_clone, ancient), NULL);
+	var.reslen = var.oldlen - var.i;
+	var.res = malloc(sizeof(char *) * (var.reslen + 1));
+	if (!var.res)
+		panic("malloc failed\n");
+	var.j = 0;
+	while (var.j < var.reslen)
+		var.res[var.j++] = ft_strdup(old[var.i++]);
+	var.res[var.j] = NULL;
+	free_dawgs(3, old, var.old_clone, ancient);
+	return (var.res);
+}
+
 int	is_it_wild_args(char **av)
 {
 	int	i;

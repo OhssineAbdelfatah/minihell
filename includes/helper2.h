@@ -68,7 +68,7 @@ void		free_dir_lst(t_dir_cont **head);
 
 int			is_quoted(char *s);
 int			get_reslen(char *s);
-char		*whithout_quotes(char *value);
+char		*whithout_quotes(char *value, int to_free);
 
 void		check_validation(char *needle, t_dir_cont *head, int type);
 int			get_next_wild(char *av, int i);
@@ -95,7 +95,7 @@ void		printd(char **av);
 void		print_valid_ones(t_dir_cont *head);
 char		*get_next_valid(t_dir_cont *dir_cont, int index);
 char		*get_work_direc(void);
-char		**unquote_old(char **old);
+char		**unquote_old(char **old, int to_free);
 char		*take_slash_of(char *arg);
 
 /*************************************************************** */
@@ -115,5 +115,10 @@ int			check_first(char *needle, char *haystak, int *start, int *index);
 int			check_glob(char *val, t_globing *node);
 int			check_node_for_valid(t_globing *wild, t_dir_cont *head,
 				int fil_or_dir);
+
+/********************************************************** */
+// SOME WEIRD HANDLING:
+/********************************************************** */
+char **check_empty_ones(char **old, char **as);
 
 #endif

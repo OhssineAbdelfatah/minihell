@@ -33,7 +33,7 @@ t_globing	*create_glob_node(char *value, int pos)
 	if (!node)
 		panic("malloc failed !");
 	if (is_quoted(value))
-		value = whithout_quotes(value);
+		value = whithout_quotes(value, 1);
 	node->value = value;
 	node->pos = pos;
 	node->found_it = 0;
@@ -107,11 +107,11 @@ t_globing	*wilding(char *s)
 // var.ret = add_glob_node(var.ret, create_glob_node(var.val,
 // 			var.pos));
 // var.i = var.j;
-// 
+//
 // void	print_glob(t_globing *head)
 // {
 // 	t_globing	*tmp;
-// 
+//
 // 	tmp = head;
 // 	while (tmp)
 // 	{

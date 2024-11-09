@@ -33,7 +33,10 @@ void	parse_nd_exec(char **my_tokens, t_env **dup_env, int *status)
 void	history(char *str)
 {
 	if (!str)
+    {
+        ft_putstr_fd("exit\n", 2);
         exit(0);
+    }
 		// panic("exit\n");
 	if (!str || 0 == ft_strlen(str))
 		return ;

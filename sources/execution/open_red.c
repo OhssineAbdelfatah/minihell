@@ -74,7 +74,7 @@ int open_file(t_red *redirect,int *std[4], t_herdoc *herdoc, t_env *env)
     char *file_name1 , *file_name;
 
     file_name1 = ft_strdup(redirect->file);
-    file_name = whithout_quotes(file_name1);
+    file_name = whithout_quotes(file_name1, 1);
     if (HERDOC==redirect->type)
         open_herdoc(redirect, std, herdoc, env);
     else

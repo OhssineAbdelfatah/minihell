@@ -182,6 +182,7 @@ void	free_sub(t_sub_sh *cmd);
 void	free_delimiters(t_del *head);
 void	free_tree2(t_cmd *cmd);
 void	free_mynigga(char **str);
+void	free_dawgs(int how_many,...);
 // void free_tree(t_cmd *cmd);
 
 /************************************* */

@@ -2,8 +2,13 @@
 
 char *getEnvValue(t_env *env, char *key)
 {
+    // printf()
     while(env != NULL)
     {
+        // printf("alo\n");
+        // // printf("env->key : %s, key : %s\n", env->key, key);
+        // if (env->next == NULL)
+        //     printf("env->key:%s, env->next == NULL\n", env->key);
         if(ft_strcmp(env->key, key))
             return ft_strdup(env->value);
         env = env->next;
@@ -50,12 +55,14 @@ char *cmd_abs_path(char *path,char *cmd)
         {
             cmd_abs_path = tmp;
             free_mynigga(path_2d);
+            free(path);
             return cmd_abs_path;
         }
         free(tmp);
         tmp = NULL;
     }
     free_mynigga(path_2d);
+    free(path);
     return NULL;
 }
 

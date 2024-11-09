@@ -54,7 +54,7 @@ char	*get_work_direc(void)
 	return (last);
 }
 
-char	**unquote_old(char **old)
+char	**unquote_old(char **old, int to_free)
 {
 	int		i;
 	int		res_len;
@@ -67,12 +67,15 @@ char	**unquote_old(char **old)
 		panic("malloc failed \n");
 	while (i < res_len)
 	{
-		res[i] = whithout_quotes(old[i]);
+		res[i] = whithout_quotes(old[i], to_free);
 		i++;
 	}
 	res[i] = NULL;
-	free(old);
-	old = NULL;
+	if (to_free)
+	{
+		free(old);
+		old = NULL;
+	}
 	return (res);
 }
 

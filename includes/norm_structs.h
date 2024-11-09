@@ -26,6 +26,7 @@ typedef struct s_ct_tk_pro t_ct_tk_pro;
 typedef struct s_count_words t_count_words;
 typedef struct s_check_tokens t_check_tokens;
 typedef struct s_check_quotes t_check_quotes;
+typedef struct s_check_empty_ones t_check_empty_ones;
 
 struct s_without_quotes
 {
@@ -130,5 +131,15 @@ struct s_check_quotes
 	int j;
 };
 
+
+struct s_check_empty_ones
+{
+	int oldlen;
+	int reslen;
+	char **res;
+	char **old_clone;
+	int i;
+	int j;
+};
 
 #endif

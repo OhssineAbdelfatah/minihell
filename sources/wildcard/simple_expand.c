@@ -87,10 +87,10 @@ char	**get_new_args(char **old, int new_len, t_dir_cont *dir_cont)
 		{
 			get_matches(var.new, old[var.j], dir_cont, &(var.i));
 			if (var.i == var.tmp)
-				var.new[var.i] = whithout_quotes(ft_strdup(old[var.j]));
+				var.new[var.i] = whithout_quotes(ft_strdup(old[var.j]), 1);
 		}
 		else
-			var.new[var.i] = whithout_quotes(ft_strdup(old[var.j]));
+			var.new[var.i] = whithout_quotes(ft_strdup(old[var.j]), 1);
 		if (var.i == var.tmp)
 			var.i++;
 		var.j++;
@@ -105,14 +105,14 @@ char	**wild_expand(char **old)
 
 	var.i = 0;
 	if (is_it_wild_args(old) == 0)
-		return (unquote_old(old));
+		return (unquote_old(old, 1));
 	var.work_dir = get_work_direc();
 	var.dir_cont_array = all_dir_sorted(var.work_dir);
 	var.dir_cont = array_to_lst_dir(var.dir_cont_array, var.work_dir);
 	var.new_len = count_new_args(old, var.dir_cont, &(var.i));
 	if (var.new_len < 0 || var.i == 0)
 		return (freedom(&(var.dir_cont_array), &(var.dir_cont),
-				&(var.work_dir)), unquote_old(old));
+				&(var.work_dir)), unquote_old(old, 1));
 	var.new = get_new_args(old, var.new_len, var.dir_cont);
 	free_mynigga(old);
 	return (freedom(&(var.dir_cont_array), &(var.dir_cont), &(var.work_dir)),

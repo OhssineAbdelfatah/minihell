@@ -48,7 +48,7 @@ void	init_vars(t_without_quotes *var, char *value)
 		panic("malloc failed !\n");
 }
 
-char	*whithout_quotes(char *value)
+char	*whithout_quotes(char *value, int to_free)
 {
 	t_without_quotes	var;
 
@@ -69,7 +69,9 @@ char	*whithout_quotes(char *value)
 		}
 	}
 	var.res[var.i] = 0;
-	return (free(value), var.res);
+	if (to_free)
+		free(value);
+	return (var.res);
 }
 
 t_del	*first_del(t_del *node, char *value)
@@ -86,7 +88,7 @@ t_del	*first_del(t_del *node, char *value)
 		if (is_quoted(value))
 		{
 			res->to_exp = 1;
-			res->del = whithout_quotes(value);
+			res->del = whithout_quotes(value, 1);
 		}
 		else
 			res->del = value;
@@ -109,7 +111,7 @@ t_del	*add(t_del *node, char *value)
 	if (is_quoted(value))
 	{
 		res->to_exp = 1;
-		res->del = whithout_quotes(value);
+		res->del = whithout_quotes(value, 1);
 	}
 	else
 		res->del = value;

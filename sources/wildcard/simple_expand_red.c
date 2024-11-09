@@ -40,7 +40,7 @@ char	*wild_expand_red(char *old, int ref)
 	t_wild_expand	var;
 
 	if (is_it_wild(old) == 0)
-		return (whithout_quotes(old));
+		return (whithout_quotes(old, 1));
 	var.work_dir = get_work_direc();
 	var.dir_cont_array = all_dir_sorted(var.work_dir);
 	var.dir_cont = array_to_lst_dir(var.dir_cont_array, var.work_dir);
@@ -54,7 +54,7 @@ char	*wild_expand_red(char *old, int ref)
 	}
 	if (var.new_len < 0 || var.i == 0)
 		return (freedom(&(var.dir_cont_array), &(var.dir_cont),
-				&(var.work_dir)), whithout_quotes(old));
+				&(var.work_dir)), whithout_quotes(old, 1));
 	var.new = (get_new_args(&old, var.new_len, var.dir_cont));
 	free(old);
 	var.new_for_red = ft_strdup(var.new[0]);

@@ -18,7 +18,7 @@ WILDCARD_FILES = sources/wildcard/globing.c sources/wildcard/wildcard.c \
 				sources/wildcard/simple_expand.c sources/wildcard/simple_expand_tools.c\
 				sources/wildcard/tool_box.c sources/wildcard/searching_tools.c
 
-FREEDOM = sources/freedom/freedom.c sources/freedom/freedom2.c 
+FREEDOM = sources/freedom/freedom.c sources/freedom/freedom2.c sources/freedom/freedom3.c 
 
 BUILT_TREE = sources/built_tree/builting_tools.c sources/built_tree/tree.c \
 			sources/built_tree/constractors.c sources/built_tree/constractors2.c
@@ -66,7 +66,7 @@ RLINCLUDE	=	-I/Users/aohssine/goinfre/homebrew/opt/readline/include  # tell comp
 # RLINCLUDE	=	-I/Users/ilaasri/.brew/opt/readline/include  #
 
 
-CFLAGS = -Wall -Wextra -Werror # -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror  -fsanitize=address -g
 # FFLAG = -fsanitize=address -g
 
 CC = cc

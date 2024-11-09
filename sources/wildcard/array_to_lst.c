@@ -93,7 +93,7 @@ void	free_dir_lst(t_dir_cont **head)
 //     while (head)
 //     {
 //         printf("val :%s, type : %d, valid %d\n", head->value, head->type,
-	// head->valid);
+// head->valid);
 //         head = head->next;
 //     }
 // }

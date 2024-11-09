@@ -40,6 +40,8 @@ char	**clone(char **av, int len)
 
 	i = 0;
 	res = (char **)malloc(sizeof(char *) * (len + 1));
+	if (!res)
+		panic("malloc failed !\n");
 	while (i < len)
 	{
 		res[i] = ft_strdup(av[i]);

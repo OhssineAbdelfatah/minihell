@@ -1,7 +1,5 @@
 #include "../../includes/minishell.h"
 
-// new_exec1
-
 int exec_simple_cmd(t_cmd_exec* p)
 {
 
@@ -19,8 +17,10 @@ int exec_simple_cmd(t_cmd_exec* p)
             error_exec_new(p->argv[0], 127);
     }
     if(dstr_len(p->argv))
+    {
         if (-1 == execve(abs_path, p->argv, cur_env))
             error_exec_new(p->argv[0], 127);
+    }
     free(abs_path);
     return 0;
 }
@@ -30,13 +30,17 @@ int exec_new_cmd(t_cmd *cmd , int *last_status)
     t_cmd_exec  *p;
     int status;
     int ref;
+    char **tmp_clone;
 
     ref = NOT_SIMPLE;
     signal (SIGINT, NULL);
     signal(SIGQUIT, NULL);
     p = (t_cmd_exec  *)cmd;
     status = 0;
+    tmp_clone = clone(p->argv, dstr_len(p->argv));
     p->argv = expander( p->argv, *(p->myenv), last_status, CMD_EXPN);
+    p->argv = check_empty_ones(p->argv, tmp_clone);
+    // printf(">>%s<<\n", p->argv[0]);
     p->argv = wild_expand(p->argv);
     status = check_red(p, &ref, last_status);
     if (status == 1)

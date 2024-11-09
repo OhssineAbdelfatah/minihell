@@ -23,6 +23,7 @@
 # include <fcntl.h>
 # include <signal.h>
 # include <stdlib.h>
+#include <stdarg.h>
 # include <dirent.h>
 # include <sys/types.h>
 # include "helper.h"
