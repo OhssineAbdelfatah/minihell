@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 23:24:38 by ilaasri           #+#    #+#             */
-/*   Updated: 2024/11/09 22:20:49 by codespace        ###   ########.fr       */
+/*   Updated: 2024/11/09 23:40:13 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,6 @@ typedef struct s_sub_sh			t_sub_sh;
 typedef struct s_dir_cont		t_dir_cont;
 typedef struct s_globing		t_globing;
 
-<<<<<<< HEAD
-// struct							s_my
-// {
-// 	int							i;
-// 	int							j;
-// 	int							x;
-// 	int							s2len;
-// 	int							s1len;
-// 	char						*res;
-// };
-
-=======
->>>>>>> 394107da053af7d7c459096480b172d8c5cc55a2
 typedef enum s_pos
 {
 	FIRST,
