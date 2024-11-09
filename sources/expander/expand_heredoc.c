@@ -14,13 +14,14 @@ int herdoc_newfd( int fd, t_env* myenv)
             break;
         tmp = line;
         line = splitWordVar(line, myenv, 0);
+        line = whithout_quotes(line);
         free(tmp);
         if(line)
             ft_putstr_fd(line, fd_pipe[1]);
         else
             ft_putstr_fd("\n", fd_pipe[1]);
         free(line);
-        free(NULL);
+        line = NULL ;
     }   
     line = get_next_line(-1);
     close(fd_pipe[1]);

@@ -58,7 +58,6 @@ int main(  int ac, char **av, char **env)
     t_env *dup_env;
     int checker ;   
 
-    // atexit(ff);
     status = 0;
     dup_env = init_env(env);
     while(1)

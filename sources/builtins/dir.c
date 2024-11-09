@@ -19,8 +19,8 @@ int pwd(t_cmd *cmd)
 static void update_oldpwd(t_new_cmd *p)
 {
     t_env *tmp;
-
     char *working_dir ;
+
     working_dir = NULL;
     working_dir = getcwd(working_dir, 0);
     tmp = env_exist("OLDPWD",*(p->myenv));

@@ -2,38 +2,11 @@
 
 // new_exec1
 
-void handle_error(t_cmd_exec *p, char **abs_path)
-{
-    struct stat file;
-
-    if(p->argv[0] && (p->argv[0][0] == '/' || (p->argv[0][0] == '.' && p->argv[0][1] == '/')))// is cmd starts with / or ./w
-    {
-        if(stat(p->argv[0], &file) == -1)//
-        {
-            write(2, "minishell: no such file or directory:\n", 39);
-		    exit(127) ;
-        } else if(S_ISDIR(file.st_mode)){
-            write(2, "minishell: "  ,23);
-            write(2, p->argv[0]  ,ft_strlen(p->argv[0]));
-            write(2, "is a directory\n",23);
-            exit(126);
-        } else if(S_ISREG(file.st_mode) && !(file.st_mode & S_IXUSR))
-        {
-            write(2, "minishell: permission denied\n", 39);
-            exit(126);
-        }else if (S_ISREG(file.st_mode) && file.st_mode & S_IXUSR){
-            // abs path is command itself
-            return ;
-        }
-    }else 
-}
-
 int exec_simple_cmd(t_cmd_exec* p)
 {
 
     char **cur_env;
     char *abs_path;
-    char *tmp;
     cur_env = lstoarry(*(p->myenv));
     // if(check_is_abs(p->argv[0]) == 0)
     //     abs_path = p->argv[0];
@@ -47,7 +20,8 @@ int exec_simple_cmd(t_cmd_exec* p)
     //     if(!abs_path )
     //         error_exec_new(p->argv[0], 127);
     // }
-    handle_error(p);
+    abs_path = NULL;
+    handle_error(p ,&abs_path);
     if(dstr_len(p->argv))
     {
         if (-1 == execve(abs_path, p->argv, cur_env))

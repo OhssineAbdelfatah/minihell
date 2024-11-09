@@ -27,7 +27,7 @@ int print_env(t_env *env);
 
 /*  EXPORT  */
 int export(t_env **ennv,char **cmd_args);
-void print_export(t_env *env);
+void print_export(t_env **env);
 t_env *env_exist(char *key, t_env* node);
 t_env* creat_new_env(char *key, char *value);
 void update_env(t_env *node, char *value);

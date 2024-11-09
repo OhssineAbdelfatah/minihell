@@ -27,6 +27,7 @@ EXECUTION = sources/execution/exec.c sources/execution/exec_pipe.c\
 			sources/execution/exec_new.c sources/execution/signals.c\
 			sources/execution/open_red.c sources/execution/check_herdoc.c\
 			sources/execution/exec_bonus.c sources/execution/get_precmd.c\
+			sources/execution/get_cmd.c
 
 EXPANDER = sources/expander/expander.c sources/expander/expand_list.c \
 			sources/expander/utils.c sources/expander/expand_heredoc.c \

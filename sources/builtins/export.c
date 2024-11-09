@@ -7,15 +7,15 @@ void update_env(t_env *node, char *value)
     return ;
 }
 
-void print_export(t_env *env)
+void print_export(t_env **env)
 {
-    while(env != NULL)
+    while(env && (*env) != NULL)
     {
-        printf("declare -x %s=\"",env->key);
-        if(env->value)
-            printf("%s",env->value);
+        printf("declare -x %s=\"",(*env)->key);
+        if((*env)->value)
+            printf("%s",(*env)->value);
         printf("\"\n");
-        env = env->next;
+        (*env) = (*env)->next;
     }
 }
 char *getKey(char* arg)
@@ -73,7 +73,7 @@ int export(t_env **ennv,char **cmd)
     tmp = NULL;
     status = 0;
     if(ft_strslen(cmd) == 1)
-        return (print_export(*ennv), status);
+        return (print_export(ennv), status);
     i = 0;
     while(cmd[++i])
     {
