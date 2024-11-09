@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	destroy_single_env(t_env *node)
 {

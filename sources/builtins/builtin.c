@@ -1,17 +1,16 @@
-#include "../../includes/minishell.h"
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:39 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 17:34:40 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/09 19:22:32 by blacksniper      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	reset_fds(t_cmd *p)
 {
@@ -68,9 +67,9 @@ int	exec_builtin(t_cmd *cmd, int *last_status, int ref)
 		return (status);
 	if (!p->argv || !(p->argv[0]))
 		return (1);
-	if (ft_strcmp(p->argv[0], "cd")) // add oldpwd and change pwd
+	if (ft_strcmp(p->argv[0], "cd"))
 		status = cd(cmd);
-	else if (ft_strcmp(p->argv[0], "pwd")) //
+	else if (ft_strcmp(p->argv[0], "pwd"))
 		status = pwd(cmd);
 	else if (ft_strcmp(p->argv[0], "env"))
 		status = print_env(*(p->myenv));

@@ -6,11 +6,11 @@
 /*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:50 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 16:45:10 by blacksniper      ###   ########.fr       */
+/*   Updated: 2024/11/09 19:24:23 by blacksniper      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	print_env(t_env *env)
 {
@@ -66,22 +66,19 @@ t_env	*creat_env(char *env_main)
 	return (node);
 }
 
-// int is_str_in(char *s1, char *s2)
-// {
-
-// }
-
 t_env	*init_env(char **env_main)
 {
-	t_env *env; // list head
-	t_env *tmp; // used to head each node
-	int i = -1;
+	t_env	*env;
+	t_env	*tmp;
+	int		i;
+
+	i = -1;
 	env = NULL;
 	while (env_main && env_main[++i])
 	{
 		if (ft_strnstr(env_main[i], "OLDPWD", 6) == NULL)
 		{
-			tmp = creat_env(env_main[i]); // create node
+			tmp = creat_env(env_main[i]);
 			add_back_env(&env, tmp);
 		}
 	}
