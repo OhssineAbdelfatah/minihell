@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 00:43:17 by ilaasri           #+#    #+#             */
-/*   Updated: 2024/11/03 13:50:50 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/08 22:03:53 by blacksniper      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <stdlib.h>
 # include <dirent.h>
 # include <sys/types.h>
+# include <sys/stat.h>
 # include "helper.h"
 # include "helper2.h"
 # include "colors.h"
