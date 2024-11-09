@@ -73,7 +73,7 @@ int export(t_env **ennv,char **cmd)
     tmp = NULL;
     status = 0;
     if(ft_strslen(cmd) == 1)
-        return (print_export(*ennv), status);
+        return (print_export(ennv), status);
     i = 0;
     while(cmd[++i])
     {
