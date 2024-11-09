@@ -66,8 +66,8 @@ t_env *init_env(char **env_main)
     t_env *env; // list head
     t_env *tmp; // used to head each node
     int i = -1;
-    env =NULL;
-    while(env_main[++i])
+    env = NULL;
+    while(env_main && env_main[++i])
     {
         if (ft_strnstr(env_main[i], "OLDPWD", 6) == NULL)
         {
