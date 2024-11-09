@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:09 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 17:34:10 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/09 21:20:34 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int echo(t_new_cmd*cmd);
 int cd(t_cmd *cmd);
 
 /*  PWD */
-int pwd(t_cmd *cmd);
+int pwd();
 
 /*  ENV  */
 t_env *init_env(char **env_main);
@@ -43,6 +43,9 @@ void print_export(t_env **env);
 t_env *env_exist(char *key, t_env* node);
 t_env* creat_new_env(char *key, char *value);
 void update_env(t_env *node, char *value);
+char	*get_key(char *arg);
+char	*get_value(char *arg);
+
 // char *clean_arg(char *arg);
 
 /*  UNSET   */

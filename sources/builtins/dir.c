@@ -6,18 +6,16 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:42 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 20:29:00 by codespace        ###   ########.fr       */
+/*   Updated: 2024/11/09 21:17:42 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	pwd(t_cmd *cmd)
+int	pwd()
 {
-	struct exec_cmd	*p;
 	char			*curd;
 
-	p = (struct exec_cmd *)cmd;
 	curd = NULL;
 	curd = getcwd(curd, 0);
 	if (!curd)
@@ -70,7 +68,7 @@ int	cd(t_cmd *cmd)
 	p = (t_cmd_exec *)cmd;
 	if (ft_strslen(p->argv) == 1)
 	{
-		if (!(arg = getEnvValue(*(p->myenv), "HOME")))
+		if (!(arg = get_env_value(*(p->myenv), "HOME")))
 		{
 			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 			return (1);

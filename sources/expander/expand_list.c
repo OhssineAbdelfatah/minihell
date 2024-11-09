@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_list.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:36:01 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 17:36:03 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/09 21:07:19 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ char *expand(t_node **head, t_env *env, int *st)
 
         if (dt.tmp->type == '1')
         {
-            dt.value = getEnvValue(env, dt.tmp->str + 1);
+            dt.value = get_env_value(env, dt.tmp->str + 1);
             if(ft_strcmp(dt.tmp->str + 1, "?")){
                 free( dt.value );
                 dt.value = ft_itoa(*st);

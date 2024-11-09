@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 00:43:17 by ilaasri           #+#    #+#             */
-/*   Updated: 2024/11/09 15:30:00 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/09 21:06:55 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void		exec_cmd(char **tokens, char **env);
 void		panic(char *str);
 int			ft_strlen1(char *s);
 char		**split_shit(char *s);
-char		*getEnvValue(t_env *env, char *key);
+char		*get_env_value(t_env *env, char *key);
 // void exec(t_cmd *cmd);
 
 // debug

@@ -37,7 +37,7 @@ EXPANDER = sources/expander/expander.c sources/expander/expand_list.c \
 BUILTINS = 	sources/builtins/env.c sources/builtins/lstoarry.c \
             sources/builtins/builtin.c sources/builtins/dir.c \
             sources/builtins/unset.c sources/builtins/export.c \
-			sources/builtins/exit.c \
+			sources/builtins/exit.c sources/builtins/export_utils.c \
 			sources/builtins/echo.c  \
 
 CFILES =	${PARSE} \
