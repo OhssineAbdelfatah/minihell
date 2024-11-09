@@ -1,4 +1,16 @@
-#include "../../includes/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/09 17:34:56 by aohssine          #+#    #+#             */
+/*   Updated: 2024/11/09 16:44:46 by blacksniper      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include"../../includes/minishell.h"
 
 void	update_env(t_env *node, char *value)
 {
