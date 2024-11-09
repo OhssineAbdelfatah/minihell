@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:35:36 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 21:11:48 by codespace        ###   ########.fr       */
+/*   Updated: 2024/11/09 21:23:23 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,11 @@ int	open_file_append(t_red *redirect, int *std[4], t_env *env)
 
 int	open_file(t_red *redirect, int *std[4], t_herdoc *herdoc, t_env *env)
 {
-	int	status;
+	int		status;
+	char	*file_name1;
+	char	*file_name;
 
 	status = 0;
-	char *file_name1, *file_name;
 	file_name1 = ft_strdup(redirect->file);
 	file_name = whithout_quotes(file_name1, 1);
 	if (HERDOC == redirect->type)
@@ -103,7 +104,7 @@ int	open_file(t_red *redirect, int *std[4], t_herdoc *herdoc, t_env *env)
 			if (status == 1)
 				return (free(file_name), status);
 		}
-		if (*std[1] < 0 && 4 != redirect->mode) //
+		if (*std[1] < 0 && 4 != redirect->mode)
 		{
 			dprintf(2, "minishell: %s: Permission denied\n", redirect->file);
 			if (*std[2] != SIMPLE)

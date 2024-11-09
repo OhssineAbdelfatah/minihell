@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 19:06:10 by ilaasri           #+#    #+#             */
-/*   Updated: 2024/11/09 21:08:20 by codespace        ###   ########.fr       */
+/*   Updated: 2024/11/09 21:24:04 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,6 @@ int	exec_pipe(t_cmd *cmd, int *last_status)
 	wait(0);
 	return (sp.status);
 }
-
 
 // void pipe_parent(t_execp *sp)
 // {

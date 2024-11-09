@@ -36,27 +36,27 @@ int	exec_new_cmd(t_cmd *cmd, int *last_status)
 	int			ref;
 	char		**tmp_clone;
 
-    ref = NOT_SIMPLE;
-    signal (SIGINT, NULL);
-    signal(SIGQUIT, NULL);
-    p = (t_cmd_exec  *)cmd;
-    status = 0;
-    tmp_clone = clone(p->argv, dstr_len(p->argv));
-    p->argv = expander( p->argv, *(p->myenv), last_status, CMD_EXPN);
-    p->argv = check_empty_ones(p->argv, tmp_clone);
-    p->argv = wild_expand(p->argv);
-    status = check_red(p, &ref, last_status);
-    if (status == 1)
-        return(status);
-    if( !(p->argv) || !(*(p->argv)))
-        exit(status);
-    if(is_builtin(cmd, &status,last_status, NOT_SIMPLE))
-        exit(status);
-    else
-        exec_simple_cmd(p);
-    free_mynigga(p->argv);
-    exit(0);
-    return (status);  
+	ref = NOT_SIMPLE;
+	signal(SIGINT, NULL);
+	signal(SIGQUIT, NULL);
+	p = (t_cmd_exec *)cmd;
+	status = 0;
+	tmp_clone = clone(p->argv, dstr_len(p->argv));
+	p->argv = expander(p->argv, *(p->myenv), last_status, CMD_EXPN);
+	p->argv = check_empty_ones(p->argv, tmp_clone);
+	p->argv = wild_expand(p->argv);
+	status = check_red(p, &ref, last_status);
+	if (status == 1)
+		return (status);
+	if (!(p->argv) || !(*(p->argv)))
+		exit(status);
+	if (is_builtin(cmd, &status, last_status, NOT_SIMPLE))
+		exit(status);
+	else
+		exec_simple_cmd(p);
+	free_mynigga(p->argv);
+	exit(0);
+	return (status);
 }
 
 int	new_exec1(t_cmd *cmd, int ref, int *last_status)
