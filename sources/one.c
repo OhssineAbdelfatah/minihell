@@ -34,8 +34,8 @@ void	parse_nd_exec(char **my_tokens, t_env **dup_env, int *status)
 	if (g_sig == 130 || g_sig == 131)
 	{
 		*status = 130;
-        if (g_sig == 131)
-            *status = 1;
+		if (g_sig == 131)
+			*status = 1;
 		g_sig = -1;
 	}
 	free_mynigga(my_tokens);
@@ -45,10 +45,10 @@ void	parse_nd_exec(char **my_tokens, t_env **dup_env, int *status)
 void	history(char *str)
 {
 	if (!str)
-    {
-        ft_putstr_fd("exit\n", 2);
-        exit(0);
-    }
+	{
+		ft_putstr_fd("exit\n", 2);
+		exit(0);
+	}
 	if (!str || 0 == ft_strlen(str))
 		return ;
 	if (is_white_str(str))
@@ -56,48 +56,44 @@ void	history(char *str)
 	add_history(str);
 }
 
-
-void ff(){
-    system("leaks minishell");
-}
-
-int main(int ac, char **av, char **env)
+void	main_core(t_main *var)
 {
-    char *str;
-    int status;
-    char **my_tokens;
-    t_env *dup_env;
-    int checker ;   
-
-    status = 0;
-    dup_env = init_env(env);
-    while(1)
-    {
-        signal(SIGINT, signal_handler);
-        signal(SIGQUIT, SIG_IGN);
-        str = readline(GRN"minishell> "CRESET);
-        history(str);
-        if (g_sig == 1300)
-        {
-            // printf("Status : %d\n", status);
-            status = 1;
-        }
-        g_sig = -1;
-        if (str && ft_strlen(str) && _check_str(str) == 0)
-        {
-            my_tokens = fr9_trb7(str);
-            checker = _check_tokens(my_tokens);
-            if (checker != EXEC && checker != SUB_SH)
-            {
-                free_mynigga(my_tokens);
-                error(NULL,checker);
-                status = 258;
-            }
-            else if (my_tokens)
-                parse_nd_exec(my_tokens, &dup_env, &status);
-        }
-        free(str);
-    }
-    (void)ac;
-    (void)av;
+	var->my_tokens = fr9_trb7(var->str);
+	var->checker = _check_tokens(var->my_tokens);
+	if (var->checker != EXEC && var->checker != SUB_SH)
+	{
+		free_mynigga(var->my_tokens);
+		error(NULL, var->checker);
+		var->status = 258;
+	}
+	else if (var->my_tokens)
+		parse_nd_exec(var->my_tokens, &(var->dup_env), &(var->status));
 }
+
+int	main(int ac, char **av, char **env)
+{
+	t_main	var;
+
+	var.status = 0;
+	var.dup_env = init_env(env);
+	while (1)
+	{
+		signal(SIGINT, signal_handler);
+		signal(SIGQUIT, SIG_IGN);
+		var.str = readline(GRN "minishell> " CRESET);
+		history(var.str);
+		if (g_sig == 1300)
+			var.status = 1;
+		g_sig = -1;
+		if (var.str && ft_strlen(var.str) && _check_str(var.str) == 0)
+			main_core(&var);
+		free(var.str);
+	}
+	(void)ac;
+	(void)av;
+}
+
+// void	ff(void)
+// {
+// 	system("leaks minishell");
+// }

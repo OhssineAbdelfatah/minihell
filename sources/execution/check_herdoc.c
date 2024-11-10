@@ -57,16 +57,21 @@ int	exec_red(t_red *redirect, int *std[4], t_herdoc *herdoc, t_env *env)
 	return (status);
 }
 
+void	set_stds(int *std[4], int *ref, int *last_status, t_cmd_exec *p)
+{
+	std[0] = &(p->fd_in);
+	std[1] = &(p->fd_out);
+	std[2] = ref;
+	std[3] = last_status;
+}
+
 int	check_red(t_cmd_exec *p, int *ref, int *last_status)
 {
 	int	status;
 	int	*std[4];
 
 	status = 0;
-	std[1] = &(p->fd_out);
-	std[0] = &(p->fd_in);
-	std[2] = ref;
-	std[3] = last_status;
+	set_stds(std, ref, last_status, p);
 	if (NULL != p->redirect)
 		status = exec_red(p->redirect, std, p->herdoc, *(p->myenv));
 	if (status)

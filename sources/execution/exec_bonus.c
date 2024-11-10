@@ -12,47 +12,46 @@
 
 #include "../../includes/minishell.h"
 
+void	exec_sub_sh_core(t_exec_sub_sh *var, int *last_status)
+{
+	signal(SIGQUIT, NULL);
+	var->std[0] = &(var->p->fd_in);
+	var->std[1] = &(var->p->fd_out);
+	var->std[2] = &(var->sub_status);
+	var->std[3] = last_status;
+	if (var->p->redirect)
+		if (exec_red(var->p->redirect, var->std, var->p->herdoc,
+				*(var->p->myenv)) == 1)
+			exit(1);
+	if (var->p->fd_in != -1 || var->p->fd_out != -1)
+	{
+		if (var->p->fd_out != -1)
+		{
+			dup2(var->p->fd_out, 1);
+			close(var->p->fd_out);
+		}
+		if (var->p->fd_in != -1)
+		{
+			dup2(var->p->fd_in, 0);
+			close(var->p->fd_in);
+		}
+	}
+	var->sub_status = new_exec(var->p->sub_root, 0, last_status);
+	exit(var->sub_status);
+}
+
 int	exec_sub_sh(t_cmd *cmd, int *last_status)
 {
-	t_sub_sh	*p;
-	int			pid;
-	int			*std[4];
-	int			sub_status;
+	t_exec_sub_sh	var;
 
-	p = (t_sub_sh *)cmd;
-	pid = fork();
-	sub_status = 0;
-	if (pid == 0)
-	{
-		signal(SIGQUIT, NULL);
-		std[0] = &(p->fd_in);
-		std[1] = &(p->fd_out);
-		std[2] = &sub_status;
-		std[3] = last_status;
-		if (p->redirect)
-		{
-			if (exec_red(p->redirect, std, p->herdoc, *(p->myenv)) == 1)
-				exit(1);
-		}
-		if (p->fd_in != -1 || p->fd_out != -1)
-		{
-			if (p->fd_out != -1)
-			{
-				dup2(p->fd_out, 1);
-				close(p->fd_out);
-			}
-			if (p->fd_in != -1)
-			{
-				dup2(p->fd_in, 0);
-				close(p->fd_in);
-			}
-		}
-		sub_status = new_exec(p->sub_root, 0, last_status);
-		exit(sub_status);
-	}
+	var.p = (t_sub_sh *)cmd;
+	var.pid = fork();
+	var.sub_status = 0;
+	if (var.pid == 0)
+		exec_sub_sh_core(&var, last_status);
 	signal(SIGQUIT, do_nothing);
 	signal(SIGINT, SIG_IGN);
-	waitpid(pid, &sub_status, 0);
-	*last_status = WEXITSTATUS(sub_status);
+	waitpid(var.pid, &(var.sub_status), 0);
+	*last_status = WEXITSTATUS(var.sub_status);
 	return (*last_status);
 }
