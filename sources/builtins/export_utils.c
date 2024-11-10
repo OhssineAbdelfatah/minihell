@@ -7,15 +7,15 @@ void	update_env(t_env *node, char *value)
 	return ;
 }
 
-void	print_export(t_env **env)
+void	print_export(t_env *env)
 {
-	while (env && (*env) != NULL)
+	while (env != NULL)
 	{
-		printf("declare -x %s=\"", (*env)->key);
-		if ((*env)->value)
-			printf("%s", (*env)->value);
+		printf("declare -x %s=\"", env->key);
+		if (env->value)
+			printf("%s", env->value);
 		printf("\"\n");
-		(*env) = (*env)->next;
+		env = env->next;
 	}
 }
 

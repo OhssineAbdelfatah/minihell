@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:56 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 23:33:56 by codespace        ###   ########.fr       */
+/*   Updated: 2024/11/10 18:17:14 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,42 +36,47 @@ t_env	*creat_new_env(char *key, char *value)
 	return (node);
 }
 
-int	export(t_env **ennv, char **cmd)
+int	export_body(t_env **env, char *key, char *argv)
+{
+	t_env	*tmp;
+	char	*value;
+
+	tmp = env_exist(key, *(env));
+	value = get_value(argv);
+	if (tmp)
+	{
+		update_env(tmp, value);
+		free(key);
+	}
+	else
+	{
+		tmp = creat_new_env(key, ft_strdup(value));
+		add_back_env(env, tmp);
+		free(value);
+	}
+	return (0);
+}
+
+int	export(t_cmd_exec *p)
 {
 	int		status;
-	t_env	*tmp;
 	char	*key;
-	char	*value;
 	int		i;
 
-	tmp = NULL;
 	status = 0;
-	if (ft_strslen(cmd) == 1)
-		return (print_export(ennv), status);
+	if (ft_strslen(p->argv) == 1)
+		return (print_export(*(p->myenv)), status);
 	i = 0;
-	while (cmd[++i])
+	while (p->argv[++i])
 	{
-		key = get_key(cmd[i]);
+		key = get_key(p->argv[i]);
 		if (key && is_valid(key))
-		{
-			tmp = env_exist(key, *ennv);
-			value = get_value(cmd[i]);
-			if (tmp)
-			{
-				update_env(tmp, value);
-				free(key);
-			}
-			else
-			{
-				tmp = creat_new_env(key, ft_strdup(value));
-				add_back_env(ennv, tmp);
-				free(value);
-			}
-		}
+			export_body(p->myenv, key, p->argv[i]);
 		else if (!is_valid(key))
 		{
 			status = 1;
-			printf("minishell: export: `%s': not a valid identifier\n", cmd[i]);
+			my_dprint(2, "minishell: export: `%s': not a valid identifier\n",
+				p->argv[i]);
 			free(key);
 		}
 	}

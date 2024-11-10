@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
+/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:50 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 19:24:23 by blacksniper      ###   ########.fr       */
+/*   Updated: 2024/11/10 16:35:41 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	add_back_env(t_env **head, t_env *node)
 	while (tmp->next != NULL)
 		tmp = tmp->next;
 	tmp->next = node;
-	node->next = NULL;
 }
 
 t_env	*creat_env(char *env_main)
