@@ -12,13 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-int	next_nonspecial(char *s, int i)
-{
-	while (s[i] && 0 <= is_special(s[i]))
-		i++;
-	return (i);
-}
-
 int	get_start(char *s, int i)
 {
 	if (s)
@@ -62,17 +55,35 @@ int	check_dtr_for_and(char *s)
 	int	i;
 
 	i = 0;
+	if (s[i] == '"' || s[i] == '\'')
+		i = get_next_quote(s, i);
 	if (s[i] == '&' && s[i + 1] != '&')
 		return (1);
 	while (s[i])
 	{
+		if (s[i] == '"' || s[i] == '\'')
+			i = get_next_quote(s, i);
 		if (i > 0)
 		{
 			if (s[i] == '&' && s[i + 1] != '&' && s[i - 1] != '&')
 				return (1);
 		}
-		i++;
+		if (s[i])
+			i++;
 	}
+	return (0);
+}
+
+int	_check_str_core(char *s, int i)
+{
+	if (s[i] == '|' && s[i + 1] == '|' && s[i + 2] == '|')
+		return (error(s, PIPE), 1);
+	if (s[i] == '&' && s[i + 1] == '&' && s[i + 2] == '&')
+		return (error(s, AND), 1);
+	if (s[i] == '<' && s[i + 1] == '<' && s[i + 2] == '<')
+		return (error(s, RED), 1);
+	if (s[i] == '>' && s[i + 1] == '>' && s[i + 2] == '>')
+		return (error(s, RED), 1);
 	return (0);
 }
 
@@ -91,15 +102,11 @@ int	_check_str(char *s)
 		return (error(s, AND), 1);
 	while (s[i])
 	{
-		if (s[i] == '|' && s[i + 1] == '|' && s[i + 2] == '|')
-			return (error(s, PIPE), 1);
-		if (s[i] == '&' && s[i + 1] == '&' && s[i + 2] == '&')
-			return (error(s, AND), 1);
-		if (s[i] == '<' && s[i + 1] == '<' && s[i + 2] == '<')
-			return (error(s, RED), 1);
-		if (s[i] == '>' && s[i + 1] == '>' && s[i + 2] == '>')
-			return (error(s, RED), 1);
-		else
+		if (s[i] == '"' || s[i] == '\'')
+			i = get_next_quote(s, i);
+		if (_check_str_core(s, i))
+			return (1);
+		else if (s[i])
 			i++;
 	}
 	return (0);

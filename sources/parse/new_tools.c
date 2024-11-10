@@ -28,3 +28,10 @@ int	is_quoted(char *s)
 	}
 	return (0);
 }
+
+int	next_nonspecial(char *s, int i)
+{
+	while (s[i] && 0 <= is_special(s[i]))
+		i++;
+	return (i);
+}

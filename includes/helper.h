@@ -24,6 +24,7 @@ int		get_next_quote(char *s, int i);
 char	**fr9_trb7(char *s);
 int		dstr_len(char **s);
 int		_check_tokens(char **tokens);
+int		next_nonspecial(char *s, int i);
 
 /*********************************** */
 // TOKENS PART 2
