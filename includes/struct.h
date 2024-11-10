@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ilaasri <ilaasri@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/28 23:24:38 by ilaasri           #+#    #+#             */
-/*   Updated: 2024/11/09 23:40:13 by codespace        ###   ########.fr       */
+/*   Created: 2024/11/10 11:59:06 by ilaasri           #+#    #+#             */
+/*   Updated: 2024/11/10 11:59:08 by ilaasri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,7 +220,7 @@ typedef struct s_wild_expand
 	char						**new;
 	int							new_len;
 	char						*work_dir;
-	char 						*new_for_red;
+	char						*new_for_red;
 	char						**dir_cont_array;
 	t_dir_cont					*dir_cont;
 	int							i;

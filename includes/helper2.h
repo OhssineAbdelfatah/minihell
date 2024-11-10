@@ -12,7 +12,7 @@
 
 #ifndef HELPER2_H
 # define HELPER2_H
-		
+
 # include "struct.h"
 
 /************************************** */
@@ -102,8 +102,8 @@ char		*take_slash_of(char *arg);
 // SIMPLE WILD EXPAND :
 /*************************************************************** */
 
-char	**get_new_args(char **old, int new_len, t_dir_cont *dir_cont);
-int	count_matches(char *old, t_dir_cont *dir_cont);
+char		**get_new_args(char **old, int new_len, t_dir_cont *dir_cont);
+int			count_matches(char *old, t_dir_cont *dir_cont);
 char		**wild_expand(char **old);
 char		*wild_expand_red(char *old, int ref);
 /**************************************************************/
@@ -119,6 +119,6 @@ int			check_node_for_valid(t_globing *wild, t_dir_cont *head,
 /********************************************************** */
 // SOME WEIRD HANDLING:
 /********************************************************** */
-char **check_empty_ones(char **old, char **as);
+char		**check_empty_ones(char **old, char **as);
 
 #endif

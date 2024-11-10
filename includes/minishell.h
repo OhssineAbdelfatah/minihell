@@ -23,15 +23,13 @@
 # include <fcntl.h>
 # include <signal.h>
 # include <stdlib.h>
-#include <stdarg.h>
+# include <stdarg.h>
 # include <dirent.h>
 # include <sys/types.h>
 # include <sys/stat.h>
 # include "helper.h"
 # include "helper2.h"
 # include "colors.h"
-// # include "struct.h"
-// # include "norm_structs.h"
 # include "builtins.h"
 # include "expander.h"
 # include "../lib/libft/libft.h"

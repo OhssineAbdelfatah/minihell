@@ -29,33 +29,32 @@ int		_check_tokens(char **tokens);
 // TOKENS PART 2
 /***************************** */
 
-int	get_endo(char *s, int x);
-int	get_starto(char *s, int x);
-int	red_or_pipe(char c);
+int		get_endo(char *s, int x);
+int		get_starto(char *s, int x);
+int		red_or_pipe(char c);
 
 /********************************************** */
 // 	COUNTING TOOLS
 /********************************************** */
-int	get_next_parenties(char *s, int i);
-int	total_sub(char *s);
+int		get_next_parenties(char *s, int i);
+int		total_sub(char *s);
 
 /****************************************** */
 // COUNTING THINGS :
 /********************************************/
 
-int	counts_and_or(char *s);
-int count_red (char *s, t_count_pipe_red *var);
-int	count_pipe_red(char *s);
-int	counts_and_or(char *s);
-int	count_sub_sh(char *s);
-
+int		counts_and_or(char *s);
+int		count_red(char *s, t_count_pipe_red *var);
+int		count_pipe_red(char *s);
+int		counts_and_or(char *s);
+int		count_sub_sh(char *s);
 
 /****************************************** */
 // PARSING SUB SHELL:
 /********************************************/
 
 int		check_tok_sub(char **tokens);
-int	get_end_sub(char **tokens, int i);
+int		get_end_sub(char **tokens, int i);
 
 /*********************************** */
 // TOOLS ABT WHITE SPACES
@@ -76,7 +75,6 @@ t_cmd	*init_sub(t_cmd *root_sub, t_env **myenv, t_red *redirect,
 t_cmd	*init_or(t_cmd *left, t_cmd *right);
 t_cmd	*init_and(t_cmd *left, t_cmd *right);
 t_cmd	*init_pipe(t_cmd *left, t_cmd *right);
-
 
 /****************************************************/
 
@@ -110,7 +108,7 @@ int		get_mode(char **tokens, int i);
 char	*cmd_line(char **tokens, int *x);
 // t_cmd *init_new_cmd(char *argv, char **env, t_red *redirect);
 // t_cmd *init_new_cmd(char **argv, t_env *myenv,t_red *redirect,
-	//int herdoc_pipe);
+// int herdoc_pipe);
 void	add_to_lst(t_red *red_lst, char **tokens, int i);
 t_red	*creat_red_lst(char **tokens, int i);
 // t_cmd *parse_new_exec(char **tokens, int *i, t_env **myenv);
@@ -129,8 +127,8 @@ t_cmd	*parse_sub(char **tokens, int *i, t_env **myenv);
 /*******************************************/
 // 	BUILTING THE TREE TOOLS :
 /*******************************************/
-int	is_pipe(char *s);
-int	is_and_or(char *s);
+int		is_pipe(char *s);
+int		is_and_or(char *s);
 
 // new EXEC
 /************************************ */
@@ -139,18 +137,18 @@ int		exec_sub_sh(t_cmd *cmd, int *last_status);
 int		exec_or(t_cmd *cmd, int *last_status);
 int		exec_and(t_cmd *cmd, int *last_status);
 int		new_exec(t_cmd *cmd, int ref, int *last_status);
-void 	handle_error(t_cmd_exec *p, char **abs_path);
-int open_file(t_red *redirect,int *std[4], t_herdoc *herdoc, t_env *env);
-void open_herdoc(t_red *redirect, int *std[4],t_herdoc *herdoc, t_env *env);
+void	handle_error(t_cmd_exec *p, char **abs_path);
+int		open_file(t_red *redirect, int *std[4], t_herdoc *herdoc, t_env *env);
+void	open_herdoc(t_red *redirect, int *std[4], t_herdoc *herdoc, t_env *env);
 void	left_child_is_sub(t_cmd *left_cmd, t_execp *sp, int *last_status);
 int		exec_pipe(t_cmd *cmd, int *last_status);
 int		execute_pipe(t_cmd *cmd, int *last_status);
 int		recursion_pipe(t_cmd *cmd, int *last_status);
 int		exec_new_cmd(t_cmd *cmd, int *last_status);
 
-int     exec_red(t_red *redirect, int *std[4], t_herdoc *herdoc, t_env *env);
-int check_is_abs(char *cmd);
-char *cmd_abs_path(char *path,char *cmd);
+int		exec_red(t_red *redirect, int *std[4], t_herdoc *herdoc, t_env *env);
+int		check_is_abs(char *cmd);
+char	*cmd_abs_path(char *path, char *cmd);
 /************************************ */
 
 // SIGNALS
@@ -179,7 +177,7 @@ void	free_sub(t_sub_sh *cmd);
 void	free_delimiters(t_del *head);
 void	free_tree2(t_cmd *cmd);
 void	free_mynigga(char **str);
-void	free_dawgs(int how_many,...);
+void	free_dawgs(int how_many, ...);
 // void free_tree(t_cmd *cmd);
 
 /************************************* */
@@ -188,14 +186,14 @@ void	free_dawgs(int how_many,...);
 /****************** */
 void	error(char *s, int er_num);
 void	ambiguous_exit(char *str, int ref);
-void error_exec_new(char *str, int exit_status);
+void	error_exec_new(char *str, int exit_status);
 /************************ */
 // PRINTER
 /*************************/
-void my_dprint(int fd, char *s, ...);
+void	my_dprint(int fd, char *s, ...);
 
 /************************************************/
 //   KJJK
 /**************************************************/
-int	check_err_red(t_red *redirect, char *file_name, int *std[4]);
+int		check_err_red(t_red *redirect, char *file_name, int *std[4]);
 #endif
