@@ -36,33 +36,32 @@ bool	is_valid(char *key)
 	return (true);
 }
 
-int unset_body(t_env *tmp, char *key, t_env* prev, t_env** head)
+int	unset_body(t_env *tmp, char *key, t_env *prev, t_env **head)
 {
-	int status ;
-	
+	int	status;
+
 	while (tmp != NULL)
+	{
+		if (ft_strcmp(tmp->key, key) && is_valid(key))
 		{
-			if (ft_strcmp(tmp->key, key) && is_valid(key))
-			{
-				if (prev == NULL)
-					*head = tmp->next;
-				else
-					prev->next = tmp->next;
-				destroy_single_env(tmp);
-				tmp = NULL;
-				break ;
-			}
-			else if (!is_valid(key))
-			{
-				printf("minishell: unset: `%s': not a valid identifier\n",
-					key);
-				status = 1;
-				break ;
-			}
-			prev = tmp;
-			tmp = tmp->next;
+			if (prev == NULL)
+				*head = tmp->next;
+			else
+				prev->next = tmp->next;
+			destroy_single_env(tmp);
+			tmp = NULL;
+			break ;
 		}
-	return status;
+		else if (!is_valid(key))
+		{
+			printf("minishell: unset: `%s': not a valid identifier\n", key);
+			status = 1;
+			break ;
+		}
+		prev = tmp;
+		tmp = tmp->next;
+	}
+	return (status);
 }
 
 int	unset_env(t_env **head, char **key)

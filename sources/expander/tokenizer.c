@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:36:16 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 22:53:27 by codespace        ###   ########.fr       */
+/*   Updated: 2024/11/10 19:05:52 by blacksniper      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,38 +27,39 @@ char	*initialize_tokens(int length)
 	return (tokens);
 }
 
-void	process_tokens(char *arg, char *tokens, t_tokens tok)
+static int	__checker(t_tokens *tok)
 {
-	while (arg[tok.i])
+	return (!tok->in_s && !tok->in_d && (tok->prv_chr == '\''
+			|| tok->prv_chr == '\"' || tok->i == 0));
+}
+
+int	process_tokens(char *arg, char *tokens, t_tokens tok)
+{
+	while (arg[++tok.i])
 	{
-		if (arg[tok.i] == '\"' && !tok.in_single_quotes)
+		if (arg[tok.i] == '\"' && !tok.in_s)
 		{
 			tokens[tok.i] = 'd';
-			tok.in_double_quotes = !tok.in_double_quotes;
+			tok.in_d = !tok.in_d;
 		}
-		else if (arg[tok.i] == '\'' && !tok.in_double_quotes)
+		else if (arg[tok.i] == '\'' && !tok.in_d)
 		{
 			tokens[tok.i] = 's';
-			tok.in_single_quotes = !tok.in_single_quotes;
+			tok.in_s = !tok.in_s;
 		}
-		else if (!tok.in_single_quotes && !tok.in_double_quotes
-			&& (tok.prev_char == '\'' || tok.prev_char == '\"' || tok.i == 0))
-		{
+		else if (__checker(&tok))
 			tokens[tok.i] = 'w';
-		}
-		tok.prev_char = arg[tok.i];
+		tok.prv_chr = arg[tok.i];
 		if (tokens[tok.i] == '0')
 		{
-			if (tok.in_double_quotes)
+			tokens[tok.i] = 'w';
+			if (tok.in_d)
 				tokens[tok.i] = 'd';
-			else if (tok.in_single_quotes)
+			else if (tok.in_s)
 				tokens[tok.i] = 's';
-			else
-				tokens[tok.i] = 'w';
 		}
-		tok.i++;
 	}
-	tokens[tok.i] = '\0';
+	return (tok.i);
 }
 
 char	*tokenizer(char *arg)
@@ -68,12 +69,12 @@ char	*tokenizer(char *arg)
 	char		*tokens;
 
 	len = ft_strlen(arg);
-	tok.in_double_quotes = false;
-	tok.in_single_quotes = false;
-	tok.prev_char = ' ';
-	tok.i = 0;
+	tok.in_d = false;
+	tok.in_s = false;
+	tok.prv_chr = ' ';
+	tok.i = -1;
 	tokens = initialize_tokens(len);
-	process_tokens(arg, tokens, tok);
+	tokens[process_tokens(arg, tokens, tok)] = '\0';
 	return (tokens);
 }
 

@@ -98,8 +98,7 @@ int	exec_pipe(t_cmd *cmd, int *last_status)
 	t_execp	sp;
 
 	if (pipe(sp.p) < 0)
-		return (ft_putstr_fd("minishell: pipe: Resource unavailable\n",
-				2), -1);
+		return (ft_putstr_fd("minishell: pipe: Resource unavailable\n", 2), -1);
 	sp.node_p = (t_pipe *)cmd;
 	sp.lpid = fork();
 	if (sp.lpid == 0)

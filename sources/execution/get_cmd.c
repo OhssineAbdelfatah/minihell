@@ -14,7 +14,7 @@
 
 void	handle_error(t_cmd_exec *p, char **abs_path)
 {
-	struct stat file;
+	struct stat	file;
 
 	if (p->argv[0] && (p->argv[0][0] == '/' || (p->argv[0][0] == '.'
 				&& p->argv[0][1] == '/') || (p->argv[0][0] == '.'

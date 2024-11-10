@@ -3,27 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand_list.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:36:01 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 22:31:15 by codespace        ###   ########.fr       */
+/*   Updated: 2024/11/10 20:10:39 by blacksniper      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	add_node(t_node **head, t_node **tail, t_node *node)
-{
-	if (*head == NULL)
-	{
-		*head = node;
-	}
-	else
-	{
-		(*tail)->next = node;
-	}
-	*tail = node;
-}
 
 void	split_inside_arg(t_node **head)
 {
@@ -46,24 +33,12 @@ void	split_inside_arg(t_node **head)
 	*head = head2;
 }
 
-void	mini_expander(t_node **head, t_env *env, int *st)
+void	__add_node(char *token, t_node **head, char type, t_node **tail)
 {
-	t_node	*tmp;
-	char	*tmpstr;
+	t_node	*node;
 
-	tmp = *head;
-	while (tmp)
-	{
-		if (tmp->type == 'w' || tmp->type == 'd')
-		{
-			tmpstr = tmp->str;
-			tmp->str = split_word_var(tmp->str, env, st);
-			if (tmpstr != tmp->str)
-				free(tmpstr);
-		}
-		tmp = tmp->next;
-	}
-	return ;
+	node = create_node(token, type);
+	add_node(head, tail, node);
 }
 
 char	*split_word_var(char *value, t_env *env, int *st)
@@ -77,8 +52,7 @@ char	*split_word_var(char *value, t_env *env, int *st)
 		if (dt.start && *(dt.start + 1))
 		{
 			dt.token = ft_strndup(value, dt.start - value);
-			dt.node = create_node(dt.token, '0');
-			add_node(&dt.head, &dt.tail, dt.node);
+			__add_node(dt.token, &dt.head, '0', &dt.tail);
 			dt.token = ft_strndup(dt.start, ft_name(dt.start) - dt.start);
 			if (ft_strlen(dt.token) == 1 && *dt.token == '$')
 				dt.node = create_node(dt.token, '0');
@@ -89,12 +63,27 @@ char	*split_word_var(char *value, t_env *env, int *st)
 		}
 		else
 		{
-			dt.node = create_node(ft_strdup(value), '0');
-			add_node(&dt.head, &dt.tail, dt.node);
+			__add_node(ft_strdup(value), &dt.head, '0', &dt.tail);
 			break ;
 		}
 	}
 	return (expand(&dt.head, env, st));
+}
+
+char	*__expand_joiner(t_node **head)
+{
+	t_expn	dt;
+
+	dt.tmp = *head;
+	dt.new = ft_strdup("");
+	while (dt.tmp)
+	{
+		dt.tmpstr = dt.new;
+		dt.new = ft_strjoin(dt.new, dt.tmp->str);
+		free(dt.tmpstr);
+		dt.tmp = dt.tmp->next;
+	}
+	return (dt.new);
 }
 
 char	*expand(t_node **head, t_env *env, int *st)
@@ -122,14 +111,6 @@ char	*expand(t_node **head, t_env *env, int *st)
 		}
 		dt.tmp = dt.tmp->next;
 	}
-	dt.tmp = *head;
-	dt.new = ft_strdup("");
-	while (dt.tmp)
-	{
-		dt.tmpstr = dt.new;
-		dt.new = ft_strjoin(dt.new, dt.tmp->str);
-		free(dt.tmpstr);
-		dt.tmp = dt.tmp->next;
-	}
+	dt.new = __expand_joiner(head);
 	return (free_lst(*head), dt.new);
 }

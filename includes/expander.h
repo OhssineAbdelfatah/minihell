@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:23 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 22:52:31 by codespace        ###   ########.fr       */
+/*   Updated: 2024/11/10 20:10:07 by blacksniper      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ typedef struct s_expn
 
 typedef struct s_tokens_exp
 {
-	bool			in_double_quotes;
-	bool			in_single_quotes;
-	char			prev_char;
+	bool			in_d;
+	bool			in_s;
+	char			prv_chr;
 	int				i;
 }					t_tokens;
 
@@ -109,5 +109,6 @@ int					should_expand(char **argv);
 char				*mini_joiner(t_node *head);
 char				*expand_filename(char *filename, t_env *env,
 						int *last_status, int source);
+void				add_node(t_node **head, t_node **tail, t_node *node);
 
 #endif

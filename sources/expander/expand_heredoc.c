@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:35:56 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 22:29:42 by codespace        ###   ########.fr       */
+/*   Updated: 2024/11/10 20:09:44 by blacksniper      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,46 @@ int	count_arg(char *arg)
 	}
 	while (arg[i] == c && token[i] == 'w')
 		i++;
-	while (arg[i])
+	while (arg[++i])
 	{
 		if (arg[i] == c && arg[i + 1] != c && token[i] == 'w')
 			words++;
-		i++;
 	}
 	if (arg[i - 1] != c && token[i] != 'w')
 		words++;
 	free(token);
 	return (words);
+}
+
+void	mini_expander(t_node **head, t_env *env, int *st)
+{
+	t_node	*tmp;
+	char	*tmpstr;
+
+	tmp = *head;
+	while (tmp)
+	{
+		if (tmp->type == 'w' || tmp->type == 'd')
+		{
+			tmpstr = tmp->str;
+			tmp->str = split_word_var(tmp->str, env, st);
+			if (tmpstr != tmp->str)
+				free(tmpstr);
+		}
+		tmp = tmp->next;
+	}
+	return ;
+}
+
+void	add_node(t_node **head, t_node **tail, t_node *node)
+{
+	if (*head == NULL)
+	{
+		*head = node;
+	}
+	else
+	{
+		(*tail)->next = node;
+	}
+	*tail = node;
 }
