@@ -78,7 +78,6 @@ int	treat_right_child(t_cmd *right_cmd, t_execp *sp, int *last_status)
 	}
 	return (0);
 }
-
 void	pipe_parent(t_execp *sp)
 {
 	close(sp->p[0]);
@@ -88,8 +87,6 @@ void	pipe_parent(t_execp *sp)
 	waitpid(sp->rpid, &(sp->status), 0);
 	if (WTERMSIG(sp->status) == SIGQUIT || WTERMSIG(sp->status) == SIGINT)
 		sp->status = 128 + WTERMSIG(sp->status);
-	else
-		sp->status = WEXITSTATUS(sp->status);
 	wait(0);
 }
 

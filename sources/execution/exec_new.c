@@ -107,6 +107,10 @@ int	new_exec(t_cmd *cmd, int ref, int *last_status)
 	else if (SUB_SH == cmd->type)
 		status = exec_sub_sh(cmd, last_status);
 	else if (PIPE == cmd->type)
+	{
 		status = exec_pipe(cmd, last_status);
+		if (status != 130 && status != 131)
+			status= WEXITSTATUS(status);
+	}
 	return (status);
 }
