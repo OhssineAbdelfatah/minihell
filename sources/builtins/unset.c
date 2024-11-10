@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
+/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:35:00 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/10 17:28:12 by blacksniper      ###   ########.fr       */
+/*   Updated: 2024/11/10 21:24:18 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int unset_body(t_env *tmp, char *key, t_env* prev, t_env** head)
 {
 	int status ;
 	
+	status = 0;
 	while (tmp != NULL)
 		{
 			if (ft_strcmp(tmp->key, key) && is_valid(key))
@@ -54,7 +55,7 @@ int unset_body(t_env *tmp, char *key, t_env* prev, t_env** head)
 			}
 			else if (!is_valid(key))
 			{
-				printf("minishell: unset: `%s': not a valid identifier\n",
+				my_dprint(2, "minishell: unset: `%s': not a valid identifier\n",
 					key);
 				status = 1;
 				break ;
