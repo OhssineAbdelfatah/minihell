@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:42:21 by ilaasri           #+#    #+#             */
-/*   Updated: 2024/11/09 12:02:04 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/09 21:01:19 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ void	error(char *s, int er_num)
 	else if (-1 == er_num || er_num == PIPE)
 		ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
 	else if (-2 == er_num || er_num == RED || er_num == HERDOC)
-		ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n",
-			2);
+	{
+		ft_putstr_fd("minishell: syntax error near \n", 2);
+		ft_putstr_fd("unexpected token `newline'\n", 2);
+	}
 	else if (s)
 		ft_putstr_fd(s, 2);
 }

@@ -3,21 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   dir.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:42 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 19:30:24 by blacksniper      ###   ########.fr       */
+/*   Updated: 2024/11/09 23:11:07 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	pwd(t_cmd *cmd)
+int	pwd(void)
 {
-	struct exec_cmd	*p;
-	char			*curd;
+	char	*curd;
 
-	p = (struct exec_cmd *)cmd;
 	curd = NULL;
 	curd = getcwd(curd, 0);
 	if (!curd)
@@ -25,7 +23,6 @@ int	pwd(t_cmd *cmd)
 	printf("%s\n", curd);
 	free(curd);
 	curd = NULL;
-	(void)p;
 	return (0);
 }
 
@@ -45,6 +42,7 @@ static void	update_oldpwd(t_new_cmd *p)
 	else
 		update_env(tmp, working_dir);
 }
+
 static void	update_pwd(t_new_cmd *p)
 {
 	t_env	*tmp;
@@ -62,21 +60,26 @@ static void	update_pwd(t_new_cmd *p)
 		update_env(tmp, working_dir);
 }
 
+int	error_home(t_cmd_exec *p)
+{
+	char	*arg;
+
+	arg = get_env_value(*(p->myenv), "HOME");
+	if (!arg)
+	{
+		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+		return (1);
+	}
+	return (0);
+}
+
 int	cd(t_cmd *cmd)
 {
 	t_new_cmd	*p;
-	char		*arg;
 
 	p = (t_cmd_exec *)cmd;
 	if (ft_strslen(p->argv) == 1)
-	{
-		if (!(arg = getEnvValue(*(p->myenv), "HOME")))
-		{
-			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-			return (1);
-		}
-		chdir(arg);
-	}
+		return (error_home(p));
 	else
 	{
 		if (access(p->argv[1], R_OK) != 0)

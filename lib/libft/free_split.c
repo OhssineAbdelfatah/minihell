@@ -3,20 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   free_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 02:40:56 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/02 00:49:32 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/09 21:28:04 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "libft.h"
 
-void free_split(char **str)
+void	free_split(char **str)
 {
-    int i = -1;
-    while(str && str[++i])
-        free(str[i]);
-    free(str);
-    return ;
+	int	i;
+
+	i = -1;
+	while (str && str[++i])
+		free(str[i]);
+	free(str);
+	return ;
 }

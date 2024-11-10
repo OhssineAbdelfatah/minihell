@@ -3,20 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strslen.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 22:36:03 by aohssine          #+#    #+#             */
-/*   Updated: 2024/09/05 22:36:41 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/09 21:29:16 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "libft.h"
 
-int ft_strslen(char **strs)
+int	ft_strslen(char **strs)
 {
-    int i = -1;
-    if(!strs || !(*strs))
-        return 0;
-    while(strs[++i]);
-    return i;
+	int	i;
+
+	i = -1;
+	if (!strs || !(*strs))
+		return (0);
+	while (strs[++i])
+		;
+	return (i);
 }

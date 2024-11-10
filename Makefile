@@ -23,9 +23,11 @@ FREEDOM = sources/freedom/freedom.c sources/freedom/freedom2.c sources/freedom/f
 BUILT_TREE = sources/built_tree/builting_tools.c sources/built_tree/tree.c \
 			sources/built_tree/constractors.c sources/built_tree/constractors2.c
 
-EXECUTION = sources/execution/exec.c sources/execution/exec_pipe.c\
+EXECUTION = sources/execution/exec.c sources/execution/exec_pipe2.c\
+			sources/execution/exec_pipe.c\
 			sources/execution/exec_new.c sources/execution/signals.c\
-			sources/execution/open_red.c sources/execution/check_herdoc.c\
+			sources/execution/open_red2.c sources/execution/open_red.c \
+			sources/execution/check_herdoc.c\
 			sources/execution/exec_bonus.c sources/execution/get_precmd.c\
 			sources/execution/get_cmd.c
 
@@ -37,7 +39,7 @@ EXPANDER = sources/expander/expander.c sources/expander/expand_list.c \
 BUILTINS = 	sources/builtins/env.c sources/builtins/lstoarry.c \
             sources/builtins/builtin.c sources/builtins/dir.c \
             sources/builtins/unset.c sources/builtins/export.c \
-			sources/builtins/exit.c \
+			sources/builtins/exit.c sources/builtins/export_utils.c \
 			sources/builtins/echo.c  \
 
 CFILES =	${PARSE} \
@@ -60,14 +62,14 @@ MINISHELL_ART = \
 "╚═╝     ╚═╝ ╚═╝ ╚═╝  ╚═══╝ ╚═╝ ╚═╝  ╚═╝ ╚══════╝ ╚══════╝ ╚══════╝\n"\
 "						      By: TILLAS & NolYel  \033[0m"
 
-# RLFLAGS 	=	-L/Users/aohssine/goinfre/homebrew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
-# RLINCLUDE	=	-I/Users/aohssine/goinfre/homebrew/opt/readline/include  # tell compiler where to find headers
+RLFLAGS 	=	-L/Users/aohssine/.brew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
+RLINCLUDE	=	-I/Users/aohssine/.brew/opt/readline/include  # tell compiler where to find headers
 
-RLFLAGS =	-L/Users/ilaasri/.brew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
-RLINCLUDE	=	-I/Users/ilaasri/.brew/opt/readline/include  #
+# RLFLAGS =	-L/Users/ilaasri/.brew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
+# RLINCLUDE	=	-I/Users/ilaasri/.brew/opt/readline/include  #
 
 
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 # FFLAG = -fsanitize=address -g
 
 CC = cc

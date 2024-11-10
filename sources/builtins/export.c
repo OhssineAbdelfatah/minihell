@@ -3,54 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
+/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:56 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 19:33:37 by blacksniper      ###   ########.fr       */
+/*   Updated: 2024/11/10 16:34:45 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	update_env(t_env *node, char *value)
-{
-	free(node->value);
-	node->value = value;
-	return ;
-}
-
-void	print_export(t_env **env)
-{
-	while (env && (*env) != NULL)
-	{
-		printf("declare -x %s=\"", (*env)->key);
-		if ((*env)->value)
-			printf("%s", (*env)->value);
-		printf("\"\n");
-		(*env) = (*env)->next;
-	}
-}
-char	*getKey(char *arg)
-{
-	char	*eql;
-
-	eql = ft_strchr(arg, '=');
-	if (!eql)
-		return (ft_strdup(arg));
-	eql = ft_strndup(arg, eql - arg);
-	return (eql);
-}
-
-char	*getValue(char *arg)
-{
-	char	*eql;
-
-	eql = ft_strchr(arg, '=');
-	if (!eql)
-		return (NULL);
-	eql = ft_strdup(eql + 1);
-	return (eql);
-}
 
 t_env	*env_exist(char *key, t_env *node)
 {
@@ -84,18 +44,21 @@ int	export(t_env **ennv, char **cmd)
 	char	*value;
 	int		i;
 
-	tmp = NULL;
 	status = 0;
-	if (ft_strslen(cmd) == 1)
+	if (ft_strslen(cmd) == 1){
+
+		if( ennv	&& *ennv )
+			printf("aloalo%s\n", cmd[0]);
 		return (print_export(ennv), status);
+	}
 	i = 0;
 	while (cmd[++i])
 	{
-		key = getKey(cmd[i]);
+		key = get_key(cmd[i]);
 		if (key && is_valid(key))
 		{
 			tmp = env_exist(key, *ennv);
-			value = getValue(cmd[i]);
+			value = get_value(cmd[i]);
 			if (tmp)
 			{
 				update_env(tmp, value);

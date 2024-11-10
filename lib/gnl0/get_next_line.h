@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilaasri <ilaasri@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:29:24 by ilaasri           #+#    #+#             */
-/*   Updated: 2024/01/15 20:11:23 by ilaasri          ###   ########.fr       */
+/*   Updated: 2024/11/09 22:21:00 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char		*fabor(struct s_next *var, char **chyata, int whichone);
 void		_freedom(char **zoom, char **chyata, char **res, int howmany);
 char		*elso2(char *res, char **chyata, int nlpos, char *zoom);
 char		*lecture2(struct s_next *var, char **chyata, int fd);
-int			ft_strlen(char *s);
+// int			ft_strlen(char *s);
 int			find_nl(char *s);
 char		*_ft_substr(char *s, int start, int len);
 char		*_ft_strjoin(char *s1, char *s2, int len);
