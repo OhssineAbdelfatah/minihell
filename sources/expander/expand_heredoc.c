@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
+/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:35:56 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/10 20:09:44 by blacksniper      ###   ########.fr       */
+/*   Updated: 2024/11/10 23:14:58 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

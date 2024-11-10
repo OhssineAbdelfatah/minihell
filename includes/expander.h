@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
+/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:23 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/10 20:10:07 by blacksniper      ###   ########.fr       */
+/*   Updated: 2024/11/10 23:10:23 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ char				**expander(char **argv, t_env *env, int *last_status,
 char				*tokenizer(char *arg);
 t_node				*split_argv(char *str);
 char				**joiner(t_argv *args, t_env *env, int *st, int type);
-// char *joiner(char *arg, t_env* env, int*st);
 
 t_node				*create_node(char *value, char type);
 void				add_node(t_node **head, t_node **tail, t_node *node);

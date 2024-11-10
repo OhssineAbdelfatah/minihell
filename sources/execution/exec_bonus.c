@@ -6,7 +6,7 @@
 /*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:35:12 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 17:35:13 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/10 23:19:47 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	exec_sub_sh_core(t_exec_sub_sh *var, int *last_status)
 			close(var->p->fd_in);
 		}
 	}
-	var->sub_status = new_exec(var->p->sub_root, 0, last_status);
+	var->sub_status = new_exec(var->p->sub_root, last_status);
 	exit(var->sub_status);
 }
 

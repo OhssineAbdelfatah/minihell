@@ -6,7 +6,7 @@
 /*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:37:40 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/10 16:39:29 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/10 23:19:35 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	parse_nd_exec(char **my_tokens, t_env **dup_env, int *status)
 	if (!res)
 		return ;
 	if (g_sig == -1)
-		*status = new_exec(res, NOTHING, status);
+		*status = new_exec(res, status);
 	if (g_sig == 130 || g_sig == 131)
 	{
 		*status = 130;

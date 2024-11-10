@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_new.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
+/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:35:15 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/10 22:05:56 by blacksniper      ###   ########.fr       */
+/*   Updated: 2024/11/10 23:21:02 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	new_exec1(t_cmd *cmd, int *last_status)
 	return (status);
 }
 
-int	new_exec(t_cmd *cmd, int ref, int *last_status)
+int	new_exec(t_cmd *cmd, int *last_status)
 {
 	int	status;
 
