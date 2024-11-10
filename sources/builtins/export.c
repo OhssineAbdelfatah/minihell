@@ -6,7 +6,7 @@
 /*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:56 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/10 16:34:45 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/10 17:10:59 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ t_env	*creat_new_env(char *key, char *value)
 	return (node);
 }
 
-int	export(t_env **ennv, char **cmd)
+// int	export(t_env **ennv, char **cmd)
+int	export(t_cmd_exec *p)
 {
 	int		status;
 	t_env	*tmp;
@@ -45,20 +46,16 @@ int	export(t_env **ennv, char **cmd)
 	int		i;
 
 	status = 0;
-	if (ft_strslen(cmd) == 1){
-
-		if( ennv	&& *ennv )
-			printf("aloalo%s\n", cmd[0]);
-		return (print_export(ennv), status);
-	}
+	if (ft_strslen(p->argv) == 1)
+		return (print_export(*(p->myenv)), status);
 	i = 0;
-	while (cmd[++i])
+	while (p->argv[++i])
 	{
-		key = get_key(cmd[i]);
+		key = get_key(p->argv[i]);
 		if (key && is_valid(key))
 		{
-			tmp = env_exist(key, *ennv);
-			value = get_value(cmd[i]);
+			tmp = env_exist(key, *(p->myenv));
+			value = get_value(p->argv[i]);
 			if (tmp)
 			{
 				update_env(tmp, value);
@@ -67,14 +64,14 @@ int	export(t_env **ennv, char **cmd)
 			else
 			{
 				tmp = creat_new_env(key, ft_strdup(value));
-				add_back_env(ennv, tmp);
+				add_back_env(p->myenv, tmp);
 				free(value);
 			}
 		}
 		else if (!is_valid(key))
 		{
 			status = 1;
-			printf("minishell: export: `%s': not a valid identifier\n", cmd[i]);
+			printf("minishell: export: `%s': not a valid identifier\n", p->argv[i]);
 			free(key);
 		}
 	}

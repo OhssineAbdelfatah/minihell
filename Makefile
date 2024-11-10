@@ -69,7 +69,7 @@ RLINCLUDE	=	-I/Users/aohssine/.brew/opt/readline/include  # tell compiler where 
 # RLINCLUDE	=	-I/Users/ilaasri/.brew/opt/readline/include  #
 
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
 # FFLAG = -fsanitize=address -g
 
 CC = cc

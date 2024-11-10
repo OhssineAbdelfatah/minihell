@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:39 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 23:05:25 by codespace        ###   ########.fr       */
+/*   Updated: 2024/11/10 17:08:52 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	exec_cmd_builtin(t_cmd_exec *p, t_cmd *cmd)
 	}
 	else if (ft_strcmp(p->argv[0], "export"))
 	{
-		status = export(p->myenv, p->argv);
+		status = export(p);
 	}
 	else if (ft_strcmp(p->argv[0], "echo"))
 		status = echo(p);

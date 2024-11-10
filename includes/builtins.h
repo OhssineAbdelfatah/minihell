@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:09 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 21:20:34 by codespace        ###   ########.fr       */
+/*   Updated: 2024/11/10 17:10:11 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ void	add_back_env(t_env **head, t_env *node);
 int		print_env(t_env *env);
 
 /*  EXPORT  */
-int		export(t_env **ennv, char **cmd_args);
-void	print_export(t_env **env);
+// int		export(t_env **ennv, char **cmd_args);
+int		export(t_cmd_exec *p);
+void	print_export(t_env *env);
 t_env	*env_exist(char *key, t_env *node);
 t_env	*creat_new_env(char *key, char *value);
 void	update_env(t_env *node, char *value);

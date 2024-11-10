@@ -6,7 +6,7 @@
 /*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:37:40 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 17:37:41 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/10 16:39:29 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,3 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 }
-
-// void	ff(void)
-// {
-// 	system("leaks minishell");
-// }
