@@ -36,11 +36,11 @@ t_env	*creat_new_env(char *key, char *value)
 	return (node);
 }
 
-int export_body(t_env **env, char* key,char* argv)
+int	export_body(t_env **env, char *key, char *argv)
 {
 	t_env	*tmp;
 	char	*value;
-	
+
 	tmp = env_exist(key, *(env));
 	value = get_value(argv);
 	if (tmp)
@@ -54,7 +54,7 @@ int export_body(t_env **env, char* key,char* argv)
 		add_back_env(env, tmp);
 		free(value);
 	}
-	return 0;
+	return (0);
 }
 
 int	export(t_cmd_exec *p)
@@ -75,8 +75,8 @@ int	export(t_cmd_exec *p)
 		else if (!is_valid(key))
 		{
 			status = 1;
-			my_dprint(2,"minishell: export: `%s': not a valid identifier\n",
-			p->argv[i]);
+			my_dprint(2, "minishell: export: `%s': not a valid identifier\n",
+				p->argv[i]);
 			free(key);
 		}
 	}

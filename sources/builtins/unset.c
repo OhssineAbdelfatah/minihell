@@ -6,7 +6,7 @@
 /*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:35:00 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 16:45:50 by blacksniper      ###   ########.fr       */
+/*   Updated: 2024/11/10 17:28:12 by blacksniper      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,35 @@ bool	is_valid(char *key)
 	return (true);
 }
 
+int unset_body(t_env *tmp, char *key, t_env* prev, t_env** head)
+{
+	int status ;
+	
+	while (tmp != NULL)
+		{
+			if (ft_strcmp(tmp->key, key) && is_valid(key))
+			{
+				if (prev == NULL)
+					*head = tmp->next;
+				else
+					prev->next = tmp->next;
+				destroy_single_env(tmp);
+				tmp = NULL;
+				break ;
+			}
+			else if (!is_valid(key))
+			{
+				printf("minishell: unset: `%s': not a valid identifier\n",
+					key);
+				status = 1;
+				break ;
+			}
+			prev = tmp;
+			tmp = tmp->next;
+		}
+	return status;
+}
+
 int	unset_env(t_env **head, char **key)
 {
 	t_env	*tmp;
@@ -51,28 +80,7 @@ int	unset_env(t_env **head, char **key)
 	{
 		tmp = *head;
 		prev = NULL;
-		while (tmp != NULL)
-		{
-			if (ft_strcmp(tmp->key, key[i]) && is_valid(key[i]))
-			{
-				if (prev == NULL)
-					*head = tmp->next;
-				else
-					prev->next = tmp->next;
-				destroy_single_env(tmp);
-				tmp = NULL;
-				break ;
-			}
-			else if (!is_valid(key[i]))
-			{
-				printf("minishell: unset: `%s': not a valid identifier\n",
-					key[i]);
-				status = 1;
-				break ;
-			}
-			prev = tmp;
-			tmp = tmp->next;
-		}
+		unset_body(tmp, key[i], prev, head);
 	}
 	return (status);
 }
