@@ -6,7 +6,7 @@
 /*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:35:00 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/10 17:28:12 by blacksniper      ###   ########.fr       */
+/*   Updated: 2024/11/10 21:20:35 by blacksniper      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ bool	is_valid(char *key)
 
 int	unset_body(t_env *tmp, char *key, t_env *prev, t_env **head)
 {
-	int	status;
-
 	while (tmp != NULL)
 	{
 		if (ft_strcmp(tmp->key, key) && is_valid(key))
@@ -54,14 +52,14 @@ int	unset_body(t_env *tmp, char *key, t_env *prev, t_env **head)
 		}
 		else if (!is_valid(key))
 		{
-			printf("minishell: unset: `%s': not a valid identifier\n", key);
-			status = 1;
-			break ;
+			my_dprint(2, "minishell: unset: `%s': not a valid identifier\n",
+				key);
+			return (1);
 		}
 		prev = tmp;
 		tmp = tmp->next;
 	}
-	return (status);
+	return (0);
 }
 
 int	unset_env(t_env **head, char **key)
@@ -79,7 +77,7 @@ int	unset_env(t_env **head, char **key)
 	{
 		tmp = *head;
 		prev = NULL;
-		unset_body(tmp, key[i], prev, head);
+		status = unset_body(tmp, key[i], prev, head);
 	}
 	return (status);
 }

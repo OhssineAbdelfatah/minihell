@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilaasri <ilaasri@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 22:49:46 by ilaasri           #+#    #+#             */
-/*   Updated: 2024/11/09 22:49:47 by ilaasri          ###   ########.fr       */
+/*   Updated: 2024/11/10 21:41:26 by blacksniper      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	left_child_is_sub(t_cmd *left_cmd, t_execp *sp, int *last_status)
 {
-	t_sub_sh *left_sub;
+	t_sub_sh	*left_sub;
 
 	left_sub = (t_sub_sh *)left_cmd;
 	if (sp->node_p->pipe_fd != -1)
