@@ -6,7 +6,7 @@
 /*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:35:56 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/10 23:14:58 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/11 01:45:11 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	herdoc_newfd(int fd, t_env *myenv)
 		tmp = line;
 		line = split_word_var(line, myenv, 0);
 		free(tmp);
-		line = whithout_quotes(line, 1);
 		if (line)
 			ft_putstr_fd(line, fd_pipe[1]);
 		else
@@ -72,10 +71,7 @@ int	count_arg(char *arg)
 	words = 0;
 	i = 0;
 	if (*arg == '\0')
-	{
-		free(token);
-		return (0);
-	}
+		return (free(token), 0);
 	while (arg[i] == c && token[i] == 'w')
 		i++;
 	while (arg[++i])

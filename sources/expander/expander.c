@@ -6,7 +6,7 @@
 /*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:36:06 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/10 23:15:04 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/11 01:45:50 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,11 @@ char	**joiner(t_argv *args, t_env *env, int *st, int type)
 		free(tmp_str);
 		tmp = tmp->next;
 	}
-	if (type == HERDOC)
-		new = join_no_split(args);
-	else if (type == CMD_EXPN)
-	{
-		spliter_args(args);
-		new = join_args(args);
-		if (ft_strslen(new) > 1 && RED_EXPN == type)
-			ambiguous_exit(args->str, 0);
-	}
+	spliter_args(args);
+	new = join_args(args);
+	if (RED_EXPN == type && (ft_strslen(new) > 1 
+			|| ft_strslen(new) == 0))
+		ambiguous_exit(args->str, 0);
 	return (new);
 }
 
@@ -107,7 +103,6 @@ char	**expander(char **argv, t_env *env, int *st, int type)
 	args = argv_to_lst(argv);
 	new_argv = joiner(args, env, st, type);
 	free_argv_lst(args, type);
-	if (type == CMD_EXPN)
-		free(argv);
+	free(argv);
 	return (new_argv);
 }
