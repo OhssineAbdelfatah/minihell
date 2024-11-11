@@ -59,13 +59,15 @@ MINISHELL_ART = \
 "╚═╝     ╚═╝ ╚═╝ ╚═╝  ╚═══╝ ╚═╝ ╚═╝  ╚═╝ ╚══════╝ ╚══════╝ ╚══════╝\n"\
 "						      By: TILLAS & NolYel  \033[0m"
 
-RLFLAGS 	=	-L/Users/aohssine/.brew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
-RLINCLUDE	=	-I/Users/aohssine/.brew/opt/readline/include  # tell compiler where to find headers
+# RLFLAGS 	=	-L/Users/aohssine/.brew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
+# RLINCLUDE	=	-I/Users/aohssine/.brew/opt/readline/include  # tell compiler where to find headers
+
 HEADERS = includes/minishell.h includes/builtins.h includes/colors.h  \
 			includes/expander.h includes/helper.h includes/helper2.h   \
 			includes/struct.h includes/norm_structs.h  
-# RLFLAGS =	-L/Users/ilaasri/.brew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
-# RLINCLUDE	=	-I/Users/ilaasri/.brew/opt/readline/include  #
+
+RLFLAGS =	-L/Users/ilaasri/.brew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
+RLINCLUDE	=	-I/Users/ilaasri/.brew/opt/readline/include  #
 
 
 CFLAGS = -Wall -Wextra -Werror
