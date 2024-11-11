@@ -6,7 +6,7 @@
 /*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:09 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/10 17:10:11 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/10 23:09:10 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 int		check_red(t_cmd_exec *p, int *ref, int *last_status);
 void	reset_fds(t_cmd *cmd);
 
-// void execute_cmd(t_cmd *cmd);
 int		exec_builtin(t_cmd *cmd, int *last_status, int ref);
 bool	is_builtin(t_cmd *cmd, int *status, int *last_status, int ref);
 
@@ -38,7 +37,6 @@ void	add_back_env(t_env **head, t_env *node);
 int		print_env(t_env *env);
 
 /*  EXPORT  */
-// int		export(t_env **ennv, char **cmd_args);
 int		export(t_cmd_exec *p);
 void	print_export(t_env *env);
 t_env	*env_exist(char *key, t_env *node);
@@ -46,8 +44,6 @@ t_env	*creat_new_env(char *key, char *value);
 void	update_env(t_env *node, char *value);
 char	*get_key(char *arg);
 char	*get_value(char *arg);
-
-// char *clean_arg(char *arg);
 
 /*  UNSET   */
 void	destroy_single_env(t_env *node);
@@ -60,7 +56,5 @@ void	error_exit(char *str);
 /*  UTILS   */
 
 char	**lstoarry(t_env *root);
-
-// void penv(t_env *env);
 
 #endif

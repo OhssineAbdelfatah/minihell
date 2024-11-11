@@ -6,7 +6,7 @@
 /*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:35:15 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/10 17:07:59 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/10 23:21:02 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,24 @@ int	exec_new_cmd(t_cmd *cmd, int *last_status)
 	else
 		exec_simple_cmd(p);
 	free_mynigga(p->argv);
-	exit(0);
 	return (status);
 }
 
-int	new_exec1(t_cmd *cmd, int ref, int *last_status)
+void	__sig_exec_one(int pid, int *status)
+{
+	signal(SIGQUIT, do_nothing);
+	signal(SIGINT, do_nothing);
+	waitpid(pid, status, 0);
+	if (WTERMSIG(*status) == SIGINT)
+		*status = 130;
+	if (WTERMSIG(*status) == SIGQUIT)
+		*status = 131;
+	else
+		*status = WEXITSTATUS(*status);
+	return ;
+}
+
+int	new_exec1(t_cmd *cmd, int *last_status)
 {
 	int			status;
 	int			pid;
@@ -77,29 +90,18 @@ int	new_exec1(t_cmd *cmd, int ref, int *last_status)
 		if (pid == 0)
 			exec_new_cmd(cmd, last_status);
 		else
-		{
-			signal(SIGQUIT, do_nothing);
-			signal(SIGINT, do_nothing);
-			waitpid(pid, &status, 0);
-			if (WTERMSIG(status) == SIGINT)
-				status = 130;
-			if (WTERMSIG(status) == SIGQUIT)
-				status = 131;
-			else
-				status = WEXITSTATUS(status);
-		}
+			__sig_exec_one(pid, &status);
 	}
-	(void)ref;
 	return (status);
 }
 
-int	new_exec(t_cmd *cmd, int ref, int *last_status)
+int	new_exec(t_cmd *cmd, int *last_status)
 {
 	int	status;
 
 	status = 0;
 	if (NEW_CMD == cmd->type)
-		status = new_exec1(cmd, ref, last_status);
+		status = new_exec1(cmd, last_status);
 	else if (AND == cmd->type)
 		status = exec_and(cmd, last_status);
 	else if (OR == cmd->type)
@@ -110,7 +112,7 @@ int	new_exec(t_cmd *cmd, int ref, int *last_status)
 	{
 		status = exec_pipe(cmd, last_status);
 		if (status != 130 && status != 131)
-			status= WEXITSTATUS(status);
+			status = WEXITSTATUS(status);
 	}
 	return (status);
 }

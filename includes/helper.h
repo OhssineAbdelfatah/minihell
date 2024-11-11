@@ -6,7 +6,7 @@
 /*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 00:45:53 by ilaasri           #+#    #+#             */
-/*   Updated: 2024/11/09 11:55:18 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/10 23:19:27 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ int		is_and_or(char *s);
 int		exec_sub_sh(t_cmd *cmd, int *last_status);
 int		exec_or(t_cmd *cmd, int *last_status);
 int		exec_and(t_cmd *cmd, int *last_status);
-int		new_exec(t_cmd *cmd, int ref, int *last_status);
+int		new_exec(t_cmd *cmd, int *last_status);
 void	handle_error(t_cmd_exec *p, char **abs_path);
 int		open_file(t_red *redirect, int *std[4], t_herdoc *herdoc, t_env *env);
 void	open_herdoc(t_red *redirect, int *std[4], t_herdoc *herdoc, t_env *env);

@@ -6,7 +6,7 @@
 /*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:35:20 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 17:35:21 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/10 23:20:18 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ int	exec_and(t_cmd *cmd, int *last_status)
 	int		status;
 
 	and_cmd = (t_and *)cmd;
-	status = new_exec(and_cmd->left, AND, last_status);
+	status = new_exec(and_cmd->left, last_status);
 	if (status == 0)
-		status = new_exec(and_cmd->right, AND, last_status);
+		status = new_exec(and_cmd->right, last_status);
 	return (status);
 }
 
@@ -50,8 +50,8 @@ int	exec_or(t_cmd *cmd, int *last_status)
 	int		status;
 
 	or_cmd = (t_or *)cmd;
-	status = new_exec(or_cmd->left, OR, last_status);
+	status = new_exec(or_cmd->left, last_status);
 	if (status != 0)
-		status = new_exec(or_cmd->right, OR, last_status);
+		status = new_exec(or_cmd->right, last_status);
 	return (status);
 }

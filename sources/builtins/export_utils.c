@@ -1,9 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/10 23:13:47 by aohssine          #+#    #+#             */
+/*   Updated: 2024/11/10 23:33:00 by aohssine         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	update_env(t_env *node, char *value)
 {
 	free(node->value);
-	node->value = value;
+	if (value == NULL)
+		node->value = ft_strdup("");
+	else
+		node->value = value;
 	return ;
 }
 

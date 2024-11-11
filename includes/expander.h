@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:23 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 22:52:31 by codespace        ###   ########.fr       */
+/*   Updated: 2024/11/10 23:10:23 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ typedef struct s_expn
 
 typedef struct s_tokens_exp
 {
-	bool			in_double_quotes;
-	bool			in_single_quotes;
-	char			prev_char;
+	bool			in_d;
+	bool			in_s;
+	char			prv_chr;
 	int				i;
 }					t_tokens;
 
@@ -76,7 +76,6 @@ char				**expander(char **argv, t_env *env, int *last_status,
 char				*tokenizer(char *arg);
 t_node				*split_argv(char *str);
 char				**joiner(t_argv *args, t_env *env, int *st, int type);
-// char *joiner(char *arg, t_env* env, int*st);
 
 t_node				*create_node(char *value, char type);
 void				add_node(t_node **head, t_node **tail, t_node *node);
@@ -88,7 +87,7 @@ char				*ft_name(char *arg);
 void				free_lst(t_node *head);
 char				*clean_qts(char *str);
 
-int					herdoc_newfd(int fd, t_env *myenv);
+int					herdoc_newfd(int fd, t_env *myenv, int *last_status);
 
 void				add_argv(t_argv **head, t_argv **tail, t_argv *arg);
 t_argv				*create_argv(t_node *head, char *str, char **argv);
@@ -109,5 +108,6 @@ int					should_expand(char **argv);
 char				*mini_joiner(t_node *head);
 char				*expand_filename(char *filename, t_env *env,
 						int *last_status, int source);
+void				add_node(t_node **head, t_node **tail, t_node *node);
 
 #endif

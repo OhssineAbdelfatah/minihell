@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 22:49:16 by ilaasri           #+#    #+#             */
-/*   Updated: 2024/11/09 23:38:34 by codespace        ###   ########.fr       */
+/*   Updated: 2024/11/10 23:14:18 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int	treat_right_child(t_cmd *right_cmd, t_execp *sp, int *last_status)
 	}
 	return (0);
 }
+
 void	pipe_parent(t_execp *sp)
 {
 	close(sp->p[0]);
@@ -95,8 +96,7 @@ int	exec_pipe(t_cmd *cmd, int *last_status)
 	t_execp	sp;
 
 	if (pipe(sp.p) < 0)
-		return (ft_putstr_fd("minishell: pipe: Resource unavailable\n",
-				2), -1);
+		return (ft_putstr_fd("minishell: pipe: Resource unavailable\n", 2), -1);
 	sp.node_p = (t_pipe *)cmd;
 	sp.lpid = fork();
 	if (sp.lpid == 0)

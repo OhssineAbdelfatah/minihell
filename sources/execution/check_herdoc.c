@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_herdoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:35:09 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/09 21:08:56 by codespace        ###   ########.fr       */
+/*   Updated: 2024/11/10 23:14:08 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	open_herdoc(t_red *redirect, int *std[4], t_herdoc *herdoc, t_env *env)
 	{
 		*std[0] = herdoc->herdoc_pipe;
 		if (!herdoc->to_exp)
-			*std[0] = herdoc_newfd(herdoc->herdoc_pipe, env);
+			*std[0] = herdoc_newfd(herdoc->herdoc_pipe, env, std[3]);
 	}
 }
 
@@ -52,6 +52,8 @@ int	exec_red(t_red *redirect, int *std[4], t_herdoc *herdoc, t_env *env)
 	{
 		tmp = redirect->next;
 		status = open_file(redirect, std, herdoc, env);
+		if (status)
+			return (status);
 		redirect = tmp;
 	}
 	return (status);
