@@ -6,34 +6,34 @@
 /*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 00:43:17 by ilaasri           #+#    #+#             */
-/*   Updated: 2024/11/10 23:10:42 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/11 03:59:46 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../lib/gnl0/get_next_line.h"
-# include "../lib/libft/libft.h"
-# include "builtins.h"
-# include "colors.h"
-# include "expander.h"
-# include "helper.h"
-# include "helper2.h"
-# include <dirent.h>
-# include <fcntl.h>
+# include <stdio.h>
 # include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-# include <signal.h>
-# include <stdarg.h>
 # include <stdbool.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <sys/stat.h>
-# include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <fcntl.h>
+# include <signal.h>
+# include <stdlib.h>
+# include <stdarg.h>
+# include <dirent.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include "helper.h"
+# include "helper2.h"
+# include "colors.h"
+# include "builtins.h"
+# include "expander.h"
+# include "../lib/libft/libft.h"
+# include "../lib/gnl0/get_next_line.h"
 
 # define GRN "\e[0;32m"
 # define CYNB "\e[46m"

@@ -6,15 +6,15 @@
 /*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 00:45:53 by ilaasri           #+#    #+#             */
-/*   Updated: 2024/11/10 23:19:27 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/11 04:00:25 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HELPER_H
 # define HELPER_H
 
-# include "norm_structs.h"
 # include "struct.h"
+# include "norm_structs.h"
 
 // PARSE THINGS :
 /********************************************/
