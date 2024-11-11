@@ -38,6 +38,9 @@ bool	is_valid(char *key)
 
 int	unset_body(t_env *tmp, char *key, t_env *prev, t_env **head)
 {
+	int	status;
+
+	status = 0;
 	while (tmp != NULL)
 	{
 		if (ft_strcmp(tmp->key, key) && is_valid(key))

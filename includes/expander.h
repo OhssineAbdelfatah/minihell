@@ -87,7 +87,7 @@ char				*ft_name(char *arg);
 void				free_lst(t_node *head);
 char				*clean_qts(char *str);
 
-int					herdoc_newfd(int fd, t_env *myenv);
+int					herdoc_newfd(int fd, t_env *myenv, int *last_status);
 
 void				add_argv(t_argv **head, t_argv **tail, t_argv *arg);
 t_argv				*create_argv(t_node *head, char *str, char **argv);

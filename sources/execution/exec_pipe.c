@@ -88,8 +88,6 @@ void	pipe_parent(t_execp *sp)
 	waitpid(sp->rpid, &(sp->status), 0);
 	if (WTERMSIG(sp->status) == SIGQUIT || WTERMSIG(sp->status) == SIGINT)
 		sp->status = 128 + WTERMSIG(sp->status);
-	else
-		sp->status = WEXITSTATUS(sp->status);
 	wait(0);
 }
 
