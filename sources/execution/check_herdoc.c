@@ -52,6 +52,8 @@ int	exec_red(t_red *redirect, int *std[4], t_herdoc *herdoc, t_env *env)
 	{
 		tmp = redirect->next;
 		status = open_file(redirect, std, herdoc, env);
+		if (status)
+			return (status);
 		redirect = tmp;
 	}
 	return (status);

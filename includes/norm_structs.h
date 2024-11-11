@@ -153,19 +153,19 @@ struct								s_open_file
 
 struct								s_mian
 {
-	char	*str;
-	int		status;
-	char	**my_tokens;
-	t_env	*dup_env;
-	int		checker;
+	char							*str;
+	int								status;
+	char							**my_tokens;
+	t_env							*dup_env;
+	int								checker;
 };
 
 struct								s_exec_sub_sh
 {
-	t_sub_sh	*p;
-	int			pid;
-	int			*std[4];
-	int			sub_status;
+	t_sub_sh						*p;
+	int								pid;
+	int								*std[4];
+	int								sub_status;
 };
 
 #endif

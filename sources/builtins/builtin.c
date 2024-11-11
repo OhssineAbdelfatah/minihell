@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:39 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/10 17:08:52 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/11 02:49:22 by blacksniper      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,14 @@ int	exec_builtin(t_cmd *cmd, int *last_status, int ref)
 		return (1);
 	status = exec_cmd_builtin(p, cmd);
 	return (status);
+}
+
+void	check_plus_minus(char *str, int i, int sign)
+{
+	if ((sign > 0 && (str[i] == '\0' || str[i] == '+')) || (sign < 0
+			&& str[i] != '\0' && str[i + 1] == '-'))
+	{
+		my_dprint(2, "bash: exit: %s: numeric argument required\n", str - i);
+		exit(255);
+	}
 }

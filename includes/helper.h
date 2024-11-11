@@ -13,8 +13,8 @@
 #ifndef HELPER_H
 # define HELPER_H
 
-# include "struct.h"
 # include "norm_structs.h"
+# include "struct.h"
 
 // PARSE THINGS :
 /********************************************/

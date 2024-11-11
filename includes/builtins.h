@@ -6,7 +6,7 @@
 /*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:09 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/10 23:09:10 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/11 03:42:28 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ bool	is_valid(char *key);
 /*   EXIT   */
 int		exit_blt(t_new_cmd *arg);
 void	error_exit(char *str);
+void	check_plus_minus(char *str, int i, int sign);
 /*  UTILS   */
 
 char	**lstoarry(t_env *root);

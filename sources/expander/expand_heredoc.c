@@ -6,13 +6,13 @@
 /*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:35:56 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/11 02:07:23 by blacksniper      ###   ########.fr       */
+/*   Updated: 2024/11/11 02:46:39 by blacksniper      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	herdoc_newfd(int fd, t_env *myenv, int *st)
+int	herdoc_newfd(int fd, t_env *myenv, int *last_status)
 {
 	char	*line;
 	char	*tmp;
@@ -25,7 +25,7 @@ int	herdoc_newfd(int fd, t_env *myenv, int *st)
 		if (!line)
 			break ;
 		tmp = line;
-		line = split_word_var(line, myenv, st);
+		line = split_word_var(line, myenv, last_status);
 		free(tmp);
 		if (line)
 			ft_putstr_fd(line, fd_pipe[1]);
@@ -74,10 +74,11 @@ int	count_arg(char *arg)
 		return (free(token), 0);
 	while (arg[i] == c && token[i] == 'w')
 		i++;
-	while (arg[++i])
+	while (arg[i])
 	{
 		if (arg[i] == c && arg[i + 1] != c && token[i] == 'w')
 			words++;
+		i++;
 	}
 	if (arg[i - 1] != c && token[i] != 'w')
 		words++;

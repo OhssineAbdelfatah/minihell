@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:23 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/10 23:10:23 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/11 02:48:16 by blacksniper      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char				*ft_name(char *arg);
 void				free_lst(t_node *head);
 char				*clean_qts(char *str);
 
-int					herdoc_newfd(int fd, t_env *myenv, int *st);
+int					herdoc_newfd(int fd, t_env *myenv, int *last_status);
 
 void				add_argv(t_argv **head, t_argv **tail, t_argv *arg);
 t_argv				*create_argv(t_node *head, char *str, char **argv);

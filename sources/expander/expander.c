@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:36:06 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/11 01:45:50 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/11 02:48:58 by blacksniper      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	**joiner(t_argv *args, t_env *env, int *st, int type)
 	}
 	spliter_args(args);
 	new = join_args(args);
-	if (RED_EXPN == type && (ft_strslen(new) > 1 
+	if (RED_EXPN == type && (ft_strslen(new) > 1
 			|| ft_strslen(new) == 0))
 		ambiguous_exit(args->str, 0);
 	return (new);

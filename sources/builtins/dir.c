@@ -70,6 +70,7 @@ int	error_home(t_cmd_exec *p)
 		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 		return (1);
 	}
+	chdir(arg);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:34:53 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/10 23:13:45 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/11 03:33:16 by aohssine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,11 @@ size_t	ft_atoi_exit(const char *str)
 	size_t	result;
 	size_t	temp;
 
-	(void)temp;
 	result = 0;
 	sign = 1;
 	i = space_sign(str, &sign);
+	if (i == 1)
+		check_plus_minus((char *)(str + i), i, sign);
 	while (str[i] <= '9' && str[i] >= '0')
 	{
 		temp = result;
@@ -65,7 +66,8 @@ size_t	ft_atoi_exit(const char *str)
 		if ((temp != result / 10 && sign == -1) || (temp != result / 10
 				&& sign == 1))
 		{
-			printf("minishell: exit: %s: numeric argument required\n", str);
+			my_dprint(2, "minishell: exit: %s: numeric argument required\n",
+				str);
 			exit(255);
 		}
 		i++;
