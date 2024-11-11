@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expand_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aohssine <aohssine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: blacksniper <blacksniper@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 17:35:56 by aohssine          #+#    #+#             */
-/*   Updated: 2024/11/11 01:45:11 by aohssine         ###   ########.fr       */
+/*   Updated: 2024/11/11 02:07:23 by blacksniper      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	herdoc_newfd(int fd, t_env *myenv)
+int	herdoc_newfd(int fd, t_env *myenv, int *st)
 {
 	char	*line;
 	char	*tmp;
@@ -25,7 +25,7 @@ int	herdoc_newfd(int fd, t_env *myenv)
 		if (!line)
 			break ;
 		tmp = line;
-		line = split_word_var(line, myenv, 0);
+		line = split_word_var(line, myenv, st);
 		free(tmp);
 		if (line)
 			ft_putstr_fd(line, fd_pipe[1]);
