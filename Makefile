@@ -2,7 +2,7 @@ GNL = lib/gnl0/get_next_line.c lib/gnl0/get_next_line_utils.c
 
 PARSE = sources/parse/parse_tools.c sources/parse/parse.c sources/parse/counting_tools.c\
 		sources/parse/sub_check.c sources/parse/counting_things.c sources/parse/tokens_part2.c sources/parse/tokens.c\
-		sources/parse/new_tools.c \
+		sources/parse/new_tools.c
 		
 REDIRECTION = sources/redirection_things/del.c sources/redirection_things/ordering.c\
 				sources/parse/checking_in.c\
@@ -39,7 +39,7 @@ BUILTINS = 	sources/builtins/env.c sources/builtins/lstoarry.c \
             sources/builtins/builtin.c sources/builtins/dir.c \
             sources/builtins/unset.c sources/builtins/export.c \
 			sources/builtins/exit.c sources/builtins/export_utils.c \
-			sources/builtins/echo.c  \
+			sources/builtins/echo.c 
 
 CFILES =	${PARSE} \
 			${BUILT_TREE} ${FREEDOM} ${ERRORS} \
@@ -61,7 +61,9 @@ MINISHELL_ART = \
 
 RLFLAGS 	=	-L/Users/aohssine/.brew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
 RLINCLUDE	=	-I/Users/aohssine/.brew/opt/readline/include  # tell compiler where to find headers
-
+HEADERS = includes/minishell.h includes/builtins.h includes/colors.h  \
+			includes/expander.h includes/helper.h includes/helper2.h   \
+			includes/struct.h includes/norm_structs.h  
 # RLFLAGS =	-L/Users/ilaasri/.brew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
 # RLINCLUDE	=	-I/Users/ilaasri/.brew/opt/readline/include  #
 
@@ -75,13 +77,13 @@ My_lib = lib/libft/libft.a
 
 all : ascii_art $(My_lib) $(NAME)
 
-%.o : %.c  Makefile
+%.o : %.c  Makefile ${HEADERS}
 	$(CC)  $(CFLAGS) $(FFLAG)  $(RLINCLUDE) -c  $< -o $@
 
 $(My_lib) : 
 	make -C lib/libft
 
-$(NAME) : $(OBJ) $(My_lib)
+$(NAME) : $(OBJ) $(My_lib) 
 	@printf "\033[0;33mGenerating minishell objects... %-33.33s\r \033[0m" $@
 	$(CC) $^ $(CFLAGS) $(My_lib) $(RLFLAGS)  -o $@
 
